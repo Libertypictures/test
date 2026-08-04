@@ -133,13 +133,6 @@
         .lp-hero-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 3; transition: opacity 0.1s ease; }
         .lp-hero-flash.is-flashing { opacity: 0.32; transition: opacity 0.06s ease; }
         .lp-hero-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(var(--hero-scrim-rgb),0.7), rgba(var(--hero-scrim-rgb),0.15) 55%); }
-        /* A soft blend into the page background at the very bottom
-           edge, so the hero eases into Featured Work rather than
-           cutting hard from photo to page. Sits above the video/scrim
-           but below the scroll indicator (later in DOM order, so it
-           still paints on top) — a low, unintrusive strip, not a
-           visible "band". */
-        .lp-hero-bottom-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 140px; background: linear-gradient(to bottom, transparent, var(--bg-body)); pointer-events: none; }
         .lp-hero-content { position: relative; padding: 0 6vw; color: #fff; max-width: 700px; text-align: center; }
         .lp-hero-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(30px, 5.5vw, 58px); line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 4px 24px rgba(0,0,0,0.4); }
         .lp-hero-sub { font-size: 14px; color: rgba(255,255,255,0.82); max-width: 380px; margin: 0 auto; line-height: 1.7; }
@@ -354,6 +347,7 @@
             .container { padding: 0 22px; }
             .section-block { padding: 70px 0; }
             .work-section { padding-top: 96px; padding-bottom: 0; }
+            .lp-hero { height: 100vh; height: 100svh; }
             .section-title { font-size: 17px; }
             .lp-hero-title { font-size: clamp(26px, 8vw, 34px); }
             .lp-hero-sub { font-size: clamp(9.5px, 3.1vw, 12px); white-space: nowrap; max-width: none; }
@@ -373,7 +367,6 @@
         <div class="lp-hero-slideshow" id="lp-hero-slideshow" style="display:none;"></div>
         <div class="lp-hero-flash" id="lp-hero-flash"></div>
         <div class="lp-hero-scrim"></div>
-        <div class="lp-hero-bottom-fade" aria-hidden="true"></div>
         <div class="lp-hero-content">
             <h1 class="lp-hero-title">Intimate visual stories</h1>
             <p class="lp-hero-sub">Portraits that feel personal and beautifully authentic.</p>
