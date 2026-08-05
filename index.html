@@ -788,12 +788,13 @@
     // THE EXPERIENCE — a quiet, editorial sequence of reassuring
     // statements, pulled entirely from Settings (dashboard-editable).
     // Stays hidden if nothing's been saved yet, same honesty rule as
-    // About and Testimonials — never shows placeholder text. Each
-    // statement fades in independently as it's scrolled to (no
-    // stagger between them — they're already spread across scroll
-    // position by the section's own generous vertical gap, unlike the
-    // old side-by-side cards which needed a stagger to cascade
-    // together).
+    // About and Testimonials — never shows placeholder text. Staggered
+    // reveal (not simultaneous) so it always reads as one statement
+    // delivered at a time, even on a fast scroll that brings several
+    // into view within the same instant — lpRevealOnScroll assigns
+    // each element's delay by its fixed position in the sequence, so
+    // they stay visually sequential regardless of how quickly they're
+    // all technically "in view" together.
     (function () {
         var sequenceEl = document.getElementById('experience-sequence');
 
@@ -812,7 +813,7 @@
                     return '<div class="experience-statement"><p class="statement-text serif">' + escapeHtml(item.text) + '</p>' + supportHtml + '</div>';
                 }).join('');
 
-                lpRevealOnScroll(sequenceEl.querySelectorAll('.experience-statement'), 0);
+                lpRevealOnScroll(sequenceEl.querySelectorAll('.experience-statement'), 180);
             })
             .catch(function (err) { console.error('Could not load Experience content:', err); });
     })();
