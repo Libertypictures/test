@@ -472,13 +472,22 @@
     // moment it scrolls into view, staggered by index for a gentle
     // cascade. `.lp-reveal` alone (before this runs) is a no-op, so
     // content stays visible if JS fails.
-    function lpRevealOnScroll(elements, stagger) {
+    function lpRevealOnScroll(elements, minGap) {
         if (!('IntersectionObserver' in window)) return;
         var els = Array.prototype.slice.call(elements);
         if (!els.length) return;
         els.forEach(function (el) { el.classList.add('lp-reveal'); });
 
         var pendingHides = new WeakMap();
+        // Tracks the earliest time the NEXT reveal is allowed to start.
+        // A reveal triggered well after this (normal/slow scrolling)
+        // gets zero delay — instant, tied directly to scroll position,
+        // not to a timer. Only when a reveal is triggered before this
+        // (several elements crossing into view within the same instant,
+        // i.e. a fast scroll) does it get pushed out by minGap from the
+        // previous one, so it still reads as sequential instead of all
+        // popping in together.
+        var nextRevealNotBefore = 0;
 
         // No "already visible, skip the animation" shortcut here.
         // IntersectionObserver always fires immediately upon observe()
@@ -492,8 +501,11 @@
                     var pendingHide = pendingHides.get(el);
                     if (pendingHide) { clearTimeout(pendingHide); pendingHides.delete(el); }
                     if (el.classList.contains('is-in')) return;
-                    var idx = els.indexOf(el);
-                    el.style.transitionDelay = (idx * (stagger || 0)) + 'ms';
+
+                    var now = Date.now();
+                    var delay = Math.max(0, nextRevealNotBefore - now);
+                    nextRevealNotBefore = now + delay + (minGap || 0);
+                    el.style.transitionDelay = delay + 'ms';
                     el.classList.add('is-in');
                 } else {
                     if (!el.classList.contains('is-in') || pendingHides.has(el)) return;
