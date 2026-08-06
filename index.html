@@ -119,7 +119,7 @@
         /* SITE HEADER — sits over the hero and scrolls away naturally
            with it, like ordinary page content, rather than staying
            pinned to the viewport. */
-        .site-header { position: absolute; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 8px 0; }
+        .site-header { position: absolute; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 14px 0; }
         .site-logo-link { display: block; }
         .site-logo { height: 38px; width: auto; filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.25)); }
 
@@ -174,7 +174,7 @@
 
         /* ABOUT */
         .about-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 72px; align-items: center; }
-        .about-photo { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; background: var(--bg-card); box-shadow: 0 24px 56px var(--shadow-hover); }
+        .about-photo { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; background: var(--bg-card); box-shadow: 0 24px 56px var(--shadow-hover); max-width: 320px; }
         .about-photo img { width: 100%; height: 100%; object-fit: cover; }
         .about-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
         .about-text h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px; margin-bottom: 20px; line-height: 1.3; }
@@ -296,6 +296,12 @@
         .work-mobile-feature.is-empty { aspect-ratio: auto; display: block; overflow: visible; background: none; }
 
         .work-main-photo { flex: 1; position: relative; overflow: hidden; min-width: 0; }
+        .work-photo-counter {
+            position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 2;
+            background: rgba(20,18,16,0.5); backdrop-filter: blur(12px) saturate(160%); -webkit-backdrop-filter: blur(12px) saturate(160%);
+            color: rgba(255,255,255,0.85); font-size: 10px; font-weight: 500; letter-spacing: 1px;
+            padding: 5px 14px; border-radius: 20px; pointer-events: none;
+        }
         .work-main-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; }
         .work-main-photo img.is-active { opacity: 1; animation: lp-ken-burns 16s ease-out forwards; }
         @keyframes lp-ken-burns { from { transform: scale(1); } to { transform: scale(1.02); } }
@@ -356,7 +362,7 @@
 
         @media (max-width: 900px) {
             .about-grid { grid-template-columns: 1fr; gap: 32px; }
-            .about-photo { max-width: 340px; margin: 0 auto; }
+            .about-photo { max-width: 280px; margin: 0 auto; }
             .experience-sequence { gap: 64px; }
         }
         @media (max-width: 600px) {
@@ -412,13 +418,12 @@
     </section>
 
     <!-- ABOUT -->
-    <section class="section-block is-tinted async-reveal" id="about-section">
+    <section class="section-block async-reveal" id="about-section">
         <div class="container">
             <div class="about-grid">
                 <div class="about-photo"><img id="about-photo-img" src="" alt="The photographer" loading="lazy" decoding="async"></div>
                 <div class="about-text">
                     <div class="about-eyebrow">About the Photographer</div>
-                    <h2 class="serif">Behind the Camera</h2>
                     <p id="about-bio-text"></p>
                 </div>
             </div>
@@ -652,6 +657,7 @@
                     sample.map(function (item, i) {
                         return '<img src="' + API_BASE + item.imageUrl + '" alt="Featured work" class="' + (i === 0 ? 'is-active' : '') + '" data-index="' + i + '" decoding="async">';
                     }).join('') +
+                    '<div class="work-photo-counter" id="work-photo-counter">1 / ' + sample.length + '</div>' +
                 '</div>' +
                 '<div class="work-strip-wrap" id="work-strip-wrap">' +
                     '<div class="work-strip-track">' + thumbsHtml + '</div>' +
@@ -660,11 +666,13 @@
             var mainImgs = mobileFeature.querySelectorAll('.work-main-photo img');
             var stripWrap = document.getElementById('work-strip-wrap');
             var thumbs = mobileFeature.querySelectorAll('.work-strip-thumb');
+            var photoCounter = document.getElementById('work-photo-counter');
 
             thumbs.forEach(function (btn, i) {
                 btn.addEventListener('click', function () {
                     var idx = btn.dataset.index;
                     mainImgs.forEach(function (img) { img.classList.toggle('is-active', img.dataset.index === idx); });
+                    photoCounter.textContent = (parseInt(idx, 10) + 1) + ' / ' + sample.length;
                     thumbs.forEach(function (t) { t.classList.toggle('is-active', t.dataset.index === idx); });
 
                     // Keep the clicked thumbnail comfortably in view
