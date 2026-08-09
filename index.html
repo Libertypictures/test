@@ -279,139 +279,59 @@
         .footer-contact a:hover { color: var(--accent); }
         .footer-contact-divider { margin: 0 10px; opacity: 0.5; }
 
-        /* FEATURED WORK PRESENTATION — one large main photo with a
-           perforated film-strip of thumbnails along the edge, at every
-           screen size. Tapping a thumbnail crossfades the main photo
-           to it. Previously desktop showed a separate editorial grid;
-           that's retired in favor of one consistent presentation. */
-        .work-mobile-feature {
-            display: flex; gap: 3px; aspect-ratio: 2.5/3.3; overflow: hidden; position: relative;
-            margin-bottom: 28px; background: var(--text-primary);
-            box-shadow: 0 24px 60px var(--shadow-hover);
-        }
+       /* Theme-aware analogue film edges.
+   Uses the existing site theme color instead of a hard-coded white,
+   so the perforated edges adapt automatically between light and dark mode. */
+.work-strip-track::before,
+.work-strip-track::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    z-index: 2;
 
-        .work-mobile-feature.is-empty { aspect-ratio: auto; display: block; overflow: visible; background: none; }
+    /* Light mode: subtle dark edge.
+       Dark mode: subtle light edge, assuming --text-primary follows the theme. */
+    background: color-mix(
+        in srgb,
+        var(--text-primary) 18%,
+        transparent
+    );
 
-        .work-main-photo { flex: 1; position: relative; overflow: hidden; min-width: 0; }
-        .work-photo-counter {
-            text-align: center; padding: 6px 0 2px; z-index: 3; position: relative;
-            color: rgba(255,255,255,0.6); font-size: 9px; font-weight: 500; letter-spacing: 1.2px;
-        }
-        .work-main-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; }
-        .work-main-photo img.is-active { opacity: 1; animation: lp-ken-burns 16s ease-out forwards; }
-        @keyframes lp-ken-burns { from { transform: scale(1); } to { transform: scale(1.02); } }
-        @media (prefers-reduced-motion: reduce) {
-            .work-main-photo img.is-active { animation: none; }
-        }
-        .work-strip-wrap {
-            width: 26%; position: relative; overflow-y: auto; overflow-x: hidden;
-            scroll-behavior: smooth; scrollbar-width: none; min-height: 0;
-            overscroll-behavior-y: contain;
-        }
-        .work-strip-wrap::-webkit-scrollbar { display: none; }
+    -webkit-mask-image: radial-gradient(
+        circle at center,
+        transparent 0,
+        transparent 2.4px,
+        rgba(0,0,0,0.45) 2.8px,
+        #000 3.6px
+    );
 
-        /* A real nod to analogue film — actual punched perforations
-           (not painted dots) along BOTH edges of the strip: a solid
-           "film edge" band is masked with a repeating hole pattern,
-           so the true page/photo behind always shows through the
-           hole itself, with a soft graduated rim around each hole
-           faking the beveled depth of a real punched sprocket hole.
-           Because this is a mask over a theme color rather than a
-           fixed dot color, it stays correctly visible in both light
-           and dark mode automatically. */
-        .work-strip-track::before,
-        .work-strip-track::after {
-            content: ""; position: absolute; top: 0; bottom: 0; width: 10px; z-index: 2;
-            background: rgba(255,255,255,0.18);
-            -webkit-mask-image: radial-gradient(circle at center, transparent 0, transparent 2.4px, rgba(0,0,0,0.45) 2.8px, #000 3.6px);
-            mask-image: radial-gradient(circle at center, transparent 0, transparent 2.4px, rgba(0,0,0,0.45) 2.8px, #000 3.6px);
-            -webkit-mask-size: 100% 18px; mask-size: 100% 18px;
-            -webkit-mask-repeat: repeat-y; mask-repeat: repeat-y;
-            -webkit-mask-position: center top; mask-position: center top;
-        }
-        .work-strip-track::before { left: 0; }
-        .work-strip-track::after { right: 0; }
-        .work-strip-track { display: flex; flex-direction: column; padding: 0 13px; position: relative; }
-        .work-strip-thumb { position: relative; width: 100%; aspect-ratio: 1/1; border: none; padding: 4px; background: none; cursor: pointer; display: block; }
-        /* Active state — a slightly frosted photographic viewer
-           rather than a border: everything not currently selected
-           sits back with a soft blur and a touch less brightness;
-           the active frame alone is fully clear and sharp. No
-           bright outlines, nothing loud. */
-        .work-strip-thumb img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-            filter: blur(1.3px) brightness(0.7); opacity: 0.6;
-            transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
-        }
-        .work-strip-thumb.is-active img { filter: blur(0) brightness(1); opacity: 1; }
+    mask-image: radial-gradient(
+        circle at center,
+        transparent 0,
+        transparent 2.4px,
+        rgba(0,0,0,0.45) 2.8px,
+        #000 3.6px
+    );
 
-        /* Wider screens get a shorter, more landscape main photo (the
-           mobile portrait ratio would otherwise stretch absurdly tall
-           across a ~1000px container) and a narrower strip, so more
-           thumbnails are visible at once without excess scrolling. */
-        @media (min-width: 900px) {
-            .work-mobile-feature { aspect-ratio: 16/9; }
-            .work-strip-wrap { width: 14%; }
-        }
+    -webkit-mask-size: 100% 18px;
+    mask-size: 100% 18px;
 
+    -webkit-mask-repeat: repeat-y;
+    mask-repeat: repeat-y;
 
-        @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr; gap: 32px; }
-            .about-photo { max-width: 280px; margin: 0 auto; }
-            .experience-sequence { gap: 64px; }
-        }
-        @media (max-width: 600px) {
-            .container { padding: 0 22px; }
-            .section-block { padding: 70px 0; }
-            .work-section { padding-top: 96px; padding-bottom: 0; }
-            .lp-hero { height: 100vh; height: 100svh; }
-            .section-title { font-size: 17px; }
-            .lp-hero-title { font-size: clamp(26px, 8vw, 34px); }
-            .lp-hero-sub { font-size: clamp(9.5px, 3.1vw, 12px); white-space: nowrap; max-width: none; }
-        }
-    </style>
-</head>
-<body>
+    -webkit-mask-position: center top;
+    mask-position: center top;
+}
 
-    <header class="site-header" id="site-header">
-        <a href="./" class="site-logo-link"><img src="" alt="Libertypictures" class="site-logo" id="site-logo-img" style="display:none;"></a>
-    </header>
+.work-strip-track::before {
+    left: 0;
+}
 
-    <section class="lp-hero">
-        <video class="lp-hero-video" id="lp-hero-video" autoplay muted loop playsinline poster="">
-            <!-- <source src="studio-reel.mp4" type="video/mp4"> -->
-        </video>
-        <div class="lp-hero-slideshow" id="lp-hero-slideshow" style="display:none;"></div>
-        <div class="lp-hero-flash" id="lp-hero-flash"></div>
-        <div class="lp-hero-scrim"></div>
-        <div class="lp-hero-content">
-            <h1 class="lp-hero-title">Intimate visual stories</h1>
-            <p class="lp-hero-sub">Portraits that feel personal and beautifully authentic.</p>
-        </div>
-        <div class="lp-scroll-indicator" aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-    </section>
-
-    <!-- FEATURED WORK -->
-    <section class="section-block work-section">
-        <div class="container">
-            <h2 class="section-title serif">Featured Works</h2>
-            <div class="work-mobile-feature" id="work-mobile-feature"></div>
-
-            <!-- VOICES — merged directly into the same section and
-                 container as Featured Work (not a separate section),
-                 so it's genuinely attached below the photos rather
-                 than just visually close. Reads as one continuous
-                 chapter: the photography's emotional continuation,
-                 not end-of-page validation. -->
-            <div class="voices-section async-reveal" id="testimonials-section">
-                <h2 class="about-eyebrow" style="text-align:center;">Testimonials</h2>
-                <div class="voices-stage" id="voices-stage"></div>
-            </div>
-        </div>
-    </section>
-
+.work-strip-track::after {
+    right: 0;
+}
     <!-- ABOUT -->
     <section class="section-block async-reveal" id="about-section">
         <div class="container">
