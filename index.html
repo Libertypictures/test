@@ -303,6 +303,85 @@ html.lp-demo .gallery-header{top:44px}
 button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit;text-align:center}
 .state-screen .lock-card .lock-cta{margin-top:4px}
 
+/* ═══ VIEWER v2 upgrades — warm visible-sprocket film, tap-to-star bursts,
+      favourites-inside-the-viewer chip, and the layered first-open tour ═══ */
+
+/* ── 1. Film frame: warm celluloid base with LIT sprocket wells.
+   The old frame punched the perforations out to transparent — invisible
+   against the near-black stage. Now each frame is warm film stock with
+   deep wells + warm rims, so the perforations read like the homepage. ── */
+.film-thumb{
+  background-color:transparent;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='fb' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23241709'/%3E%3Cstop offset='0.15' stop-color='%233a2914'/%3E%3Cstop offset='0.34' stop-color='%234c371b'/%3E%3Cstop offset='0.5' stop-color='%23553d1e'/%3E%3Cstop offset='0.66' stop-color='%234c371b'/%3E%3Cstop offset='0.85' stop-color='%233a2914'/%3E%3Cstop offset='1' stop-color='%23241709'/%3E%3C/linearGradient%3E%3ClinearGradient id='fv' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23000000' stop-opacity='0.6'/%3E%3Cstop offset='0.035' stop-color='%23000000' stop-opacity='0'/%3E%3Cstop offset='0.965' stop-color='%23000000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000000' stop-opacity='0.6'/%3E%3C/linearGradient%3E%3CradialGradient id='hd' cx='0.42' cy='0.38' r='0.85'%3E%3Cstop offset='0' stop-color='%230d0905'/%3E%3Cstop offset='0.55' stop-color='%23050403'/%3E%3Cstop offset='1' stop-color='%23020101'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='400' height='560' fill='url(%23fb)'/%3E%3Crect width='400' height='560' fill='url(%23fv)'/%3E%3Cg%3E%3Crect x='14' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='520' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='520' width='24' height='17' rx='3.5'/%3E%3C/g%3E%3Cg fill='none' stroke='%23c8a256' stroke-opacity='0.4'%3E%3Crect x='14' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='520' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='520' width='24' height='17' rx='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:100% 100%;background-repeat:no-repeat;
+}
+/* hairline gold shimmer on the ACTIVE frame so sprockets get their moment */
+.film-thumb.is-active{filter:brightness(1.12)}
+/* ── 2. Starring delights ── */
+/* keep-mark on the frame pops in */
+.film-star svg{transform-origin:center;transition:transform .3s cubic-bezier(.2,.9,.3,1.6),filter .3s}
+.film-star.pop svg{animation:starPop .5s cubic-bezier(.2,.9,.3,1.8)}
+@keyframes starPop{0%{transform:scale(.2) rotate(-40deg)}60%{transform:scale(1.45) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.film-star svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 6px rgba(212,160,48,.5))}
+/* top star button bump */
+.lb-star-btn.bump{animation:starBump .45s cubic-bezier(.2,.9,.3,1.8)}
+.lb-star-btn.bump svg{animation:starBumpSvg .45s cubic-bezier(.2,.9,.3,1.8)}
+@keyframes starBump{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes starBumpSvg{0%{transform:scale(1) rotate(0)}45%{transform:scale(1.35) rotate(-14deg)}70%{transform:scale(.92) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+/* tap burst stamped where the finger lands */
+.lb-burst{position:absolute;width:0;height:0;pointer-events:none;z-index:14}
+.lb-burst .ring{position:absolute;left:-52px;top:-52px;width:104px;height:104px;border-radius:50%;border:1.5px solid rgba(227,182,78,.9);opacity:0}
+.lb-burst .ring2{position:absolute;left:-52px;top:-52px;width:104px;height:104px;border-radius:50%;border:1px solid rgba(227,182,78,.35);opacity:0}
+.lb-burst.go .ring{animation:burstRing .62s cubic-bezier(.2,.7,.3,1) forwards}
+.lb-burst.go .ring2{animation:burstRing2 .62s cubic-bezier(.2,.7,.3,1) .05s forwards}
+@keyframes burstRing{0%{transform:scale(.25);opacity:1}100%{transform:scale(1.55);opacity:0}}
+@keyframes burstRing2{0%{transform:scale(.15);opacity:1}100%{transform:scale(2.05);opacity:0}}
+.lb-burst .st{position:absolute;left:-26px;top:-26px;width:52px;height:52px;opacity:0}
+.lb-burst.go .st{animation:burstStar .5s cubic-bezier(.2,.9,.3,1.7) forwards}
+@keyframes burstStar{0%{transform:scale(.15) rotate(-50deg);opacity:0}45%{transform:scale(1.3) rotate(12deg);opacity:1}100%{transform:scale(.95) rotate(0);opacity:0}}
+.lb-burst .spk{position:absolute;width:7px;height:7px;border-radius:50%;opacity:0}
+.lb-burst.go .spk{animation:spark .55s ease-out forwards}
+@keyframes spark{0%{opacity:1;transform:translate(0,0) scale(.4)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(1.1)}}
+/* floating feedback pill under the stage */
+.lb-feedback{position:absolute;left:50%;bottom:34px;transform:translate(-50%,14px);z-index:15;pointer-events:none;background:rgba(18,14,9,.92);border:1px solid rgba(212,160,48,.55);color:#f3e3c0;font-family:'Outfit',sans-serif;font-size:12.5px;letter-spacing:.5px;padding:10px 18px;border-radius:30px;opacity:0;transition:opacity .22s ease,transform .22s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 12px 30px rgba(0,0,0,.5);white-space:nowrap}
+.lb-feedback.show{opacity:1;transform:translate(-50%,0)}
+.lb-feedback b{color:#e3b64e;font-weight:600}
+/* ghost tap star preview while touring */
+.lb-burst.preview .st{animation:none;opacity:.92;transform:scale(1)}
+
+/* ── 3. Favourites inside the viewer — the count chip is now a toggle ── */
+.lb-picks{appearance:none;-webkit-appearance:none;background:rgba(196,166,126,.1);border:1px solid rgba(196,166,126,.34);border-radius:24px;padding:9px 16px;font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:#e3b64e;letter-spacing:1px;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .25s ease;margin:0}
+.lb-picks.hidden{visibility:hidden;pointer-events:none}
+.lb-picks:hover{background:rgba(196,166,126,.2)}
+.lb-picks.on{background:rgba(196,166,126,.28);border-color:rgba(227,182,78,.8);box-shadow:0 0 0 1px rgba(227,182,78,.35),0 0 18px rgba(212,160,48,.25)}
+.lb-picks .dot{width:5px;height:5px;border-radius:50%;background:#e3b64e;display:inline-block;flex-shrink:0}
+.lb-picks.on .dot{box-shadow:0 0 8px #e3b64e}
+.lb-picks.pulse{animation:chipPulse .5s ease}
+@keyframes chipPulse{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
+@media(max-width:600px){.lb-picks{font-size:10px;padding:8px 12px}}
+
+/* ── 4. Grid tiles: star affordance visible on touch devices ── */
+@media (hover:none),(pointer:coarse){
+  .g-tile-star{opacity:.85;width:34px;height:34px;background:rgba(12,9,6,.55)}
+  .g-tile.is-starred .g-tile-star{background:rgba(196,166,126,.45)}
+}
+
+/* ── 5. Layered first-open tour (premium hand outline) ── */
+.lb-guide{position:absolute;inset:0;z-index:60;background:radial-gradient(130% 120% at 50% 42%,rgba(8,6,4,.12) 0%,rgba(8,6,4,.62) 100%);backdrop-filter:blur(2.5px);-webkit-backdrop-filter:blur(2.5px)}
+.lb-guide .lg-hand{position:absolute;color:#e3b64e;filter:drop-shadow(0 0 16px rgba(227,182,78,.55)) drop-shadow(0 6px 14px rgba(0,0,0,.65));transition:left .55s cubic-bezier(.3,.8,.35,1),top .55s cubic-bezier(.3,.8,.35,1),opacity .4s ease,transform .55s cubic-bezier(.3,.8,.35,1);opacity:0;will-change:left,top,transform;transform:translate(-50%,-50%)}
+.lb-guide .lg-hand svg{display:block;width:52px;height:82px;overflow:visible}
+.lb-guide .lg-hand .tapdot{display:none}
+.lb-guide .lg-hand.tapping .tapdot{display:block;position:absolute;left:50%;top:-2px;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1.5px solid rgba(227,182,78,.85);animation:tapDot .55s ease-out forwards}
+@keyframes tapDot{0%{transform:scale(.3);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.lb-guide .lg-cap{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);max-width:82vw;text-align:center;background:rgba(16,12,8,.88);border:1px solid rgba(212,160,48,.5);box-shadow:0 18px 50px rgba(0,0,0,.55);border-radius:14px;padding:13px 22px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14.5px;letter-spacing:.3px;line-height:1.55;opacity:0;transition:opacity .35s ease}
+.lb-guide .lg-cap b{color:#e3b64e;font-weight:600}
+.lb-guide .lg-cap small{display:block;margin-top:3px;color:var(--cream-faint);font-size:10px;letter-spacing:1.6px;text-transform:uppercase}
+.lb-guide .lg-steps{position:absolute;top:64px;left:0;right:0;display:flex;justify-content:center;gap:7px}
+.lb-guide .lg-steps i{width:6px;height:6px;border-radius:50%;background:rgba(246,241,231,.28);transition:all .3s ease}
+.lb-guide .lg-steps i.on{background:#e3b64e;box-shadow:0 0 8px rgba(227,182,78,.9);transform:scale(1.25)}
+.lb-guide .lg-skip{position:absolute;top:56px;right:14px;background:rgba(16,12,8,.6);border:1px solid rgba(246,241,231,.3);color:var(--cream-soft);font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:20px;cursor:pointer;transition:all .2s}
+.lb-guide .lg-skip:hover{color:#0f0c09;background:#e3b64e;border-color:#e3b64e}
+.lb-guide .lg-fade{opacity:0 !important;transition:opacity .3s ease}
 </style>
 </head>
 <body>
@@ -433,15 +512,24 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
     <div class="lb-main">
         <div class="lb-stage" id="lb-stage">
             <div class="lb-img-wrap"><img src="" id="lb-img" alt=""></div>
+            <div class="lb-burst" id="lb-burst"></div>
+            <div class="lb-feedback" id="lb-feedback"></div>
         </div>
         <div class="lb-film" id="lb-film"><div class="film-track" id="film-track"></div></div>
     </div>
     <div class="lb-bottom">
-        <div class="lb-picks hidden" id="lb-picks">&#9733; 0 picked</div>
+        <button type="button" class="lb-picks hidden" id="lb-picks" aria-label="Your picks"><span class="dot"></span><span class="lb-picks-txt" id="lb-picks-txt">&#9733; 0 picked</span></button>
         <div class="lb-bottom-actions">
+            <button class="lb-action-btn is-primary" id="lb-finalise-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-long">Finalise my picks</span><span class="btn-short">Finalise</span></button>
             <button class="lb-action-btn is-primary" id="lb-save-all-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save all picks</span><span class="btn-short">Save all</span></button>
             <button class="lb-action-btn" id="lb-save-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save Photo</span><span class="btn-short">Save</span></button>
         </div>
+    </div>
+    <div class="lb-guide" id="lb-guide" style="display:none">
+        <div class="lg-steps"><i class="on"></i><i></i><i></i></div>
+        <button type="button" class="lg-skip" id="lg-skip">Skip</button>
+        <div class="lg-hand" id="lg-hand" style="opacity:0"><span class="tapdot"></span><svg viewBox="0 0 56 90" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="15" r="5.5"/><path d="M28 23 V54" stroke-width="10"/><path d="M23.5 36 h9" stroke-width="2.6" opacity="0.85"/><path d="M23.5 46 h9" stroke-width="2.6" opacity="0.85"/><path d="M28 57 C23 61 19 67 20 74" stroke-width="7"/><path d="M34 57 C41 60 45 67 43 74" stroke-width="7"/><path d="M24 82 C28 86 36 86 39 81" stroke-width="7"/></svg></div>
+        <div class="lg-cap" id="lg-cap"></div>
     </div>
 </div>
 
@@ -740,6 +828,7 @@ function renderOpenGallery() {
 
     renderGrid();
     paintChips();
+    prewarmLb();
 }
 function editedFor0() {}
 
@@ -808,69 +897,101 @@ function toggleStar(photoId) {
     updateBarAndPrompt();
     var lb = $('lightbox');
     if (lb.classList.contains('active')) {
-        var p = photos[currentLbIdx];
-        if (p && p.id === photoId) $('lb-star-btn').classList.toggle('is-active', !!starred[photoId]);
+        var p = lbCur();
+        if (p && p.id === photoId) {
+            $('lb-star-btn').classList.toggle('is-active', !!starred[photoId]);
+            $('lb-star-btn').setAttribute('aria-pressed', starred[photoId] ? 'true' : 'false');
+        }
+        lbAfterStarChange(photoId);
     }
 }
 function starSemanticsTitle() { return view === 'delivery' ? 'Keep this final for downloading' : 'Pick this photo for editing'; }
 
-/* ---------- lightbox / film ---------- */
-var savedScrollY = 0, filmThumbs = [], filmBuilt = false;
-function openLightbox(idx) {
-    if ($('lightbox').classList.contains('active')) return;
-    currentLbIdx = idx; renderLb();
-    savedScrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + savedScrollY + 'px';
-    document.body.style.width = '100%';
-    $('lightbox').classList.add('active');
+/* ==========================================================================
+   CINEMATIC VIEWER ENGINE v2 — resident film rail, instant swaps,
+   tap-to-star bursts, favourites-inside-the-viewer, layered first-open
+   tour. Replaces the old rebuild-everything engine.
+   ========================================================================== */
+var savedScrollY = 0, filmThumbs = [], filmListKey = '', lastTapAt = 0;
+var lbPicksOnly = false;              // viewer filtered to starred photos
+var lbOrder = [];                     // currently browsable photos
+var lbTourTimers = [];
+
+function lbNoun() {
+    // chip noun: proof uses 'picked', delivery uses 'kept', generic uses 'favourites'
+    if (typeof view !== 'undefined') return view === 'delivery' ? 'kept' : 'picked';
+    return 'favourites';
 }
-function closeLightbox() {
-    $('lightbox').classList.remove('active');
-    document.body.style.position = ''; document.body.style.top = ''; document.body.style.width = '';
-    if (savedScrollY) window.scrollTo(0, savedScrollY);
+function lbOnlyNoun() {
+    if (typeof view !== 'undefined') return view === 'delivery' ? 'keeps' : 'picks';
+    return 'favourites';
 }
-function renderLb() {
-    if (!photos.length) return;
-    filmBuilt = false; filmThumbs = [];
-    var film = $('lb-film'); var track = $('film-track');
-    track.innerHTML = ''; film.style.display = 'none';
-    buildFilm();
-    var p = photos[currentLbIdx];
-    $('lb-img').src = p.url;
-    $('lb-img').alt = p.filename || 'Photo';
-    var totalStr = String(photos.length);
-    $('lb-counter').textContent = String(currentLbIdx + 1).padStart(totalStr.length, '0') + ' / ' + totalStr;
-    var starBtn = $('lb-star-btn');
-    starBtn.classList.toggle('is-active', !!starred[p.id]);
-    starBtn.title = starSemanticsTitle();
-    // phase actions inside the viewer
-    var isDeliv = view === 'delivery';
-    $('lb-save-btn').style.display = isDeliv ? 'inline-flex' : 'none';
-    var saveAll = $('lb-save-all-btn');
-    saveAll.style.display = (isDeliv && photos.length >= 2) ? 'inline-flex' : 'none';
-    $('lb-finalise-btn').style.display = isDeliv ? 'none' : 'inline-flex';
-    saveAll.querySelector('.btn-long').textContent = 'Download all finals';
-    saveAll.querySelector('.btn-short').textContent = 'All';
-    var sb = $('lb-save-btn');
-    sb.querySelector('.btn-long').textContent = 'Download final';
-    sb.querySelector('.btn-short').textContent = 'Save';
-    syncFilmActive(); preloadLbNeighbors(); updateLbUi();
+function lbPickVerb() {
+    if (typeof view !== 'undefined' && view === 'delivery') return 'keep';
+    return 'pick';
 }
-function buildFilm() {
+function lbFilmNeg() {
+    if (typeof FILM_NEGATIVE !== 'undefined') return FILM_NEGATIVE;
+    return (typeof view !== 'undefined' && view === 'delivery');
+}
+function lbTourKey() {
+    var m = (typeof view !== 'undefined' && view === 'delivery') ? 'deliv' : 'proof';
+    return 'lp-viewer-tour-' + m;
+}
+function lbCur() { return lbOrder.length ? lbOrder[currentLbIdx].p : null; }
+function orderIndexById(id) {
+    for (var i = 0; i < lbOrder.length; i++) if (lbOrder[i].p.id === id) return i;
+    return -1;
+}
+function photosIndexById(id) {
+    for (var i = 0; i < photos.length; i++) if (photos[i].id === id) return i;
+    return -1;
+}
+function lbPickedCount() {
+    return Object.keys(starred).filter(function (k) { return starred[k]; }).length;
+}
+function lbStarTitle() {
+    return (typeof view !== 'undefined' && view === 'delivery')
+        ? 'Keep this final for downloading'
+        : 'Pick this photo for editing';
+}
+
+/* ---------- order + film DOM ---------- */
+function rebuildLbOrder() {
+    lbOrder = [];
+    for (var i = 0; i < photos.length; i++) {
+        if (lbPicksOnly && !starred[photos[i].id]) continue;
+        lbOrder.push({ p: photos[i], pos: i });
+    }
+}
+function filmNeedsRebuild() {
+    var cnt = 0, k;
+    for (k in starred) if (starred[k]) cnt++;
+    var key = photos.length + ':' + (lbPicksOnly ? 'p' + cnt : 'a') + ':' + lbFilmNeg() + ':' + (typeof view !== 'undefined' ? view : 'g');
+    if (key === filmListKey) return false;
+    filmListKey = key;
+    return true;
+}
+function buildFilmDOM() {
     var film = $('lb-film'), track = $('film-track');
     if (!film || !track) return;
-    if (photos.length < 2) { film.style.display = 'none'; return; }
-    film.style.display = '';
-    var EAGER = 5;
-    track.innerHTML = photos.map(function (p, i) {
-        var thumbUrl = p.thumbUrl || p.url;
-        var srcAttr = i < EAGER ? 'src="' + thumbUrl + '" loading="lazy"' : 'data-src="' + thumbUrl + '"';
-        var brand = BRAND_PATTERN[i % BRAND_PATTERN.length];
-        var brandHtml = brand ? '<span class="brand-text">' + brand + '</span>' : '';
-        return '<button type="button" class="film-thumb' + (starred[p.id] ? ' is-starred' : '') + (p.orientation === 'landscape' ? ' is-landscape' : '') + (view === 'delivery' ? ' is-neg' : '') + '" data-index="' + i + '" data-id="' + p.id + '" aria-label="View photo ' + (i + 1) + ' of ' + photos.length + '"><img ' + srcAttr + ' alt="" decoding="async"><span class="film-star">' + starSvg(true) + '</span><span class="frame-num">' + (i + 1) + '</span>' + brandHtml + '</button>';
-    }).join('');
+    film.style.display = (lbOrder.length < 2) ? 'none' : '';
+    if (lbOrder.length < 2) { track.innerHTML = ''; filmThumbs = []; return; }
+    var EAGER = 5, html = [], i, x, p, orig, thumbUrl, brand;
+    for (i = 0; i < lbOrder.length; i++) {
+        x = lbOrder[i]; p = x.p; orig = x.pos;
+        thumbUrl = API + (p.thumbUrl || p.url);
+        brand = BRAND_PATTERN[orig % BRAND_PATTERN.length];
+        html.push('<button type="button" class="film-thumb' + (starred[p.id] ? ' is-starred' : '') + (p.orientation === 'landscape' ? ' is-landscape' : '') + (lbFilmNeg() ? ' is-neg' : '') + '" data-id="' + p.id + '" data-pos="' + orig + '" aria-label="View photo ' + (orig + 1) + ' of ' + photos.length + '">' +
+            '<img ' + (i < EAGER ? 'src="' + thumbUrl + '"' : 'data-src="' + thumbUrl + '"') + ' alt="" decoding="async" loading="lazy">' +
+            '<span class="film-star">' + starSvg(true) + '</span>' +
+            '<span class="frame-num">' + (orig + 1) + '</span>' +
+            (brand ? '<span class="brand-text">' + brand + '</span>' : '') +
+        '</button>');
+    }
+    track.innerHTML = html.join('');
     filmThumbs = track.querySelectorAll('.film-thumb');
+
     var pending = track.querySelectorAll('.film-thumb img[data-src]');
     if (pending.length && 'IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {
@@ -880,26 +1001,28 @@ function buildFilm() {
                 if (im.dataset.src) { im.src = im.dataset.src; delete im.dataset.src; }
                 io.unobserve(im);
             });
-        }, { root: film, rootMargin: '250px 0px 250px 0px' });
+        }, { root: film, rootMargin: '300px 0px 300px 0px' });
         pending.forEach(function (im) { io.observe(im); });
     } else if (pending.length) {
         pending.forEach(function (im) { im.src = im.dataset.src; delete im.dataset.src; });
     }
-    filmThumbs.forEach(function (btn) {
+    filmThumbs.forEach(function (btn, bi) {
         btn.addEventListener('click', function () {
-            var idx = Number(btn.dataset.index);
-            if (idx === currentLbIdx) return;
-            currentLbIdx = idx; renderLb();
+            if (bi === currentLbIdx) return;
+            currentLbIdx = bi; applyLb(); preloadLbNeighbors();
         });
     });
 }
 function syncFilmActive() {
-    if (!filmThumbs.length) return;
-    filmThumbs.forEach(function (t) { t.classList.toggle('is-active', Number(t.dataset.index) === currentLbIdx); });
-    var film = $('lb-film'); var active = filmThumbs[currentLbIdx];
+    if (!filmThumbs.length || currentLbIdx < 0 || !lbOrder[currentLbIdx]) return;
+    var curPos = lbOrder[currentLbIdx].pos;
+    filmThumbs.forEach(function (t) {
+        t.classList.toggle('is-active', Number(t.dataset.pos) === curPos);
+    });
+    var film = $('lb-film'), active = filmThumbs[currentLbIdx];
     if (film && active) {
         var target = active.offsetTop - (film.clientHeight / 2) + (active.offsetHeight / 2);
-        film.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        film.scrollTo({ top: Math.max(0, target), behavior: 'auto' });
     }
 }
 function refreshFilmThumb(photoId) {
@@ -907,72 +1030,402 @@ function refreshFilmThumb(photoId) {
     filmThumbs.forEach(function (t) {
         if (Number(t.dataset.id) !== photoId) return;
         t.classList.toggle('is-starred', !!starred[photoId]);
-        var star = t.querySelector('.film-star');
-        if (star) star.innerHTML = starSvg(!!starred[photoId]);
+        var st = t.querySelector('.film-star');
+        if (st) st.innerHTML = starSvg(!!starred[photoId]);
     });
-}
-function preloadLbNeighbors() {
-    if (currentLbIdx > 0) { var a = new Image(); a.src = photos[currentLbIdx - 1].url; }
-    if (currentLbIdx < photos.length - 1) { var b = new Image(); b.src = photos[currentLbIdx + 1].url; }
-}
-function lbPickedCount() { return Object.keys(starred).filter(function (k) { return starred[k]; }).length; }
-function updateLbUi() {
-    var picks = $('lb-picks'), saveAll = $('lb-save-all-btn');
-    if (!picks || !saveAll) return;
-    var c = lbPickedCount();
-    picks.textContent = '\u2605 ' + c + ' ' + (view === 'delivery' ? 'kept' : 'picked');
-    picks.classList.toggle('hidden', c === 0);
-    saveAll.style.display = (view === 'delivery' && c > 0) ? 'inline-flex' : 'none';
-    var fin = $('lb-finalise-btn');
-    if (fin && view === 'proof') fin.style.display = c > 0 ? 'inline-flex' : 'none';
-    var starBtn = $('lb-star-btn');
-    if (starBtn) starBtn.title = starSemanticsTitle();
 }
 
-/* ---------- viewer wiring ---------- */
-$('lb-close-btn').addEventListener('click', closeLightbox);
+/* ---------- open / step / chrome ---------- */
+function openLightbox(idx) {
+    if ($('lightbox').classList.contains('active')) return;
+    if (!photos.length) return;
+    lbPicksOnly = (typeof showingFavs !== 'undefined') && showingFavs;
+    rebuildLbOrder();
+    if (filmNeedsRebuild()) buildFilmDOM();
+    currentLbIdx = orderIndexById(photos[idx].id);
+    if (currentLbIdx < 0) currentLbIdx = 0;
+    savedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + savedScrollY + 'px';
+    document.body.style.width = '100%';
+    $('lightbox').classList.add('active');
+    applyLb();
+    syncLbChrome();
+    preloadLbNeighbors();
+    maybeStartLbTour();
+}
+function closeLightbox() {
+    $('lightbox').classList.remove('active');
+    stopLbTour();
+    document.body.style.position = ''; document.body.style.top = ''; document.body.style.width = '';
+    if (savedScrollY) window.scrollTo(0, savedScrollY);
+}
+function applyLb() {
+    if (!lbOrder.length) { currentLbIdx = 0; return; }
+    var x = lbOrder[currentLbIdx];
+    if (!x) { currentLbIdx = 0; x = lbOrder[0]; }
+    var p = x.p, img = $('lb-img'), url = API + p.url;
+    if (img.getAttribute('src') !== url) {
+        img.classList.remove('lb-ready');
+        img.onload = function () { img.classList.add('lb-ready'); };
+        img.src = url;
+        img.alt = p.filename || 'Photo';
+    }
+    var totalStr = String(lbOrder.length);
+    $('lb-counter').textContent = String(currentLbIdx + 1).padStart(totalStr.length, '0') + ' / ' + totalStr;
+    if (lbPicksOnly) $('lb-counter').textContent += ' \u00b7 ' + lbOnlyNoun();
+    var starBtn = $('lb-star-btn');
+    starBtn.classList.toggle('is-active', !!starred[p.id]);
+    starBtn.setAttribute('aria-pressed', starred[p.id] ? 'true' : 'false');
+    starBtn.title = lbStarTitle();
+    syncFilmActive();
+    syncLbChrome();
+}
 function stepLb(dir) {
     var n = currentLbIdx + dir;
-    if (n < 0 || n >= photos.length) return;
-    currentLbIdx = n; renderLb();
+    if (n < 0 || n >= lbOrder.length) return;
+    currentLbIdx = n; applyLb(); preloadLbNeighbors();
 }
+function preloadLbNeighbors() {
+    if (currentLbIdx > 0) { var a = new Image(); a.src = API + lbOrder[currentLbIdx - 1].p.url; }
+    if (currentLbIdx < lbOrder.length - 1) { var b = new Image(); b.src = API + lbOrder[currentLbIdx + 1].p.url; }
+}
+function syncLbChrome() {
+    var c = lbPickedCount();
+    var isDeliv = (typeof view !== 'undefined' && view === 'delivery');
+    var sb = $('lb-save-btn'), sa = $('lb-save-all-btn'), fin = $('lb-finalise-btn');
+    if (sb) sb.style.display = isDeliv ? 'inline-flex' : 'none';
+    if (sa) sa.style.display = (isDeliv && c > 0) ? 'inline-flex' : 'none';
+    if (fin) fin.style.display = (!isDeliv && c > 0) ? 'inline-flex' : 'none';
+    updateLbPicks();
+}
+function updateLbPicks() {
+    var chip = $('lb-picks');
+    if (!chip) return;
+    var c = lbPickedCount();
+    var txt = chip.querySelector('.lb-picks-txt') || chip;
+    chip.classList.toggle('hidden', c === 0);
+    chip.classList.toggle('on', lbPicksOnly);
+    chip.setAttribute('aria-pressed', lbPicksOnly ? 'true' : 'false');
+    var noun = lbNoun();
+    txt.textContent = lbPicksOnly
+        ? '\u2605 ' + c + ' \u00b7 ' + lbOnlyNoun() + ' only \u2715'
+        : '\u2605 ' + c + ' ' + noun;
+    chip.title = c ? (lbPicksOnly ? 'Show all photos again' : 'View only the photos you starred') : '';
+}
+function updateLbUi() { syncLbChrome(); }
+
+/* ---------- favourites mode inside the viewer ---------- */
+function setLbPicksOnly(flag) {
+    var want = flag && lbPickedCount() > 0;
+    if (want === lbPicksOnly) return;
+    lbPicksOnly = want;
+    filmListKey = '';
+    var curId = lbCur() ? lbCur().id : null;
+    rebuildLbOrder();
+    var pos = (curId !== null) ? orderIndexById(curId) : -1;
+    if (pos < 0) {
+        if (want && curId !== null) {
+            // jumped into picks view: land on the starred photo nearest the one being viewed
+            var remIdx = photosIndexById(curId), best = -1;
+            for (var i = 0; i < lbOrder.length; i++) {
+                if (lbOrder[i].pos >= remIdx) { best = i; break; }
+            }
+            pos = best >= 0 ? best : Math.max(0, lbOrder.length - 1);
+        } else { pos = 0; }
+    }
+    currentLbIdx = Math.max(0, Math.min(pos, Math.max(0, lbOrder.length - 1)));
+    buildFilmDOM();
+    applyLb();
+    syncLbChrome();
+    lbFeedback(lbPicksOnly
+        ? 'Only your ' + lbOnlyNoun() + ' are shown \u2014 tap \u2715 to see all'
+        : 'Showing all photos again');
+}
+function lbAfterStarChange(photoId) {
+    if (!$('lightbox').classList.contains('active')) return;
+    var p = lbCur();
+    if (p && p.id === photoId) {
+        $('lb-star-btn').classList.toggle('is-active', !!starred[photoId]);
+        $('lb-star-btn').setAttribute('aria-pressed', starred[photoId] ? 'true' : 'false');
+    }
+    if (!lbPicksOnly) { syncLbChrome(); return; }
+    // picks-only list changed (photo starred on or off) — rebuild it around the viewer
+    var curId = lbCur() ? lbCur().id : null;
+    var changedPos = photosIndexById(photoId);
+    rebuildLbOrder();
+    if (!lbOrder.length) { setLbPicksOnly(false); return; }   // nothing starred left → back to all
+    var pos = -1, i;
+    if (curId !== null) pos = orderIndexById(curId);
+    if (pos < 0) {
+        // the photo we were on left the list — land on the next starred one
+        for (i = 0; i < lbOrder.length; i++) { if (lbOrder[i].pos > changedPos) { pos = i; break; } }
+        if (pos < 0) pos = lbOrder.length - 1;
+    }
+    filmListKey = '';
+    buildFilmDOM();
+    currentLbIdx = pos;
+    applyLb();
+}
+
+/* ---------- bursts, haptics, feedback ---------- */
+function burstAt(x, y, on) {
+    var b = $('lb-burst');
+    if (!b) return;
+    b.style.left = x + 'px'; b.style.top = y + 'px';
+    var st = b.querySelector('.st');
+    if (st) {
+        st.style.fill = on ? '#e3b64e' : 'rgba(150,130,100,0.9)';
+        st.style.stroke = on ? '#fff7e6' : 'rgba(60,50,38,0.9)';
+    }
+    b.classList.remove('go'); void b.offsetWidth; b.classList.add('go');
+}
+var lbFbTimer = null;
+function lbFeedback(msg) {
+    var f = $('lb-feedback');
+    if (!f) return;
+    f.innerHTML = msg;
+    f.classList.add('show');
+    clearTimeout(lbFbTimer);
+    lbFbTimer = setTimeout(function () { f.classList.remove('show'); }, 1400);
+}
+function lbAddMsg() {
+    if (typeof view !== 'undefined' && view === 'delivery') return '<b>Kept</b> \u2014 ready to download later';
+    if (typeof view !== 'undefined') return '<b>Picked</b> \u2014 tap the photo again to undo';
+    return '<b>Saved</b> to your favourites';
+}
+function lbUnstarMsg() {
+    if (typeof view !== 'undefined' && view === 'delivery') return 'Removed from your keeps';
+    if (typeof view !== 'undefined') return 'Removed from your picks';
+    return 'Removed from your favourites';
+}
+function starFx(x, y, on, id) {
+    burstAt(x, y, on);
+    lbFeedback(on ? lbAddMsg() : lbUnstarMsg());
+    lbAfterStarChange(id);
+    if (navigator.vibrate) { try { navigator.vibrate(on ? 12 : 8); } catch (e) {} }
+    var chip = $('lb-picks');
+    if (chip && !chip.classList.contains('hidden')) {
+        chip.classList.remove('pulse'); void chip.offsetWidth; chip.classList.add('pulse');
+    }
+    var topBtn = $('lb-star-btn');
+    topBtn.classList.remove('bump'); void topBtn.offsetWidth; topBtn.classList.add('bump');
+    filmThumbs.forEach(function (t) {
+        if (Number(t.dataset.id) !== id) return;
+        var st = t.querySelector('.film-star');
+        if (st) { st.classList.remove('pop'); void st.offsetWidth; st.classList.add('pop'); }
+    });
+}
+function tapStar(x, y) {
+    var p = lbCur();
+    if (!p) return;
+    var on = !starred[p.id];
+    toggleStar(p.id);
+    starFx(x, y, on, p.id);
+}
+
+/* ---------- pre-warm behind the grid so the first open is instant ---------- */
+function prewarmLb() {
+    if (!photos.length) return;
+    if (typeof showingFavs === 'undefined') showingFavs = false;
+    lbPicksOnly = false;
+    rebuildLbOrder();
+    if (filmNeedsRebuild()) buildFilmDOM();
+    var n = Math.min(2, lbOrder.length);
+    for (var i = 0; i < n; i++) { var im = new Image(); im.src = API + lbOrder[i].p.url; }
+}
+
+/* ---------- first-open layered tour ---------- */
+function maybeStartLbTour() {
+    var g = $('lb-guide');
+    if (!g) return;
+    var key = lbTourKey(), seen = 0;
+    try { seen = parseInt(sessionStorage.getItem(key), 10) || 0; } catch (e) {}
+    if (seen >= 2) return;
+    try { sessionStorage.setItem(key, String(seen + 1)); } catch (e) {}
+    startLbTour();
+}
+function stopLbTour() {
+    lbTourTimers.forEach(clearTimeout);
+    lbTourTimers = [];
+    var g = $('lb-guide');
+    if (!g) return;
+    g.style.display = 'none';
+    var hand = g.querySelector('.lg-hand');
+    if (hand) { hand.classList.remove('tapping'); hand.style.opacity = 0; }
+}
+function tourAt(ms, fn) { lbTourTimers.push(setTimeout(fn, ms)); }
+function startLbTour() {
+    var g = $('lb-guide');
+    if (!g) return;
+    var hand = g.querySelector('.lg-hand');
+    var cap = g.querySelector('.lg-cap');
+    var dots = g.querySelectorAll('.lg-steps i');
+    var stage = $('lb-stage'), film = $('lb-film');
+    if (!stage) return;
+    var sr = stage.getBoundingClientRect();
+    var hasFilm = film && film.style.display !== 'none' && film.offsetWidth > 0;
+    var fr = hasFilm ? film.getBoundingClientRect() : null;
+    var steps = hasFilm ? 3 : 2;
+    var off = function () { return 'translate(-50%,-22%)'; };
+    var mv = function (x, y, rot, op) {
+        hand.style.left = x + 'px'; hand.style.top = y + 'px';
+        hand.style.transform = 'translate(-50%,-22%) rotate(' + (rot || 0) + 'deg)';
+        hand.style.opacity = (op === undefined ? 1 : op);
+    };
+    var dot = function (i) {
+        dots.forEach(function (d, di) { d.classList.toggle('on', di === i); });
+    };
+    var tapHand = function (times, gap) {
+        var c = 0;
+        var tap = function () {
+            if (c >= times) return;
+            c++;
+            hand.classList.add('tapping');
+            setTimeout(function () { hand.classList.remove('tapping'); }, 240);
+            if (c < times) setTimeout(tap, gap);
+        };
+        tap();
+    };
+    g.style.display = 'flex';
+    void g.offsetWidth;
+    var cap0 = hasFilm
+        ? '<b>Swipe</b> across the photo to move through the shoot<small>STEP 1 OF ' + steps + '</small>'
+        : '<b>Swipe</b> across the photo to move through the shoot<small>STEP 1 OF ' + steps + '</small>';
+    cap.innerHTML = cap0; dot(0);
+    mv(sr.left + sr.width * 0.5, sr.top + sr.height * 0.5, 0, 0);
+    tourAt(250, function () {
+        mv(sr.left + sr.width * 0.82, sr.top + sr.height * 0.58, -12, 1);
+        tourAt(1050, function () {
+            mv(sr.left + sr.width * 0.18, sr.top + sr.height * 0.5, 12, 1);
+            tourAt(950, function () {
+                mv(sr.left + sr.width * 0.7, sr.top + sr.height * 0.55, -6, 1);
+                tourAt(850, function () {
+                    hand.style.opacity = 0;
+                    var cx = sr.left + sr.width * 0.5, cy = sr.top + sr.height * 0.52;
+                    cap.innerHTML = '<b>Tap the photo to ' + lbPickVerb() + ' it</b> \u2014 the star lights up on the film<small>STEP 2 OF ' + steps + '</small>';
+                    dot(1);
+                    tourAt(650, function () {
+                        mv(cx, cy, 0, 1);
+                        tourAt(750, function () {
+                            tapHand(2, 420);
+                            var bx = sr.width * 0.5, by = sr.height * 0.5;
+                            // ghost star stamp (does not actually change your picks)
+                            tourAt(700, function () {
+                                hand.style.opacity = 0;
+                                var b = $('lb-burst');
+                                if (b) {
+                                    b.style.left = bx + 'px'; b.style.top = by + 'px';
+                                    b.classList.add('preview');
+                                    b.classList.remove('go'); void b.offsetWidth; b.classList.add('go');
+                                }
+                            });
+                            tourAt(1850, function () {
+                                var b = $('lb-burst');
+                                if (b) { b.classList.remove('preview'); b.classList.remove('go'); }
+                                if (hasFilm && fr) {
+                                    cap.innerHTML = '<b>Tap a frame</b> on the film strip to jump straight there<small>STEP 3 OF 3</small>';
+                                    dot(2);
+                                    tourAt(600, function () {
+                                        mv(fr.left + fr.width * 0.5, fr.top + fr.height * 0.36, 0, 1);
+                                        tourAt(850, function () { tapHand(1, 0); });
+                                        tourAt(1800, endTour);
+                                    });
+                                } else {
+                                    tourAt(700, endTour);
+                                }
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+    function endTour() {
+        g.style.opacity = 0;
+        tourAt(350, function () {
+            g.style.opacity = 1; g.style.display = 'none';
+            var b = $('lb-burst'); if (b) b.classList.remove('preview');
+        });
+    }
+}
+
+/* ---------- viewer wiring (boot) ---------- */
+$('lb-close-btn').addEventListener('click', closeLightbox);
+$('lb-star-btn').addEventListener('click', function () {
+    var p = lbCur();
+    if (!p) return;
+    var on = !starred[p.id];
+    toggleStar(p.id);
+    var stage = $('lb-stage'), r = stage.getBoundingClientRect();
+    var rr = $('lb-star-btn').getBoundingClientRect();
+    starFx(Math.max(8, Math.min(r.width - 8, rr.left - r.left + rr.width / 2)),
+           Math.max(8, Math.min(r.height - 8, rr.top - r.top + rr.height / 2)), on, p.id);
+});
+$('lb-picks').addEventListener('click', function () {
+    if (lbPickedCount() === 0) return;
+    setLbPicksOnly(!lbPicksOnly);
+});
+(function () {
+    // bottom actions: save all picks, save the current photo, finalise (demo)
+    var sa = $('lb-save-all-btn');
+    if (sa) sa.addEventListener('click', function () {
+        if (!lbPickedCount()) return;
+        var target = $('save-selected-btn');
+        if (target && typeof target.click === 'function') target.click();
+    });
+    var sb = $('lb-save-btn');
+    if (sb) sb.addEventListener('click', function () {
+        var p = lbCur();
+        if (p && typeof downloadSingle === 'function') downloadSingle(p);
+    });
+    var fin = $('lb-finalise-btn');
+    if (fin) fin.addEventListener('click', function () {
+        closeLightbox();
+        if (typeof startFinalise === 'function') startFinalise();
+    });
+})();
 document.addEventListener('keydown', function (e) {
     if (!$('lightbox').classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') stepLb(-1);
-    if (e.key === 'ArrowRight') stepLb(1);
+    if (e.key === 'Escape') { closeLightbox(); return; }
+    if (e.key === 'ArrowLeft') { stepLb(-1); return; }
+    if (e.key === 'ArrowRight') { stepLb(1); }
 });
 (function () {
-    var stage = $('lb-stage'), sx = 0, sy = 0;
-    stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    stage.addEventListener('touchend', function (e) {
-        var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) stepLb(dx > 0 ? -1 : 1);
+    var stage = $('lb-stage');
+    if (!stage) return;
+    var x0 = 0, y0 = 0, t0 = 0, dragged = false;
+    stage.addEventListener('touchstart', function (e) {
+        x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); dragged = false;
     }, { passive: true });
-})();
-$('lb-star-btn').addEventListener('click', function () {
-    var p = photos[currentLbIdx];
-    if (p) toggleStar(p.id);
-});
-// phase action button inside the viewer (created once)
-(function () {
-    var bottomActions = document.querySelector('.lb-bottom-actions');
-    if (!bottomActions) return;
-    var fin = document.createElement('button');
-    fin.className = 'lb-action-btn is-primary'; fin.id = 'lb-finalise-btn';
-    fin.style.display = 'none';
-    fin.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-long">Finalise my picks</span><span class="btn-short">Finalise</span>';
-    fin.addEventListener('click', function () { closeLightbox(); startFinalise(); });
-    bottomActions.insertBefore(fin, bottomActions.firstChild);
-    $('lb-save-all-btn').addEventListener('click', function () {
-        if (!lbPickedCount()) return;
-        if (view === 'delivery') { $('save-selected-btn').click(); }
+    stage.addEventListener('touchmove', function (e) {
+        var t = e.touches[0];
+        if (Math.abs(t.clientX - x0) > 8 || Math.abs(t.clientY - y0) > 8) dragged = true;
+    }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+        var t = e.changedTouches[0];
+        var dx = t.clientX - x0, dy = t.clientY - y0;
+        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) {
+            lastTapAt = Date.now();
+            stepLb(dx < 0 ? 1 : -1);
+            return;
+        }
+        if (dragged || Date.now() - t0 > 650) return;
+        lastTapAt = Date.now();
+        e.preventDefault();
+        var r = stage.getBoundingClientRect();
+        tapStar(t.clientX - r.left, t.clientY - r.top);
+    }, { passive: false });
+    stage.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('button,.lb-burst,.lb-feedback')) return;
+        if (Date.now() - lastTapAt < 700) return;
+        var r = stage.getBoundingClientRect();
+        tapStar(e.clientX - r.left, e.clientY - r.top);
     });
-    $('lb-save-btn').addEventListener('click', function () { downloadSingle(photos[currentLbIdx]); });
 })();
-// wheel advance
 (function () {
-    var stage = $('lb-stage'); if (!stage) return;
+    var stage = $('lb-stage');
+    if (!stage) return;
     var last = 0;
     stage.addEventListener('wheel', function (e) {
         if (!$('lightbox').classList.contains('active')) return;
@@ -981,8 +1434,29 @@ $('lb-star-btn').addEventListener('click', function () {
         var now = Date.now();
         if (now - last < 280) return;
         last = now;
-        if (e.deltaY > 0) stepLb(1); else stepLb(-1);
+        stepLb(e.deltaY > 0 ? 1 : -1);
     }, { passive: false });
+})();
+(function () {
+    var g = $('lb-guide');
+    if (!g) return;
+    var skip = $('lg-skip') || g.querySelector('.lg-skip');
+    if (skip) skip.addEventListener('click', function () { stopLbTour(); });
+    g.addEventListener('pointerdown', function (e) {
+        if (e.target && e.target.closest && e.target.closest('.lg-skip')) return;
+        stopLbTour();
+    });
+})();
+(function () {
+    var burst = $('lb-burst');
+    if (!burst) return;
+    burst.innerHTML =
+        '<span class="ring"></span><span class="ring2"></span>' +
+        '<svg class="st" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
+        '<span class="spk" style="left:-4px;top:-18px;--tx:-16px;--ty:-6px;background:#fff2d0"></span>' +
+        '<span class="spk" style="left:20px;top:-8px;--tx:14px;--ty:-14px;background:#e3b64e"></span>' +
+        '<span class="spk" style="left:-6px;top:14px;--tx:-14px;--ty:12px;background:#e3b64e"></span>' +
+        '<span class="spk" style="left:18px;top:18px;--tx:12px;--ty:14px;background:#fff2d0"></span>';
 })();
 
 /* ===================== DOWNLOADS (delivery only) ===================== */
