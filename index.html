@@ -129,10 +129,6 @@ a{color:inherit}
 .lb-stage{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;position:relative;padding:0 6px;min-height:0;touch-action:pan-x;overflow:hidden}
 .lb-img-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 .lb-img-wrap img{max-width:100%;max-height:100%;object-fit:contain}
-.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(246,241,231,0.06);border:none;color:var(--cream);display:flex;align-items:center;justify-content:center;z-index:5;transition:background .2s}
-.lb-nav:hover{background:rgba(246,241,231,0.14)}
-.lb-nav.prev{left:8px}
-.lb-nav.next{right:8px}
 
 /* FILM RAIL — vertical perforated contact sheet along the stage's
    right edge, the same design language as the homepage viewer. */
@@ -153,7 +149,7 @@ a{color:inherit}
 .film-star{position:absolute;top:4.5%;right:18.5%;width:11%;height:11%;display:none;align-items:center;justify-content:center;z-index:5;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.9))}
 .film-thumb.is-starred .film-star{display:flex}
 .film-star svg{width:100%;height:100%;fill:var(--accent);stroke:var(--accent);stroke-width:2}
-@media(max-width:600px){.lb-nav{width:36px;height:36px;background:rgba(246,241,231,0.04)}.lb-nav.prev{left:4px}.lb-nav.next{right:4px}.lb-counter .lb-hint{display:none}}
+@media(max-width:600px){.lb-counter .lb-hint{display:none}}
 .lb-bottom{padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .lb-picks{font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:var(--accent);letter-spacing:1px;white-space:nowrap}
 .lb-picks.hidden{visibility:hidden}
@@ -317,7 +313,7 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
         <h2 style="font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;color:var(--cream);">Quick Guide</h2>
         <div class="intro-step">
             <div class="intro-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
-            <p><strong>Scroll to browse</strong> your photos. Tap any photo to open the <strong>film viewer</strong> — swipe, use the arrows, or tap a frame on the film strip to move through your shoot.</p>
+            <p><strong>Scroll to browse</strong> your photos. Tap any photo to open the <strong>film viewer</strong> — swipe left or right, or tap a frame on the film strip to jump around.</p>
         </div>
         <div class="intro-step">
             <div class="intro-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
@@ -433,9 +429,7 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
     </div>
     <div class="lb-main">
         <div class="lb-stage" id="lb-stage">
-            <button class="lb-nav prev" id="lb-prev" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
             <div class="lb-img-wrap"><img src="" id="lb-img" alt=""></div>
-            <button class="lb-nav next" id="lb-next" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
         </div>
         <div class="lb-film" id="lb-film"><div class="film-track" id="film-track"></div></div>
     </div>
@@ -693,7 +687,7 @@ function renderOpenGallery() {
             steps[1].querySelector('p').innerHTML = '<strong>Tap the \u2605 star to keep</strong> a photo for downloading later \u2014 your \u201ckeep list\u201d fills the bottom bar.';
             steps[2].querySelector('p').innerHTML = '<strong>Download all your finals at once</strong> \u2014 share them to your Photos or save as a zip.';
         } else {
-            steps[0].querySelector('p').innerHTML = '<strong>Scroll to browse</strong> your proofs. Tap any photo to open the <strong>film viewer</strong> \u2014 swipe, use the arrows, or tap a frame on the film strip.';
+            steps[0].querySelector('p').innerHTML = '<strong>Scroll to browse</strong> your proofs. Tap any photo to open the <strong>film viewer</strong> \u2014 swipe, or tap a frame on the film strip.';
             steps[1].querySelector('p').innerHTML = '<strong>Tap the \u2605 star to pick</strong> the photos you want Liberty to edit. A \u201cMy Picks\u201d button appears at the top to review them.';
             steps[2].querySelector('p').innerHTML = '<strong>When you\u2019re happy, finalise your selection</strong> \u2014 it locks your pick list and sends it to Liberty. Downloads happen on your finals gallery, after the edits.';
         }
@@ -847,8 +841,6 @@ function renderLb() {
     var starBtn = $('lb-star-btn');
     starBtn.classList.toggle('is-active', !!starred[p.id]);
     starBtn.title = starSemanticsTitle();
-    $('lb-prev').style.visibility = currentLbIdx === 0 ? 'hidden' : 'visible';
-    $('lb-next').style.visibility = currentLbIdx === photos.length - 1 ? 'hidden' : 'visible';
     // phase actions inside the viewer
     var isDeliv = view === 'delivery';
     $('lb-save-btn').style.display = isDeliv ? 'inline-flex' : 'none';
@@ -936,20 +928,23 @@ function updateLbUi() {
 
 /* ---------- viewer wiring ---------- */
 $('lb-close-btn').addEventListener('click', closeLightbox);
-$('lb-prev').addEventListener('click', function () { if (currentLbIdx > 0) { currentLbIdx--; renderLb(); } });
-$('lb-next').addEventListener('click', function () { if (currentLbIdx < photos.length - 1) { currentLbIdx++; renderLb(); } });
+function stepLb(dir) {
+    var n = currentLbIdx + dir;
+    if (n < 0 || n >= photos.length) return;
+    currentLbIdx = n; renderLb();
+}
 document.addEventListener('keydown', function (e) {
     if (!$('lightbox').classList.contains('active')) return;
     if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') $('lb-prev').click();
-    if (e.key === 'ArrowRight') $('lb-next').click();
+    if (e.key === 'ArrowLeft') stepLb(-1);
+    if (e.key === 'ArrowRight') stepLb(1);
 });
 (function () {
     var stage = $('lb-stage'), sx = 0, sy = 0;
     stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
     stage.addEventListener('touchend', function (e) {
         var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) { if (dx > 0) $('lb-prev').click(); else $('lb-next').click(); }
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) stepLb(dx > 0 ? -1 : 1);
     }, { passive: true });
 })();
 $('lb-star-btn').addEventListener('click', function () {
@@ -983,7 +978,7 @@ $('lb-star-btn').addEventListener('click', function () {
         var now = Date.now();
         if (now - last < 280) return;
         last = now;
-        if (e.deltaY > 0) $('lb-next').click(); else $('lb-prev').click();
+        if (e.deltaY > 0) stepLb(1); else stepLb(-1);
     }, { passive: false });
 })();
 
