@@ -1,931 +1,1055 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Gallery | Libertypictures</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0f0c09">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Outfit:wght@200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{--bg:#0f0c09;--surface:#1a1714;--surface2:#232019;--cream:#f6f1e7;--cream-soft:rgba(246,241,231,0.7);--cream-faint:rgba(246,241,231,0.4);--accent:#c4a67e;--accent-deep:#a3835c;--border:rgba(246,241,231,0.12);--gold-glow:rgba(196,166,126,0.25)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--cream);-webkit-font-smoothing:antialiased;-webkit-overflow-scrolling:touch}
+img{display:block;max-width:100%}
+.serif{font-family:'Fraunces',serif}
+button{font-family:inherit;cursor:pointer;touch-action:manipulation}
+a{color:inherit}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libertypictures — Intimate Visual Stories</title>
-    <meta name="description" content="Libertypictures — portrait, maternity, couple, family, and corporate photography. Intimate visual stories, beautifully told.">
-    <meta name="theme-color" content="#8a7355">
-    <meta property="og:title" content="Libertypictures — Intimate Visual Stories">
-    <meta property="og:description" content="Portrait, maternity, couple, family, and corporate photography.">
-    <meta property="og:type" content="website">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23000000'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Georgia, serif' fill='%23c4a67e' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Libertypictures",
-      "description": "Photography studio offering portrait, maternity, corporate headshot, couple, and family photo sessions.",
-      "priceRange": "₦₦",
-      "areaServed": "NG"
-    }
-    </script>
+/* ── LOADING ── */
+.loader-screen{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;transition:opacity .6s ease}
+.loader-screen.hidden{opacity:0;pointer-events:none}
+.loader-mark{font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--accent);opacity:0;animation:loaderPulse 1.8s ease infinite}
+@keyframes loaderPulse{0%,100%{opacity:0.3}50%{opacity:1}}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+/* ── ERROR / EXPIRED ── */
+.state-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 24px}
+.state-screen h1{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:28px;margin-bottom:16px}
+.state-screen p{color:var(--cream-soft);font-size:14px;line-height:1.8;max-width:360px}
+.state-screen.lock-mode{padding:0}
 
-    <style>
-        :root {
-            --bg-body: #faf8f4;
-            --bg-container: #ffffff;
-            --bg-card: #fefdfb;
-            --text-primary: #1a1815;
-            --text-secondary: #6b6459;
-            --accent: #8a7355;
-            --accent-deep: #6e5c44;
-            --border-color: #e8e3d9;
-            --border-dashed: #d8d1c2;
-            --btn-primary-bg: #1a1815;
-            --btn-primary-text: #ffffff;
-            --highlight-bg: #f8f4ec;
-            --shadow-subtle: rgba(26,24,21,0.04);
-            --shadow-hover: rgba(26,24,21,0.10);
-            --shadow-lift: rgba(26,24,21,0.16);
-            --logo-filter: invert(0);
-            --hero-scrim-rgb: 20,18,16;
-            --radius-lg: 18px;
-            --radius-md: 12px;
-            --radius-sm: 6px;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-body: #161513;
-                --bg-container: #1f1e1b;
-                --bg-card: #262521;
-                --text-primary: #f3f0ea;
-                --text-secondary: #a8a196;
-                --accent: #c4a67e;
-                --accent-deep: #d9bf98;
-                --border-color: #35332d;
-                --border-dashed: #423f37;
-                --btn-primary-bg: #c4a67e;
-                --btn-primary-text: #161513;
-                --highlight-bg: #24221d;
-                --shadow-subtle: rgba(0,0,0,0.24);
-                --shadow-hover: rgba(0,0,0,0.42);
-                --shadow-lift: rgba(0,0,0,0.55);
-                --logo-filter: invert(1);
-                --hero-scrim-rgb: 6,6,7;
-            }
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-            line-height: 1.65;
-            -webkit-font-smoothing: antialiased;
-        }
-        .serif { font-family: 'Fraunces', serif; }
-        img { max-width: 100%; display: block; }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+/* ── LOCKED WALL — soft, warm, conversion-forward ── */
+.lock-wrap{position:relative;min-height:100vh;min-height:100dvh;width:100%;display:flex;align-items:center;justify-content:center;padding:48px 20px;overflow:hidden}
+.lock-bg{position:absolute;inset:0;background:linear-gradient(160deg,#2a2419,#0f0c09);background-size:cover;background-position:center;filter:brightness(0.35);transform:scale(1.05)}
+.lock-scrim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,12,9,0.72),rgba(15,12,9,0.88))}
+.state-screen .lock-card{position:relative;z-index:2;max-width:460px;width:100%;text-align:center;background:rgba(26,23,20,0.6);border:1px solid var(--border);border-radius:18px;padding:44px 34px 36px;backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);box-shadow:0 30px 80px rgba(0,0,0,0.5);animation:coverIn .7s ease both}
+.state-screen .lock-card h1{font-family:'Fraunces',serif;font-weight:400;font-style:normal;font-size:24px;line-height:1.4;margin-bottom:16px}
+.state-screen .lock-card p{max-width:none;font-size:13px;color:var(--cream-soft);line-height:1.8}
+.lock-icon{width:48px;height:48px;margin:0 auto 22px;border-radius:50%;background:rgba(196,166,126,0.12);border:1px solid rgba(196,166,126,0.3);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.state-screen .lock-card p.lock-lead{margin-bottom:26px}
+.lock-perks{text-align:left;background:rgba(246,241,231,0.04);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:24px;display:flex;flex-direction:column;gap:12px}
+.state-screen .lock-card p.lock-perk{display:flex;gap:12px;align-items:flex-start;font-size:12.5px;line-height:1.6;margin:0}
+.lock-perk svg{flex-shrink:0;margin-top:2px;color:var(--accent)}
+.lock-price{display:flex;align-items:baseline;justify-content:center;gap:10px;margin-bottom:22px}
+.lock-price strong{font-family:'Fraunces',serif;font-size:30px;font-weight:500;color:var(--cream)}
+.lock-price span{font-size:11px;color:var(--cream-faint);letter-spacing:0.5px}
+.lock-cta{display:block;padding:16px 20px;font-size:14px;letter-spacing:0.2px;font-weight:600;color:#0f0c09;background:var(--accent);border-radius:0;text-decoration:none;transition:background .25s ease}
+.lock-cta:hover{background:var(--accent-deep)}
+.state-screen .lock-card p.lock-urgency{margin-top:18px;font-size:11.5px;color:var(--cream-faint)}
+.lock-urgency strong{color:var(--cream-soft);font-weight:500}
+.state-screen .lock-card p.lock-help{margin-top:14px;font-size:12px;color:var(--cream-faint)}
+.lock-help a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.lock-help a:hover{color:var(--accent-deep)}
+.state-screen .lock-card p.lock-secure{margin-top:20px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(246,241,231,0.3)}
+@media(max-width:480px){.lock-wrap{padding:28px 16px}.state-screen .lock-card{padding:36px 22px 30px}.state-screen .lock-card h1{font-size:22px}}
 
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 40px; }
-        .section-block { padding: 100px 0; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
+/* ── SOFT EXPIRY WARNING BANNER — last 3 days ── */
+.expiry-banner{background:linear-gradient(90deg,rgba(196,166,126,0.14),rgba(196,166,126,0.05));border-bottom:1px solid rgba(196,166,126,0.25)}
+.expiry-banner-inner{max-width:1100px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.expiry-banner-text{font-size:12.5px;color:var(--cream-soft);line-height:1.5}
+.expiry-banner-text strong{color:var(--accent);font-weight:500}
+.expiry-banner-actions{display:flex;align-items:center;gap:10px}
+.expiry-banner-btn{padding:9px 18px;font-size:12px;letter-spacing:0.2px;font-weight:600;color:#0f0c09;background:var(--accent);border:none;border-radius:0;white-space:nowrap;cursor:pointer;transition:background .25s ease}
+.expiry-banner-btn:hover{background:var(--accent-deep)}
+.expiry-banner-close{width:28px;height:28px;border-radius:50%;background:rgba(246,241,231,0.08);border:none;color:var(--cream-faint);font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.expiry-banner-close:hover{background:rgba(246,241,231,0.16)}
 
-        /* SECTION REVEAL — titles write themselves in from left to
-           right (clip-path reveal), then the content beneath fades
-           up after a short delay. Each section is its own page-like
-           moment; nothing overlaps. */
-        .section-heading {
-            font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px;
-            letter-spacing: -0.2px; text-align: center; margin-bottom: 20px;
-            clip-path: inset(0 100% 0 0);
-            transition: clip-path 0.8s cubic-bezier(0.16,1,0.3,1);
-        }
-        .section-heading.is-revealed { clip-path: inset(0 0% 0 0); }
-        .section-content {
-            opacity: 0; transform: translateY(18px);
-            transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.5s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.5s;
-        }
-        .section-content.is-revealed { opacity: 1; transform: translateY(0); }
+/* ── COVER — continuous scroll, not a separate screen ── */
+.cover{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden}
+.cover-bg{position:absolute;inset:0;background:linear-gradient(160deg,#2a2419,#0f0c09);background-size:cover;background-position:center;opacity:1;transition:opacity .3s ease}
+.cover-bg.loaded{opacity:1}
+.cover-bg.no-photo{background:linear-gradient(160deg,#1a1714,#0f0c09);opacity:1}
+.cover-scrim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,12,9,0.15) 0%,transparent 30%,rgba(15,12,9,0.55) 100%)}
+.cover-logo{position:absolute;top:28px;left:50%;transform:translateX(-50%);z-index:3;height:34px;width:auto;filter:invert(1);opacity:0;animation:coverIn 1s ease .2s forwards}
+.cover-content{position:relative;z-index:2;text-align:center;padding:40px 24px 80px;max-width:600px}
+.cover-eyebrow{display:block;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,0.5);font-weight:400;margin-bottom:20px;opacity:0;animation:coverIn 1s ease .4s forwards}
+.cover-name{font-family:'Cormorant Garamond','Fraunces',serif;font-weight:300;font-size:clamp(28px,6vw,48px);line-height:1.15;letter-spacing:3px;text-transform:none;white-space:nowrap;margin-bottom:16px;color:rgba(255,255,255,0.95);opacity:0;animation:coverIn 1.1s ease .6s forwards}
+.cover-date{font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:300;color:rgba(255,255,255,0.35);margin-bottom:48px;opacity:0;animation:coverIn 1s ease .8s forwards}
+.cover-scroll-hint{display:inline-flex;flex-direction:column;align-items:center;gap:0;font-size:0;color:transparent;opacity:0;animation:coverIn 1s ease 1.2s forwards}
+.cover-scroll-hint span{display:block;width:1px;height:36px;background:linear-gradient(to bottom,var(--cream-faint),transparent);animation:scrollPulse 2s ease infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+.cover-expiry{position:absolute;bottom:20px;left:0;right:0;z-index:2;text-align:center;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:400;color:var(--cream-faint);opacity:0;animation:coverIn .9s ease 1s forwards}
+@keyframes coverIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-        @media (prefers-reduced-motion: reduce) {
-            .section-heading { clip-path: none; transition: none; }
-            .section-content { opacity: 1; transform: none; transition: none; }
-        }
-        .async-reveal { display: none; }
-        .async-reveal.is-visible { display: block; animation: lp-fade-in-up 0.6s cubic-bezier(0.16,1,0.3,1); }
-        @keyframes lp-fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (prefers-reduced-motion: reduce) {
-            .async-reveal.is-visible { animation: lp-fade-in-simple 0.4s ease; }
-        }
-        @keyframes lp-fade-in-simple { from { opacity: 0; } to { opacity: 1; } }
-        .section-meta { font-size: 14.5px; color: var(--text-secondary); text-align: center; max-width: 460px; margin: 0 auto 32px; line-height: 1.75; }
+/* ── GALLERY HEADER ── */
+.gallery-header{position:sticky;top:0;z-index:40;background:rgba(15,12,9,0.88);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid var(--border);padding:14px 20px}
+.gallery-header-inner{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;gap:12px}
+.gallery-header-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+.gallery-header-meta{font-size:10px;color:var(--cream-faint);letter-spacing:0.5px;margin-top:2px}
 
-        /* GLASS BUTTONS, light-background variant — same frosted
-           language as the hero buttons, tuned for legibility over a
-           flat cream/dark surface instead of a photograph. No borders
-           on either variant, by design. */
-        .btn-dark { display: inline-block; background: rgba(26,24,21,0.05); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%); color: var(--text-primary); padding: 19px 46px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2.4px; text-decoration: none; transition: background 0.4s cubic-bezier(0.16,1,0.3,1), color 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1); border: none; cursor: pointer; box-shadow: 0 4px 20px var(--shadow-subtle), inset 0 1px 0 rgba(255,255,255,0.5); }
-        /* Secondary action — a plain text link, deliberately with no
-           button chrome at all, so "Book a Session" reads as the one
-           clear action and this stays visually subordinate to it. */
-        .btn-link-secondary { display: inline-block; margin-top: 22px; color: var(--text-secondary); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.4px; text-decoration: none; border-bottom: 1px solid var(--border-color); padding-bottom: 3px; transition: color 0.3s ease, border-color 0.3s ease; }
-        .btn-link-secondary:hover { color: var(--accent); border-color: var(--accent); }
-        .btn-dark:hover { background: rgba(138,115,85,0.16); color: var(--accent-deep); transform: translateY(-2px); box-shadow: 0 14px 32px var(--shadow-hover), inset 0 1px 0 rgba(255,255,255,0.6); }
-        @media (prefers-color-scheme: dark) {
-            .btn-dark { background: rgba(255,255,255,0.06); box-shadow: 0 4px 20px var(--shadow-subtle), inset 0 1px 0 rgba(255,255,255,0.08); }
-            .btn-dark:hover { background: rgba(196,166,126,0.18); }
-        }
+/* ── GALLERY GRID — respects orientation, centered ── */
+.gallery-grid{max-width:1100px;margin:0 auto;padding:32px 16px 40px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;grid-auto-flow:dense;justify-items:center}
+.g-tile{position:relative;overflow:hidden;background:var(--surface);cursor:pointer;width:100%}
+.g-tile.landscape{grid-column:span 6;aspect-ratio:3/2}
+.g-tile.portrait{grid-column:span 3;aspect-ratio:2/3}
+.g-tile.square{grid-column:span 2;aspect-ratio:1/1}
+.g-tile img{width:100%;height:100%;object-fit:cover;transition:transform 5s cubic-bezier(0.25,0.46,0.45,0.94)}
+.g-tile:hover img{transform:scale(1.03)}
+.g-tile-star{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(15,12,9,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s ease;border:none;color:var(--cream);cursor:pointer;z-index:2}
+.g-tile:hover .g-tile-star,.g-tile.is-starred .g-tile-star{opacity:1}
+.g-tile.is-starred .g-tile-star{background:rgba(196,166,126,0.4)}
+.g-tile.is-starred .g-tile-star svg{fill:var(--accent);stroke:var(--accent)}
+.g-tile-star svg{width:15px;height:15px;fill:none;stroke:var(--cream);stroke-width:2}
 
-        /* PAGE ENTRANCE — a graceful fade-in rather than an abrupt pop,
-           on first load and whenever arriving from another page. */
-        body { opacity: 0; animation: lp-page-in 0.7s ease 0.05s forwards; }
-        @keyframes lp-page-in { to { opacity: 1; } }
+@media(max-width:820px){
+.gallery-grid{grid-template-columns:repeat(4,1fr);gap:4px;padding:16px 6px 40px}
+.g-tile.portrait{grid-column:span 2}
+.g-tile.landscape{grid-column:span 4}
+.g-tile.square{grid-column:span 2}
+.gallery-header-name{font-size:13px}
+}
 
-        /* SITE HEADER — sits over the hero and scrolls away naturally
-           with it, like ordinary page content, rather than staying
-           pinned to the viewport. */
-        .site-header { position: absolute; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 14px 0; }
-        .site-logo-link { display: block; }
-        .site-logo { height: 38px; width: auto; filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.25)); }
+/* ── CINEMATIC VIEWER — the Featured Work film presentation fused
+   onto the gallery: a fullscreen film stage with a perforated
+   film-strip rail of every photo, numbered frames, negative-film
+   thumbnails, and star badges marking your picks on the frames. ── */
+.lightbox{position:fixed;inset:0;background:rgba(6,5,4,0.97);z-index:100;display:none;flex-direction:column}
+.lightbox.active{display:flex}
+.lb-top{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;flex-shrink:0;z-index:5}
+.lb-close{width:38px;height:38px;border-radius:50%;background:rgba(246,241,231,0.08);border:none;color:var(--cream);display:flex;align-items:center;justify-content:center}
+.lb-counter{font-family:'Share Tech Mono','Courier New',monospace;font-size:13px;color:var(--accent);letter-spacing:2px;text-shadow:0 1px 2px rgba(0,0,0,0.8)}
+.lb-counter .lb-hint{color:var(--cream-faint);letter-spacing:1px;font-family:'Outfit',sans-serif;font-size:9.5px;text-transform:uppercase;margin-left:10px}
+.lb-star-btn{width:38px;height:38px;border-radius:50%;background:rgba(246,241,231,0.08);border:none;display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.lb-star-btn svg{width:18px;height:18px;stroke:var(--cream);fill:none;transition:all .2s ease}
+.lb-star-btn.is-active{background:rgba(196,166,126,0.25)}
+.lb-star-btn.is-active svg{fill:var(--accent);stroke:var(--accent)}
+.lb-main{flex:1;display:flex;min-height:0;position:relative}
+.lb-stage{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;position:relative;padding:0 6px;min-height:0;touch-action:pan-x;overflow:hidden}
+.lb-img-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.lb-img-wrap img{max-width:100%;max-height:100%;object-fit:contain}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(246,241,231,0.06);border:none;color:var(--cream);display:flex;align-items:center;justify-content:center;z-index:5;transition:background .2s}
+.lb-nav:hover{background:rgba(246,241,231,0.14)}
+.lb-nav.prev{left:8px}
+.lb-nav.next{right:8px}
 
-        /* HERO — identical mechanics to the booking page: video or
-           slideshow, controlled entirely from Settings. */
-        .lp-hero { position: relative; height: 92vh; height: 92svh; min-height: 560px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #141210; }
-        .lp-hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
-        .lp-hero-slideshow { position: absolute; inset: 0; }
-        .lp-hero-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.9s ease; }
-        .lp-hero-slide.is-active { opacity: 1; }
-        .lp-hero-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 3; transition: opacity 0.1s ease; }
-        .lp-hero-flash.is-flashing { opacity: 0.32; transition: opacity 0.06s ease; }
-        .lp-hero-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(var(--hero-scrim-rgb),0.7), rgba(var(--hero-scrim-rgb),0.15) 55%); }
-        .lp-hero-content { position: relative; padding: 0 6vw; color: #fff; max-width: 700px; text-align: center; }
-        .lp-hero-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(30px, 5.5vw, 58px); line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 4px 24px rgba(0,0,0,0.4); }
-        .lp-hero-sub { font-size: 14px; color: rgba(255,255,255,0.82); max-width: 380px; margin: 0 auto; line-height: 1.7; }
+/* FILM RAIL — vertical perforated contact sheet along the stage's
+   right edge, the same design language as the homepage viewer. */
+.lb-film{width:min(150px,23vw);flex-shrink:0;position:relative;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-y:contain;border-left:1px solid var(--border);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.4));-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.08) 0.4%,rgba(0,0,0,0.25) 0.9%,rgba(0,0,0,0.5) 1.4%,rgba(0,0,0,0.78) 1.9%,black 2.5%,black 97.5%,rgba(0,0,0,0.78) 98.1%,rgba(0,0,0,0.5) 98.6%,rgba(0,0,0,0.25) 99.1%,rgba(0,0,0,0.08) 99.6%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.08) 0.4%,rgba(0,0,0,0.25) 0.9%,rgba(0,0,0,0.5) 1.4%,rgba(0,0,0,0.78) 1.9%,black 2.5%,black 97.5%,rgba(0,0,0,0.78) 98.1%,rgba(0,0,0,0.5) 98.6%,rgba(0,0,0,0.25) 99.1%,rgba(0,0,0,0.08) 99.6%,transparent 100%)}
+.lb-film::-webkit-scrollbar{display:none}
+.film-track{display:flex;flex-direction:column;position:relative;gap:0;background:none}
+.film-thumb{position:relative;width:100%;aspect-ratio:400/560;border:none;padding:0;cursor:pointer;display:block;flex-shrink:0;background-color:transparent;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='fb' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%230a0805'/%3E%3Cstop offset='0.5' stop-color='%2316100a'/%3E%3Cstop offset='1' stop-color='%230a0805'/%3E%3C/linearGradient%3E%3ClinearGradient id='fw' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23050403'/%3E%3Cstop offset='1' stop-color='%23070604'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect x='0' y='0' width='400' height='560' fill='white'/%3E%3Crect x='16' y='40' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='120' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='200' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='280' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='360' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='440' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='520' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='40' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='120' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='200' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='280' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='360' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='440' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='520' width='22' height='16' rx='2' fill='black'/%3E%3C/mask%3E%3C/defs%3E%3Crect x='0' y='0' width='400' height='560' fill='url(%23fb)' mask='url(%23m)'/%3E%3Crect x='70' y='15' width='260' height='530' fill='url(%23fw)'/%3E%3C/svg%3E");background-size:100% 100%;background-repeat:no-repeat}
+.film-thumb + .film-thumb{margin-top:-3px}
+.film-thumb img{position:absolute;left:17.5%;top:2.68%;width:65%;height:94.64%;object-fit:cover;filter:invert(1) sepia(0.45) hue-rotate(-25deg) saturate(0.42) brightness(0.88) contrast(0.95);opacity:0.5;transition:filter 0.3s ease,opacity 0.25s ease}
+.film-thumb:hover img,.film-thumb.is-active img{opacity:0.62;filter:invert(1) sepia(0.4) hue-rotate(-22deg) saturate(0.5) brightness(0.92) contrast(0.96)}
+.film-thumb.is-active::after{content:'';position:absolute;pointer-events:none;left:17.5%;top:2.68%;width:65%;height:94.64%;box-shadow:inset 0 0 0 1.5px #d4a030;z-index:4}
+.film-thumb .frame-num,.film-thumb .brand-text{position:absolute;top:50%;font-family:'Share Tech Mono','Courier New',monospace;font-weight:700;color:#d4a030;text-shadow:0 1px 2px rgba(0,0,0,0.85);pointer-events:none;line-height:1;z-index:3;white-space:nowrap}
+.film-thumb .frame-num{right:11%;transform:translate(50%,-50%) rotate(-90deg);transform-origin:center;font-size:7px;letter-spacing:0.3px}
+.film-thumb .frame-num::before{content:'\25B6 ';opacity:0.9}
+.film-thumb .brand-text{left:13%;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center;font-size:5px;letter-spacing:1.2px;text-transform:uppercase}
+/* Gold keep-mark star on starred frames — the favourites system
+   lives right on the film. */
+.film-star{position:absolute;top:4.5%;right:18.5%;width:11%;height:11%;display:none;align-items:center;justify-content:center;z-index:5;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.9))}
+.film-thumb.is-starred .film-star{display:flex}
+.film-star svg{width:100%;height:100%;fill:var(--accent);stroke:var(--accent);stroke-width:2}
+@media(max-width:600px){.lb-nav{width:36px;height:36px;background:rgba(246,241,231,0.04)}.lb-nav.prev{left:4px}.lb-nav.next{right:4px}.lb-counter .lb-hint{display:none}}
+.lb-bottom{padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.lb-picks{font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:var(--accent);letter-spacing:1px;white-space:nowrap}
+.lb-picks.hidden{visibility:hidden}
+.lb-bottom-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.lb-action-btn{display:flex;align-items:center;gap:8px;padding:12px 22px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:500;color:var(--cream);background:rgba(246,241,231,0.08);border:1px solid var(--border);border-radius:24px;transition:all .25s ease}
+.lb-action-btn:hover{background:rgba(246,241,231,0.14)}
+.lb-action-btn svg{width:15px;height:15px}
+.lb-action-btn.is-primary{color:#0f0c09;background:var(--accent);border-color:var(--accent)}
+.lb-action-btn.is-primary:hover{background:var(--accent-deep)}
+@media(max-width:600px){.lb-picks{font-size:10px}.lb-action-btn{padding:10px 14px;font-size:9.5px}}
+.btn-short{display:none}
+@media(max-width:600px){.lb-action-btn .btn-long{display:none}.lb-action-btn .btn-short{display:inline}}
 
-        /* SCROLL INDICATOR — a full-width frosted glass strip embedded
-           into the hero's own bottom edge, as if that edge of the page
-           itself were made of glass, rather than a floating element on
-           top of it. It sits straddling the boundary; the hero's
-           existing overflow:hidden naturally clips its lower half, so
-           only the upper sliver (with the chevron) is ever visible. A
-           slow breathing opacity pulse keeps it alive without drawing
-           attention; it fades away entirely once scrolling begins —
-           animation is explicitly cleared when hidden, since a running
-           keyframe animation would otherwise keep fighting the fade. */
-        .lp-scroll-indicator {
-            position: absolute; left: 0; right: 0; bottom: -14px;
-            height: 56px;
-            background: rgba(255,255,255,0.14);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            display: flex; align-items: flex-start; justify-content: center;
-            padding-top: 14px;
-            color: #fff;
-            box-shadow: 0 -4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.22);
-            animation: lp-breathe 4s ease-in-out infinite;
-            transition: opacity 0.6s ease;
-            pointer-events: none;
-        }
-        .lp-scroll-indicator.is-hidden { opacity: 0; animation: none; }
-        @keyframes lp-breathe {
-            0%, 100% { opacity: 0.75; }
-            50% { opacity: 1; }
-        }
+/* ── SELECTION BAR ── */
+.dl-all-bar{text-align:center;padding:20px 20px 0;}
+.dl-all-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;color:var(--cream);background:rgba(246,241,231,0.08);border:1px solid var(--border);border-radius:24px;cursor:pointer;transition:all .25s ease}
+.dl-all-btn:hover{background:rgba(246,241,231,0.14)}
+.dl-all-btn svg{width:15px;height:15px}
+.selection-bar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(15,12,9,0.92);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-top:1px solid var(--border);padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .4s cubic-bezier(0.16,1,0.3,1)}
+.selection-bar.visible{transform:translateY(0)}
+.selection-bar-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.selection-bar-count{font-size:13px}.selection-bar-count strong{color:var(--accent)}
+.selection-bar-btn{padding:12px 24px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;color:#0f0c09;background:var(--accent);border:none;border-radius:24px;white-space:nowrap;transition:all .25s ease}
+.selection-bar-btn:hover{background:var(--accent-deep)}
+.selection-bar-btn:disabled{opacity:0.5;cursor:wait}
+.selection-bar-actions{display:flex;align-items:center;gap:14px}
+.selection-bar-clear{background:none;border:none;color:var(--cream-faint);font-size:11.5px;letter-spacing:0.4px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:8px 2px;white-space:nowrap;transition:color .2s}
+.selection-bar-clear:hover{color:var(--accent)}
+.selection-bar-clear:disabled{opacity:.5;cursor:wait}
+@media (max-width:480px){
+    .selection-bar{padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px))}
+    .selection-bar-inner{gap:10px}
+    .selection-bar-actions{gap:10px}
+    .selection-bar-btn{padding:11px 16px;font-size:10px;letter-spacing:1px}
+    .selection-bar-clear{font-size:11px}
+}
 
-        /* FEATURED WORK */
-        .work-empty { text-align: center; color: var(--text-secondary); font-size: 13.5px; padding: 40px 0; }
-        .work-section { padding-top: 100px; padding-bottom: 0; }
+/* ── DOWNLOAD MODAL ── */
+.dl-overlay{position:fixed;inset:0;background:rgba(6,5,4,0.75);z-index:110;display:none;align-items:center;justify-content:center;padding:20px}
+.dl-overlay.active{display:flex}
+.dl-modal{background:var(--surface);border:1px solid var(--border);padding:36px 30px;max-width:380px;width:100%;text-align:center}
+.dl-modal h3{font-family:'Fraunces',serif;font-weight:500;font-size:19px;margin-bottom:12px}
+.dl-modal p{font-size:13px;color:var(--cream-soft);line-height:1.7;margin-bottom:26px}
+.dl-progress{height:3px;background:rgba(246,241,231,0.1);overflow:hidden;margin-bottom:20px}
+.dl-progress-bar{height:100%;background:var(--accent);width:0%;transition:width .3s ease}
+.dl-close{margin-top:8px;font-size:11.5px;color:var(--cream-faint);background:none;border:none;text-decoration:underline}
 
+/* ── GUIDE OVERLAY ── */
+.welcome-sheet{position:fixed;inset:0;background:rgba(6,5,4,0.92);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.welcome-content{max-width:340px;width:100%;text-align:center;padding:44px 30px}
+.welcome-content h2{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:22px;margin-bottom:28px;color:var(--cream)}
+.intro-step{display:flex;align-items:flex-start;gap:14px;text-align:left;margin-bottom:22px}
+.intro-step-icon{width:36px;height:36px;border-radius:50%;background:rgba(196,166,126,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.intro-step-icon svg{width:16px;height:16px;stroke:var(--accent)}
+.intro-step p{font-size:13px;color:var(--cream-soft);line-height:1.6}
+.intro-step strong{color:var(--cream);font-weight:500}
+.welcome-dismiss{margin-top:10px;padding:14px 36px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#0f0c09;background:var(--accent);border:none;border-radius:30px;transition:all .25s ease}
+.welcome-dismiss:hover{background:var(--accent-deep)}
 
-        /* ABOUT — centered vertical composition: photo, bio, signature.
-           No title, no eyebrow, no grid. The signature (Fraunces italic
-           at display size) carries the identity instead of a label. */
-        .about-wrap { max-width: 520px; margin: 0 auto; text-align: center; }
-        .about-photo { width: 240px; margin: 0 auto 24px; overflow: hidden; aspect-ratio: 4/5; background: var(--bg-card); }
-        .about-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .about-bio { font-size: 13.5px; color: var(--text-secondary); line-height: 1.85; margin-bottom: 20px; max-width: 320px; margin-left: auto; margin-right: auto; text-wrap: balance; white-space: pre-line; }
-
-
-        /* TESTIMONIALS */
-        /* TESTIMONIALS / "VOICES" — an editorial installation, not a
-           testimonial section. A field of scattered emotional words
-           occupies quiet whitespace; one real testimonial at a time
-           gently comes into focus among them, holds, and dissolves
-           back — memories surfacing, not slides changing. No cards, no
-           borders, no quote marks. Typography carries the whole thing. */
-        .voices-stage { position: relative; max-width: 900px; height: 180px; margin: 0 auto; }
-        .voices-section { padding-top: 80px; padding-bottom: 80px; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
-        .voices-section .testimonials-label { font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px; letter-spacing: -0.2px; text-align: center; margin-bottom: 20px; clip-path: inset(0 100% 0 0); transition: clip-path 0.8s cubic-bezier(0.16,1,0.3,1); }
-        .voices-section .testimonials-label.is-revealed { clip-path: inset(0 0% 0 0); }
-
-        /* Background word field — organic, non-grid placement; each
-           word breathes almost imperceptibly on its own independent
-           rhythm, and softens further while a testimonial is in focus. */
-        .voices-word {
-            position: absolute; font-family: 'Fraunces', serif; font-style: italic;
-            color: var(--text-secondary); opacity: 0.16; white-space: nowrap;
-            animation: voices-breathe 7s ease-in-out infinite;
-            transition: opacity 1.2s ease;
-            transform: rotate(var(--word-rotation, 0deg));
-        }
-        .voices-stage.is-focused .voices-word { opacity: 0.07; }
-        @keyframes voices-breathe {
-            0%, 100% { transform: translate(0, 0) rotate(var(--word-rotation, 0deg)); }
-            50% { transform: translate(1.5px, -2px) rotate(var(--word-rotation, 0deg)); }
-        }
-
-        /* The featured quote — dead center, floating above the word
-           field. Reveal is blur-to-sharp + opacity + a small upward
-           settle, never a typewriter and never abrupt. */
-        .voices-quote-wrap {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            width: min(640px, 90%); text-align: center; pointer-events: none;
-        }
-        .voices-quote {
-            font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
-            font-size: clamp(16px, 2.2vw, 22px); line-height: 1.7; color: var(--text-primary);
-            opacity: 0; filter: blur(6px); transform: translateY(8px);
-            transition: opacity 1.1s cubic-bezier(0.22,1,0.36,1), filter 1.1s cubic-bezier(0.22,1,0.36,1), transform 1.1s cubic-bezier(0.22,1,0.36,1);
-        }
-        .voices-quote.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
-        .voices-name {
-            margin-top: 20px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--accent); font-weight: 600;
-            opacity: 0; filter: blur(4px); transform: translateY(6px);
-            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1) 0.35s, filter 0.8s cubic-bezier(0.22,1,0.36,1) 0.35s, transform 0.8s cubic-bezier(0.22,1,0.36,1) 0.35s;
-        }
-        .voices-name.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
-        .voices-stars {
-            display: inline-flex; align-items: center; gap: 1px;
-            margin-top: 12px; padding: 6px 13px;
-            background: rgba(26,24,21,0.05);
-            backdrop-filter: blur(12px) saturate(160%);
-            -webkit-backdrop-filter: blur(12px) saturate(160%);
-            border-radius: 20px;
-            box-shadow: 0 2px 10px var(--shadow-subtle), inset 0 1px 0 rgba(255,255,255,0.4);
-            font-size: 9px; letter-spacing: 2px; color: var(--text-primary);
-            opacity: 0; filter: blur(4px); transform: translateY(6px);
-            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s, filter 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s, transform 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s;
-        }
-        .voices-stars.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
-        @media (prefers-color-scheme: dark) {
-            .voices-stars { background: rgba(255,255,255,0.06); box-shadow: 0 2px 10px var(--shadow-subtle), inset 0 1px 0 rgba(255,255,255,0.08); }
-        }
-
-        @media (max-width: 700px) {
-            .voices-stage { height: 160px; }
-            .voices-word { display: none; }
-            .voices-word.voices-word-mobile { display: block; }
-        }
-
-        /* Reduced motion — the installation becomes a simple, calm
-           crossfade; no blur, no drift, no upward settle. */
-        @media (prefers-reduced-motion: reduce) {
-            .voices-word { animation: none !important; transition: opacity 0.6s ease !important; }
-            .voices-quote, .voices-name, .voices-stars { filter: none !important; transform: none !important; transition: opacity 0.6s ease !important; }
-        }
-
-        /* THE EXPERIENCE — a quiet, editorial sequence of reassuring
-           statements (not a process/steps grid): the emotional bridge
-           between Portfolio and Book. No cards, no numbers, no icons —
-           generous whitespace between each line lets it read almost
-           like a short poem. Each statement fades in independently as
-           it's scrolled to, via the same lpRevealOnScroll used
-           elsewhere on the page. All text is dashboard-editable. */
-        .experience-section { padding-bottom: 40px; }
-        .experience-sequence { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 80px; }
-        .experience-statement { text-align: center; padding: 0 12px; }
-        .experience-statement .statement-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(21px, 3vw, 29px); line-height: 1.55; color: var(--text-primary); }
-        .experience-statement .statement-support { margin-top: 14px; font-size: 13.5px; color: var(--text-secondary); line-height: 1.8; }
-        .experience-statement.lp-reveal { opacity: 0; transform: translateY(16px); transition: opacity 1.3s cubic-bezier(0.16,1,0.3,1), transform 1.3s cubic-bezier(0.16,1,0.3,1); }
-        .experience-statement.lp-reveal.is-in { opacity: 1; transform: translateY(0); }
-
-        .book-cta-section { padding-top: 40px; }
-
-        .brand-footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--border-color); }
-        .footer-mark { font-size: 15px; font-weight: 500; letter-spacing: 0.3px; }
-        .footer-contact { margin-top: 14px; font-size: 12.5px; color: var(--text-secondary); }
-        .footer-contact a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; }
-        .footer-contact a:hover { color: var(--accent); }
-        .footer-contact-divider { margin: 0 10px; opacity: 0.5; }
-
-        /* FEATURED WORK PRESENTATION — one large main photo with a
-           perforated film-strip of thumbnails along the edge, at every
-           screen size. Tapping a thumbnail crossfades the main photo
-           to it. Previously desktop showed a separate editorial grid;
-           that's retired in favor of one consistent presentation. */
-        .work-mobile-feature {
-            display: flex; gap: 3px; aspect-ratio: 2.5/3.3; overflow: hidden; position: relative;
-            margin-bottom: 28px; background: #141210;
-            box-shadow: 0 24px 60px var(--shadow-hover);
-        }
-
-        .work-mobile-feature.is-empty { aspect-ratio: auto; display: block; overflow: visible; background: none; }
-
-        .work-main-photo { flex: 1; position: relative; overflow: hidden; min-width: 0; }
-        .work-photo-counter {
-            text-align: center; padding: 6px 0 2px; z-index: 3; position: relative;
-            color: rgba(255,255,255,0.5); font-size: 9px; font-weight: 500; letter-spacing: 1.2px;
-        }
-        .work-main-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; }
-        .work-main-photo img.is-active { opacity: 1; animation: lp-ken-burns 16s ease-out forwards; }
-        @keyframes lp-ken-burns { from { transform: scale(1); } to { transform: scale(1.02); } }
-        @media (prefers-reduced-motion: reduce) {
-            .work-main-photo img.is-active { animation: none; }
-        }
-        .work-strip-wrap {
-            width: 26%; position: relative; overflow-y: auto; overflow-x: hidden;
-            scroll-behavior: smooth; scrollbar-width: none; min-height: 0;
-            overscroll-behavior-y: contain;
-        }
-        .work-strip-wrap::-webkit-scrollbar { display: none; }
-
-        /* Film perforations — the strip background is permanently dark
-           (#141210), so perforations are always the light-on-dark
-           variant. No theme switching needed here because film is
-           always dark regardless of the page's light/dark mode. */
-        .work-strip-track::before,
-        .work-strip-track::after {
-            content: ""; position: absolute; top: 0; bottom: 0; width: 10px; z-index: 2;
-            background: rgba(255,255,255,0.18);
-            -webkit-mask-image: radial-gradient(circle at center, transparent 0, transparent 2.4px, rgba(0,0,0,0.45) 2.8px, #000 3.6px);
-            mask-image: radial-gradient(circle at center, transparent 0, transparent 2.4px, rgba(0,0,0,0.45) 2.8px, #000 3.6px);
-            -webkit-mask-size: 100% 18px; mask-size: 100% 18px;
-            -webkit-mask-repeat: repeat-y; mask-repeat: repeat-y;
-            -webkit-mask-position: center top; mask-position: center top;
-        }
-        .work-strip-track::before { left: 0; }
-        .work-strip-track::after { right: 0; }
-        .work-strip-track { display: flex; flex-direction: column; padding: 0 13px; position: relative; }
-        .work-strip-thumb { position: relative; width: 100%; aspect-ratio: 1/1; border: none; padding: 4px; background: none; cursor: pointer; display: block; }
-        /* Active state — a slightly frosted photographic viewer
-           rather than a border: everything not currently selected
-           sits back with a soft blur and a touch less brightness;
-           the active frame alone is fully clear and sharp. No
-           bright outlines, nothing loud. */
-        .work-strip-thumb img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-            filter: blur(1.3px) brightness(0.7); opacity: 0.6;
-            transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
-        }
-        .work-strip-thumb.is-active img { filter: blur(0) brightness(1); opacity: 1; }
-
-        /* Wider screens get a shorter, more landscape main photo (the
-           mobile portrait ratio would otherwise stretch absurdly tall
-           across a ~1000px container) and a narrower strip, so more
-           thumbnails are visible at once without excess scrolling. */
-        @media (min-width: 900px) {
-            .work-mobile-feature { aspect-ratio: 16/9; }
-            .work-strip-wrap { width: 14%; }
-        }
-
-
-        @media (max-width: 900px) {
-            .about-wrap { max-width: 360px; }
-            .about-photo { width: 200px; }
-            .about-bio { max-width: 280px; }
-            .experience-sequence { gap: 56px; }
-        }
-        @media (max-width: 600px) {
-            .container { padding: 0 22px; }
-            .section-block { padding: 70px 0; }
-            .work-section { padding-top: 70px; padding-bottom: 0; }
-            .lp-hero { height: 100vh; height: 100svh; }
-            .section-heading { font-size: 16px; }
-            .section-block { min-height: 60vh; }
-            .lp-hero-title { font-size: clamp(26px, 8vw, 34px); }
-            .lp-hero-sub { font-size: clamp(9.5px, 3.1vw, 12px); white-space: nowrap; max-width: none; }
-        }
-    </style>
+/* ── REVIEW SECTION ── */
+.review-section{max-width:480px;margin:0 auto;padding:20px 24px 80px;text-align:center}
+.review-section h3{font-family:'Outfit',sans-serif;font-weight:400;font-size:24px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.review-section p{font-size:13px;color:var(--cream-faint);line-height:1.7;margin-bottom:28px}
+.review-field{width:100%;padding:14px 16px;background:rgba(246,241,231,0.04);border:1px solid var(--border);color:var(--cream);font-family:'Poppins',sans-serif;font-size:14px;outline:none;margin-bottom:12px;transition:border-color .25s ease;-webkit-appearance:none;border-radius:0}
+.review-field:focus{border-color:var(--accent)}
+.review-field::placeholder{color:var(--cream-faint)}
+textarea.review-field{resize:vertical;min-height:100px;line-height:1.6}
+.review-stars{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.review-stars button{background:none;border:none;padding:4px}
+.review-stars svg{width:28px;height:28px;stroke:rgba(246,241,231,0.25);fill:none;transition:all .15s ease;stroke-width:1.5}
+.review-stars svg.is-filled{fill:var(--accent);stroke:var(--accent)}
+.review-submit{padding:14px 32px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#0f0c09;background:var(--accent);border:none;border-radius:24px;cursor:pointer;transition:all .25s ease}
+.review-submit:hover{background:var(--accent-deep)}
+.review-submit:disabled{opacity:0.5;cursor:wait}
+.review-thanks{display:none;font-family:'Outfit',sans-serif;font-size:20px;letter-spacing:1px;color:var(--accent)}
+</style>
 </head>
 <body>
 
-    <header class="site-header" id="site-header">
-        <a href="./" class="site-logo-link"><img src="" alt="Libertypictures" class="site-logo" id="site-logo-img" style="display:none;"></a>
-    </header>
+<div class="loader-screen" id="loader"><div class="loader-mark serif">Preparing your gallery&hellip;</div></div>
+<div class="state-screen" id="state-screen" style="display:none;"><div><h1 class="serif" id="state-title"></h1><p id="state-message"></p><div id="state-action" style="margin-top:26px;"></div></div></div>
 
-    <section class="lp-hero">
-        <video class="lp-hero-video" id="lp-hero-video" autoplay muted loop playsinline poster="">
-            <!-- <source src="studio-reel.mp4" type="video/mp4"> -->
-        </video>
-        <div class="lp-hero-slideshow" id="lp-hero-slideshow" style="display:none;"></div>
-        <div class="lp-hero-flash" id="lp-hero-flash"></div>
-        <div class="lp-hero-scrim"></div>
-        <div class="lp-hero-content">
-            <h1 class="lp-hero-title">Intimate visual stories</h1>
-            <p class="lp-hero-sub">Portraits that feel personal and beautifully authentic.</p>
+<!-- GUIDE OVERLAY — first visit only -->
+<div class="welcome-sheet" id="welcome-sheet" style="display:none;">
+    <div class="welcome-content">
+        <h2 style="font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;color:var(--cream);">Quick Guide</h2>
+        <div class="intro-step">
+            <div class="intro-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+            <p><strong>Scroll to browse</strong> your photos. Tap any photo to open the <strong>film viewer</strong> — swipe, use the arrows, or tap a frame on the film strip to move through your shoot.</p>
         </div>
-        <div class="lp-scroll-indicator" aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div class="intro-step">
+            <div class="intro-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+            <p><strong>Tap the ★ star</strong> on any photo you love. A "My Favourites" button appears at the top so you can review just your picks.</p>
         </div>
+        <div class="intro-step">
+            <div class="intro-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+            <p><strong>Save all your starred photos at once</strong> using the bar that appears at the bottom. No need to download one by one.</p>
+        </div>
+        <div class="intro-step">
+            <div class="intro-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <p id="guide-expiry-text"><strong>This gallery is available for a limited time.</strong> Make sure to save your favourites before the window ends.</p>
+        </div>
+        <button class="welcome-dismiss" id="welcome-dismiss-btn">Got it</button>
+    </div>
+</div>
+
+<!-- PAGE: COVER + GALLERY as one continuous scroll -->
+<div id="page-wrap" style="display:none;">
+
+    <!-- COVER -->
+    <section class="cover" id="cover">
+        <img src="" alt="Libertypictures" class="cover-logo" id="cover-logo" style="display:none;">
+        <div class="cover-bg" id="cover-bg"></div>
+        <div class="cover-scrim"></div>
+        <div class="cover-content" style="max-width:500px;">
+            <div class="cover-eyebrow" id="cover-eyebrow">&nbsp;</div>
+            <h1 class="cover-name serif" id="cover-name">&nbsp;</h1>
+            <div class="cover-date" id="cover-date"></div>
+            <div class="cover-scroll-hint"><span></span></div>
+        </div>
+        <div class="cover-expiry" id="cover-expiry"></div>
     </section>
 
-    <!-- FEATURED WORK -->
-    <section class="section-block work-section">
-        <div class="container">
-            <h2 class="section-heading serif">Featured Works</h2>
-            <div class="section-content">
-                <div class="work-mobile-feature" id="work-mobile-feature"></div>
+    <!-- GALLERY -->
+    <div class="gallery-header" id="gallery-header">
+        <div class="gallery-header-inner">
+            <div>
+                <div class="gallery-header-name serif" id="header-name"></div>
+                <div class="gallery-header-meta" id="header-expiry"></div>
+            </div>
+            <button id="favs-toggle-btn" style="display:none;padding:8px 16px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;color:var(--accent);background:rgba(196,166,126,0.12);border:1px solid rgba(196,166,126,0.25);border-radius:20px;white-space:nowrap;cursor:pointer;transition:all .25s ease;">★ My Favourites</button>
+        </div>
+    </div>
+
+    <!-- Soft expiry warning — appears in the last 3 days, dismissible per session -->
+    <div class="expiry-banner" id="expiry-banner" style="display:none">
+        <div class="expiry-banner-inner">
+            <div class="expiry-banner-text" id="expiry-banner-text"></div>
+            <div class="expiry-banner-actions">
+                <button class="expiry-banner-btn" id="expiry-banner-btn">Extend access</button>
+                <button class="expiry-banner-close" id="expiry-banner-close" aria-label="Dismiss">&times;</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- TESTIMONIALS — now its own section with proper space,
-         so longer quotes don't feel crammed into a corner of the
-         Featured Works area. -->
-    <section class="section-block voices-section async-reveal" id="testimonials-section">
-        <div class="container">
-            <h2 class="testimonials-label" style="text-align:center;">Testimonials</h2>
-            <div class="section-content">
-                <div class="voices-stage" id="voices-stage"></div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+
+    <!-- Download All — shown when 20+ photos -->
+    <div class="dl-all-bar" id="dl-all-bar" style="display:none;">
+        <button class="dl-all-btn" id="dl-all-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download All Photos
+        </button>
+    </div>
+
+    <!-- Gentle finished prompt — appears after starring at least 1 photo -->
+    <div id="finished-prompt" style="display:none;text-align:center;padding:30px 20px 20px;">
+        <p style="font-size:13px;color:var(--cream-faint);margin-bottom:16px;">All done selecting?</p>
+        <button id="finished-btn" style="padding:12px 30px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:var(--cream);background:rgba(246,241,231,0.08);border:1px solid var(--border);border-radius:30px;cursor:pointer;transition:all .25s ease;">Let your photographer know</button>
+        <div id="finished-done" style="display:none;">
+            <p style="font-size:13.5px;color:var(--accent);margin-top:12px;">Your photographer has been notified. Thank you!</p>
+        </div>
+    </div>
+
+    <!-- REVIEW -->
+    <div class="review-section" id="review-section">
+        <h3>Leave a Review</h3>
+        <p>We would love to hear about your experience</p>
+        <div id="review-form">
+            <div class="review-stars" id="review-stars">
+                <button data-star="1"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                <button data-star="2"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                <button data-star="3"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                <button data-star="4"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                <button data-star="5"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
             </div>
+            <textarea class="review-field" id="review-quote" placeholder="Share your experience..."></textarea>
+            <button class="review-submit" id="review-submit-btn">Submit Review</button>
         </div>
-    </section>
+        <div class="review-thanks" id="review-thanks">Thank you for your kind words</div>
+    </div>
 
-    <!-- ABOUT -->
-    <section class="section-block async-reveal" id="about-section">
-        <div class="container">
-            <div class="about-wrap">
-                <div class="about-photo"><img id="about-photo-img" src="" alt="The photographer" loading="lazy" decoding="async"></div>
-                <p class="about-bio" id="about-bio-text"></p>
-            </div>
-        </div>
-    </section>
+</div>
 
-    <!-- THE EXPERIENCE — a quiet, editorial sequence of reassuring
-         statements, the emotional bridge between Portfolio and Book.
-         Deliberately no session names, descriptions, or prices —
-         those live on Book. No overarching visible heading either
-         (the sequence itself carries the section); an sr-only heading
-         preserves a heading landmark for screen-reader navigation
-         without adding any visible chrome. All text is
-         dashboard-editable. -->
-    <section class="section-block experience-section">
-        <div class="container">
-            <h2 class="section-heading serif">The Experience</h2>
-            <div class="section-content">
-                <div class="experience-sequence" id="experience-sequence"></div>
-            </div>
+<!-- SELECTION BAR -->
+<div class="selection-bar" id="selection-bar">
+    <div class="selection-bar-inner">
+        <div class="selection-bar-count" id="selection-count"><strong>0</strong> selected</div>
+        <div class="selection-bar-actions">
+            <button class="selection-bar-clear" id="clear-selection-btn">Clear selection</button>
+            <button class="selection-bar-btn" id="save-selected-btn">Save to Photos</button>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- BOOK SESSION — the final step -->
-    <section class="section-block book-cta-section">
-        <div class="container" style="text-align:center;">
-            <h2 class="section-heading serif">Ready?</h2>
-            <div class="section-content">
-                <a href="book.html" class="btn-dark">Book a Session</a>
-                <div><a href="portfolio.html" class="btn-link-secondary">View Full Portfolio</a></div>
-            </div>
+<!-- CINEMATIC VIEWER — Featured Work film stage + favourites on the film -->
+<div class="lightbox" id="lightbox">
+    <div class="lb-top">
+        <button class="lb-close" id="lb-close-btn" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <span class="lb-counter" id="lb-counter"></span>
+        <button class="lb-star-btn" id="lb-star-btn" aria-label="Star this photo"><svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+    </div>
+    <div class="lb-main">
+        <div class="lb-stage" id="lb-stage">
+            <button class="lb-nav prev" id="lb-prev" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <div class="lb-img-wrap"><img src="" id="lb-img" alt=""></div>
+            <button class="lb-nav next" id="lb-next" aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
         </div>
-    </section>
+        <div class="lb-film" id="lb-film"><div class="film-track" id="film-track"></div></div>
+    </div>
+    <div class="lb-bottom">
+        <div class="lb-picks hidden" id="lb-picks">&#9733; 0 picked</div>
+        <div class="lb-bottom-actions">
+            <button class="lb-action-btn is-primary" id="lb-save-all-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save all picks</span><span class="btn-short">Save all</span></button>
+            <button class="lb-action-btn" id="lb-save-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save Photo</span><span class="btn-short">Save</span></button>
+        </div>
+    </div>
+</div>
 
-    <footer class="brand-footer">
-        <span class="serif footer-mark">Libertypictures © 2026</span>
-        <div class="footer-contact">
-            <a href="https://wa.me/2349075170240" target="_blank" rel="noopener">WhatsApp</a>
-            <span class="footer-contact-divider">·</span>
-            <a href="mailto:visualsliberty@gmail.com">Email</a>
-        </div>
-    </footer>
+<!-- DOWNLOAD MODAL -->
+<div class="dl-overlay" id="dl-overlay">
+    <div class="dl-modal">
+        <h3 class="serif" id="dl-title">Preparing your photos</h3>
+        <p id="dl-message">This only takes a moment&hellip;</p>
+        <div class="dl-progress"><div class="dl-progress-bar" id="dl-progress-bar"></div></div>
+        <button class="dl-close" id="dl-close-btn" style="display:none;">Close</button>
+    </div>
+</div>
 
 <script>
-    var API_BASE = 'https://liberty-booking-api.visualsliberty.workers.dev';
+var API = '';
+var params = new URLSearchParams(window.location.search);
+var token = params.get('t') || 'test';
+var gallery = null;
+var photos = [];
+var currentLbIdx = 0;
+var starred = {}; // photoId -> true/false
 
-    // Fetched once, shared by every section that needs Settings data
-    // (Hero, Logo, About, Experience) — previously each fetched
-    // /api/settings independently, doubling that request for no
-    // reason since it's the exact same data every time.
-    var settingsPromise = fetch(API_BASE + '/api/settings').then(function (res) { return res.json(); });
+function $(id) { return document.getElementById(id); }
+function escHtml(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function safeFilename(name, mimeType) {
+    if (/\.(jpe?g|png|webp)$/i.test(name)) return name;
+    return name + (mimeType && mimeType.includes('png') ? '.png' : '.jpg');
+}
+function starSvg(filled) {
+    return '<svg viewBox="0 0 24 24" fill="' + (filled ? 'var(--accent)' : 'none') + '" stroke="' + (filled ? 'var(--accent)' : 'var(--cream)') + '" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+}
 
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.textContent = String(str == null ? '' : str);
-        return div.innerHTML;
-    }
-    
-    // Reveals an `.async-reveal` element with a GPU-only fade (opacity +
-    // transform via a CSS keyframe animation, triggered by the display
-    // switch) instead of animating a layout property like max-height —
-    // layout properties force a reflow on every frame of the animation,
-    // which stutters if it happens to run while the visitor is actively
-    // scrolling. Used for sections whose content only exists after an
-    // API fetch resolves (About, Voices).
-    function lpRevealSmoothly(el) {
-        if (!el) return;
-        el.classList.add('is-visible');
-    }
+var __origFetch = window.fetch;
+window.__FAKE_PHOTOS = [
+{id:101, filename:'golden-hour-01.jpg', orientation:'portrait', url:'https://picsum.photos/id/1015/1100/1500', thumbUrl:'https://picsum.photos/id/1015/300/420', isStarred:false},
+{id:102, filename:'vows-02.jpg', orientation:'landscape', url:'https://picsum.photos/id/1018/1600/1100', thumbUrl:'https://picsum.photos/id/1018/420/300', isStarred:true},
+{id:103, filename:'rings-03.jpg', orientation:'square', url:'https://picsum.photos/id/1025/1200/1200', thumbUrl:'https://picsum.photos/id/1025/300/300', isStarred:false},
+{id:104, filename:'bride-04.jpg', orientation:'portrait', url:'https://picsum.photos/id/1039/1100/1500', thumbUrl:'https://picsum.photos/id/1039/300/420', isStarred:false},
+{id:105, filename:'dance-05.jpg', orientation:'landscape', url:'https://picsum.photos/id/1062/1600/1100', thumbUrl:'https://picsum.photos/id/1062/420/300', isStarred:true},
+{id:106, filename:'sparklers-06.jpg', orientation:'portrait', url:'https://picsum.photos/id/1074/1100/1500', thumbUrl:'https://picsum.photos/id/1074/300/420', isStarred:false},
+{id:107, filename:'portrait-07.jpg', orientation:'square', url:'https://picsum.photos/id/1080/1200/1200', thumbUrl:'https://picsum.photos/id/1080/300/300', isStarred:false},
+{id:108, filename:'detail-08.jpg', orientation:'portrait', url:'https://picsum.photos/id/1082/1100/1500', thumbUrl:'https://picsum.photos/id/1082/300/420', isStarred:false},
+{id:109, filename:'exit-09.jpg', orientation:'landscape', url:'https://picsum.photos/id/1084/1600/1100', thumbUrl:'https://picsum.photos/id/1084/420/300', isStarred:false},
+{id:110, filename:'confetti-10.jpg', orientation:'portrait', url:'https://picsum.photos/id/1069/1100/1500', thumbUrl:'https://picsum.photos/id/1069/300/420', isStarred:false},
+{id:111, filename:'first-dance-11.jpg', orientation:'landscape', url:'https://picsum.photos/id/1043/1600/1100', thumbUrl:'https://picsum.photos/id/1043/420/300', isStarred:false},
+{id:112, filename:'last-frame-12.jpg', orientation:'portrait', url:'https://picsum.photos/id/1011/1100/1500', thumbUrl:'https://picsum.photos/id/1011/300/420', isStarred:false}
+];
+window.fetch = function (u, o) {
+    var s = String(u);
+    if (s === '/api/gallery/test') return Promise.resolve({ ok: true, status: 200, json: function () { return Promise.resolve({ clientName: 'Adaeze & Tunde', eventTitle: 'Golden Hour Wedding', eventDate: '2026-08-15', expiresAt: new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 19).replace('T', ' '), photos: window.__FAKE_PHOTOS }); } });
+    if (s === '/api/settings') return Promise.resolve({ ok: true, json: function () { return Promise.resolve({ settings: {} }); } });
+    return Promise.reject(new Error('network disabled in test harness'));
+};
 
-    // Simple one-time scroll reveal — fades/slides each element in the
-    // moment it scrolls into view, staggered by index for a gentle
-    // cascade. `.lp-reveal` alone (before this runs) is a no-op, so
-    // content stays visible if JS fails.
-    function lpRevealOnScroll(elements, minGap) {
-        if (!('IntersectionObserver' in window)) return;
-        var els = Array.prototype.slice.call(elements);
-        if (!els.length) return;
-        els.forEach(function (el) { el.classList.add('lp-reveal'); });
-
-        var pendingHides = new WeakMap();
-        // Tracks the earliest time the NEXT reveal is allowed to start.
-        // A reveal triggered well after this (normal/slow scrolling)
-        // gets zero delay — instant, tied directly to scroll position,
-        // not to a timer. Only when a reveal is triggered before this
-        // (several elements crossing into view within the same instant,
-        // i.e. a fast scroll) does it get pushed out by minGap from the
-        // previous one, so it still reads as sequential instead of all
-        // popping in together.
-        var nextRevealNotBefore = 0;
-
-        // No "already visible, skip the animation" shortcut here.
-        // IntersectionObserver always fires immediately upon observe()
-        // with whatever's currently true, so anything on-screen the
-        // moment observation starts still gets a real, correct entrance
-        // through the exact same path below — never a silent skip.
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                var el = entry.target;
-                if (entry.isIntersecting) {
-                    var pendingHide = pendingHides.get(el);
-                    if (pendingHide) { clearTimeout(pendingHide); pendingHides.delete(el); }
-                    if (el.classList.contains('is-in')) return;
-
-                    var now = Date.now();
-                    var delay = Math.max(0, nextRevealNotBefore - now);
-                    nextRevealNotBefore = now + delay + (minGap || 0);
-                    el.style.transitionDelay = delay + 'ms';
-                    el.classList.add('is-in');
-                } else {
-                    if (!el.classList.contains('is-in') || pendingHides.has(el)) return;
-                    var hideTimer = setTimeout(function () {
-                        pendingHides.delete(el);
-                        el.style.transitionDelay = '0ms';
-                        el.classList.remove('is-in');
-                    }, 400);
-                    pendingHides.set(el, hideTimer);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -25% 0px' });
-        els.forEach(function (el) { observer.observe(el); });
-    }
-
-    // HERO — identical logic to the booking page: two separate render
-    // paths based on hero_mode, never mixing video and slideshow.
-    (function () {
-        function renderVideo(s) {
-            if (!s.hero_video_url) return;
-            var oldVideo = document.getElementById('lp-hero-video');
-            var newVideo = oldVideo.cloneNode(false);
-            newVideo.muted = true;
-            newVideo.innerHTML = '<source src="' + API_BASE + s.hero_video_url + '" type="video/mp4">';
-            oldVideo.parentNode.replaceChild(newVideo, oldVideo);
-            newVideo.play().catch(function (err) { console.error('Hero video could not autoplay:', err.message); });
-        }
-        function renderSlideshow() {
-            document.getElementById('lp-hero-video').style.display = 'none';
-            var container = document.getElementById('lp-hero-slideshow');
-            var flash = document.getElementById('lp-hero-flash');
-            fetch(API_BASE + '/api/hero-images')
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                    var images = data.images || [];
-                    if (!images.length) return;
-                    container.style.display = 'block';
-                    container.innerHTML = images.map(function (img, i) {
-                        return '<div class="lp-hero-slide' + (i === 0 ? ' is-active' : '') + '" style="background-image:url(' + API_BASE + img.imageUrl + ')"></div>';
-                    }).join('');
-                    if (images.length < 2) return;
-                    var slides = container.querySelectorAll('.lp-hero-slide');
-                    var current = 0;
-                    setInterval(function () {
-                        var next = (current + 1) % slides.length;
-                        flash.classList.add('is-flashing');
-                        setTimeout(function () { flash.classList.remove('is-flashing'); }, 90);
-                        slides[current].classList.remove('is-active');
-                        slides[next].classList.add('is-active');
-                        current = next;
-                    }, 2000);
-                })
-                .catch(function (err) { console.error('Could not load hero slideshow:', err); });
-        }
-
-        settingsPromise
-            .then(function (data) {
-                var s = data.settings || {};
-                if (s.hero_mode === 'slideshow') { renderSlideshow(); } else { renderVideo(s); }
-
-                if (s.logo_url) {
-                    var siteLogo = document.getElementById('site-logo-img');
-                    siteLogo.src = API_BASE + s.logo_url;
-                    siteLogo.style.display = 'block';
-                }
-
-                // ABOUT — only shown once real content exists in Settings,
-                // never with placeholder/fabricated text. Smooth reveal
-                // (not an instant display swap) so a late-arriving fetch
-                // never causes a sudden layout jump if it resolves while
-                // the visitor is already scrolling past this point.
-                if (s.about_photo_url && s.about_bio) {
-                    document.getElementById('about-photo-img').src = API_BASE + s.about_photo_url;
-                    document.getElementById('about-bio-text').textContent = s.about_bio;
-                    lpRevealSmoothly(document.getElementById('about-section'));
-                }
-            })
-            .catch(function (err) { console.error('Could not load settings:', err); });
-    })();
-
-    // SCROLL INDICATOR — fades away the moment the visitor actually
-    // starts scrolling; its job is done at that point.
-    (function () {
-        var indicator = document.querySelector('.lp-scroll-indicator');
-        if (!indicator) return;
-        window.addEventListener('scroll', function () {
-            indicator.classList.toggle('is-hidden', window.scrollY > 12);
-        }, { passive: true });
-    })();
-
-    // FEATURED WORK — pulled from its own, separately-curated photo set
-    // (not Portfolio). Builds the main-photo + film-strip presentation
-    // used at every screen size.
-    (function () {
-        var mobileFeature = document.getElementById('work-mobile-feature');
-        if (!mobileFeature) return;
-
-        fetch(API_BASE + '/api/featured-work')
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                var items = data.items || [];
-                if (!items.length) {
-                    mobileFeature.classList.add('is-empty');
-                    mobileFeature.innerHTML = '<p class="work-empty">New work coming soon.</p>';
-                    return;
-                }
-                buildMobileFeature(items);
-            })
-            .catch(function () {
-                mobileFeature.classList.add('is-empty');
-                mobileFeature.innerHTML = '<p class="work-empty">Couldn\'t load work right now.</p>';
-            });
-
-        function buildMobileFeature(sample) {
-            // A single photo doesn't need a strip — just show it plainly
-            // rather than showing nothing (the old behavior here).
-            if (sample.length < 2) {
-                mobileFeature.innerHTML = '<div class="work-main-photo"><img src="' + API_BASE + sample[0].imageUrl + '" alt="Featured work" class="is-active" decoding="async"></div>';
-                return;
+/* ── LOAD ── */
+if (!token) {
+    showState('Invalid Link', 'This gallery link is missing information. Please check the link your photographer sent you.');
+} else {
+    fetch(API + '/api/gallery/' + encodeURIComponent(token))
+        .then(function (r) {
+            if (r.status === 410) return r.json().then(function (d) { throw { expired: true, clientName: d.clientName }; });
+            if (r.status === 409) return r.json().then(function (d) { throw { locked: true, info: d }; });
+            if (!r.ok) throw new Error('not found');
+            return r.json();
+        })
+        .then(function (data) {
+            gallery = data;
+            photos = data.photos || [];
+            photos.forEach(function (p) { starred[p.id] = p.isStarred || false; });
+            initPage();
+            $('loader').classList.add('hidden');
+            showGuide();
+        })
+        .catch(function (err) {
+            $('loader').classList.add('hidden');
+            if (err && err.expired) {
+                showState('Gallery Expired', (err.clientName ? err.clientName + ', your' : 'Your') + ' gallery\u2019s viewing window has ended. Please reach out to your photographer if you need anything.');
+            } else if (err && err.locked) {
+                showLockedWall(err.info || {});
+            } else {
+                showState('Gallery Not Found', 'This link may be incorrect or no longer active. Please check with your photographer.');
             }
+        });
+}
 
-            var thumbsHtml = sample.map(function (item, i) {
-                return '<button type="button" class="work-strip-thumb' + (i === 0 ? ' is-active' : '') + '" data-index="' + i + '" aria-label="View photo ' + (i + 1) + ' of ' + sample.length + '"><img src="' + API_BASE + item.imageUrl + '" alt="" loading="lazy" decoding="async"></button>';
-            }).join('');
+function showState(title, msg, actionHtml) {
+    $('state-title').textContent = title;
+    $('state-message').textContent = msg;
+    var act = $('state-action');
+    if (act) act.innerHTML = actionHtml || '';
+    $('state-screen').style.display = 'flex';
+}
 
-            mobileFeature.innerHTML =
-                '<div class="work-main-photo">' +
-                    sample.map(function (item, i) {
-                        return '<img src="' + API_BASE + item.imageUrl + '" alt="Featured work" class="' + (i === 0 ? 'is-active' : '') + '" data-index="' + i + '" decoding="async">';
-                    }).join('') +
+/* ── LOCKED WALL — the conversion moment, kept soft and warm ── */
+function showLockedWall(d) {
+    var fee = d.fee || 9000;
+    var days = d.extensionDays || 14;
+    var graceDays = d.graceDays || 1;
+    var graceMs = graceDays * 86400000;
+    // The date the window actually closed is the gallery's real expiry (expires_at),
+    // not when the sweep happened to run (locked_at). The grace countdown for final
+    // deletion, however, starts from locked_at — that is when the sweep will delete it.
+    var closeAt = d.closedAt || d.lockedAt || null;
+    var closeTs = closeAt ? new Date(String(closeAt).replace(' ', 'T')) : null;
+    var closedText = closeTs && !isNaN(closeTs.getTime())
+        ? closeTs.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
+        : 'recently';
+    var lockAt = d.lockedAt || d.closedAt || null;
+    var lockTs = lockAt ? new Date(String(lockAt).replace(' ', 'T')) : null;
+    var deleted = lockTs && !isNaN(lockTs.getTime())
+        ? new Date(lockTs.getTime() + graceMs).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
+        : 'soon';
+    var payUrl = 'pay/index.html?type=gallery&amount=' + fee + '&gallery=' + encodeURIComponent(token) + '&name=' + encodeURIComponent(d.clientName || '') + '&days=' + days + '&return=' + encodeURIComponent(window.location.href);
+    var scr = $('state-screen');
+    scr.classList.add('lock-mode');
+    scr.style.display = 'flex';
+    scr.innerHTML = '' +
+        '<div class="lock-wrap">' +
+            '<div class="lock-bg" id="lock-bg"></div>' +
+            '<div class="lock-scrim"></div>' +
+            '<div class="lock-card">' +
+                '<div class="lock-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>' +
+                '<h1>' + (d.clientName ? escHtml(d.clientName) + ', your' : 'Your') + ' gallery\u2019s viewing window has ended.</h1>' +
+                '<p class="lock-lead">The window ended on <strong>' + closedText + '</strong>. Your photos and every pick you made are safe \u2014 nothing has been removed.</p>' +
+                '<div class="lock-perks">' +
+                    '<div class="lock-perk"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Instant access \u2014 reopens the moment payment clears</span></div>' +
+                    '<div class="lock-perk"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Your selections are preserved</span></div>' +
+                    '<div class="lock-perk"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>' + days + ' more days to view, download and share</span></div>' +
                 '</div>' +
-                '<div class="work-strip-wrap" id="work-strip-wrap">' +
-                    '<div class="work-photo-counter" id="work-photo-counter">1 / ' + sample.length + '</div>' +
-                    '<div class="work-strip-track">' + thumbsHtml + '</div>' +
-                '</div>';
+                '<div class="lock-price"><span>once \u00b7 reopens for ' + days + ' more day' + (days === 1 ? '' : 's') + '</span></div>' +
+                '<a class="lock-cta" href="' + payUrl + '">Pay &#8358;' + fee.toLocaleString() + ' to extend</a>' +
+                '<p class="lock-urgency">If not extended, this gallery will be permanently removed on <strong>' + deleted + '</strong>.</p>' +
+                '<p class="lock-help">Questions? <a href="#" id="lock-wa">Message us on WhatsApp</a></p>' +
+                '<p class="lock-secure">Secure payment \u00b7 Card or transfer</p>' +
+            '</div>' +
+        '</div>';
 
-            var mainImgs = mobileFeature.querySelectorAll('.work-main-photo img');
-            var stripWrap = document.getElementById('work-strip-wrap');
-            var thumbs = mobileFeature.querySelectorAll('.work-strip-thumb');
-            var photoCounter = document.getElementById('work-photo-counter');
+    if (d.coverUrl) {
+        var bg = $('lock-bg');
+        var img = new Image();
+        img.onload = function () { bg.style.backgroundImage = 'url(' + API + d.coverUrl + ')'; };
+        img.src = API + d.coverUrl;
+    }
 
-            thumbs.forEach(function (btn, i) {
-                btn.addEventListener('click', function () {
-                    var idx = btn.dataset.index;
-                    mainImgs.forEach(function (img) { img.classList.toggle('is-active', img.dataset.index === idx); });
-                    photoCounter.textContent = (parseInt(idx, 10) + 1) + ' / ' + sample.length;
-                    thumbs.forEach(function (t) { t.classList.toggle('is-active', t.dataset.index === idx); });
+    // Studio name + WhatsApp link from backend settings
+    fetch(API + '/api/settings').then(function (r) { return r.json(); }).then(function (res) {
+        var s = res.settings || {};
+        var num = (s.whatsapp_number || '').replace(/[^0-9]/g, '');
+        var studio = s.studio_name || 'Libertypictures';
+        var wa = $('lock-wa');
+        if (wa) wa.textContent = 'Message ' + studio + ' on WhatsApp';
+        if (wa && num) wa.href = 'https://wa.me/' + num + '?text=' + encodeURIComponent('Hi ' + studio + '! My gallery is locked and I have a question.');
+    }).catch(function () {});
+}
 
-                    // Keep the clicked thumbnail comfortably in view
-                    // within the strip's own scroll area, based on its
-                    // real position — not a guess at "near the end of
-                    // the whole list" (which breaks down for long lists,
-                    // since by the time you can click something near the
-                    // literal end you're usually already scrolled all
-                    // the way down with nothing left to reveal). This
-                    // works correctly no matter how many photos there
-                    // are or where in the list this one sits.
-                    var btnBottom = btn.offsetTop + btn.offsetHeight;
-                    var visibleBottom = stripWrap.scrollTop + stripWrap.clientHeight;
-                    if (btnBottom > visibleBottom - btn.offsetHeight) {
-                        stripWrap.scrollTo({ top: btnBottom - stripWrap.clientHeight + btn.offsetHeight, behavior: 'smooth' });
-                    }
-                });
-            });
-        }
-    })();
+/* ── SOFT PRE-EXPIRY BANNER — last 3 days, dismissible per session ── */
+function showExpiryBanner(daysLeft, fee, extDays) {
+    var banner = $('expiry-banner');
+    if (!banner) return;
+    if (daysLeft > 3) return;
+    if (sessionStorage.getItem('lp-ban-dismiss-' + token)) return;
+    var when = daysLeft <= 0 ? 'today only' : (daysLeft === 1 ? '1 more day' : daysLeft + ' more days');
+    var end = new Date(String(gallery.expiresAt).replace(' ', 'T'));
+    var endText = !isNaN(end.getTime()) ? end.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' }) : '';
+    $('expiry-banner-text').innerHTML = '<strong>Available for ' + when + (endText ? ' \u00b7 ends ' + endText : '') + '.</strong> Keep your gallery open for ' + extDays + ' more day' + (extDays === 1 ? '' : 's') + ' with one small payment.';
+    var payUrl = 'pay/index.html?type=gallery&amount=' + fee + '&gallery=' + encodeURIComponent(token) + '&name=' + encodeURIComponent(gallery.clientName || '') + '&days=' + extDays + '&return=' + encodeURIComponent(window.location.href);
+    $('expiry-banner-btn').onclick = function () { window.location.href = payUrl; };
+    $('expiry-banner-close').onclick = function () { banner.style.display = 'none'; sessionStorage.setItem('lp-ban-dismiss-' + token, '1'); };
+    banner.style.display = 'block';
+}
 
-    // VOICES — an editorial installation, not a testimonial carousel.
-    // A scattered field of atmosphere words sits in the background;
-    // real testimonials surface into focus one at a time — reveal,
-    // hold, dissolve — and the field softens while one is showing.
-    // Pauses entirely when off-screen or under prefers-reduced-motion.
-    (function () {
-        var stage = document.getElementById('voices-stage');
-        var section = document.getElementById('testimonials-section');
-        var items = [];
-        var lastIndex = -1;
-        var running = false;
-        var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var timers = [];
+/* ── GUIDE — first visit only ── */
+function showGuide() {
+    var sheet = $('welcome-sheet');
+    if (!sheet) return;
+    sheet.style.display = 'flex';
+    $('welcome-dismiss-btn').addEventListener('click', function () {
+        sheet.style.display = 'none';
+    });
+}
 
-        // Purely decorative atmosphere — generic words evoking the
-        // feeling of a session, not quotes attributed to any specific
-        // client (real testimonials only ever come from the API below).
-        var ATMOSPHERE_WORDS = ['beautiful', 'effortless', 'authentic', 'unforgettable', 'comfortable', 'timeless', 'gorgeous', 'natural', 'confident', 'seen', 'gentle', 'genuine', 'warm', 'alive', 'graceful'];
+/* ── INIT PAGE — cover + gallery as continuous scroll ── */
+function initPage() {
+    $('page-wrap').style.display = 'block';
+    document.title = (gallery.eventTitle || gallery.clientName) + ' | Libertypictures';
 
-        // Hand-placed, deliberately not gridded — a curated scatter
-        // rather than a random one. Kept clear of the dead-center zone
-        // where the featured quote sits.
-        var SLOTS = [
-            { x: 6, y: 10 }, { x: 84, y: 9 }, { x: 15, y: 80 }, { x: 87, y: 76 },
-            { x: 3, y: 44 }, { x: 93, y: 42 }, { x: 24, y: 4 }, { x: 68, y: 90 },
-            { x: 9, y: 92 }, { x: 79, y: 22 }, { x: 42, y: 5 }, { x: 55, y: 94 },
-            { x: 30, y: 92 }, { x: 63, y: 8 },
-        ];
+    // Cover
+    $('cover-eyebrow').textContent = gallery.clientName;
+    $('cover-name').textContent = gallery.eventTitle || gallery.clientName;
 
-        function buildWordField() {
-            // A sparser, deliberately-chosen subset stays visible on
-            // mobile — real redesign for the smaller canvas, rather
-            // than either cramming in all fourteen or showing none.
-            var MOBILE_SLOT_INDEXES = [0, 2, 4, 6, 9, 12];
-            var html = SLOTS.map(function (slot, i) {
-                var word = ATMOSPHERE_WORDS[i % ATMOSPHERE_WORDS.length];
-                var size = 11 + (i % 4) * 2; // a little size variety, still restrained
-                var delay = (i * 0.45).toFixed(2);
-                var rotation = ((i % 5) - 2) * 1.4; // small, deterministic tilt (-2.8deg to 2.8deg) — organic, not random jitter
-                var mobileClass = MOBILE_SLOT_INDEXES.indexOf(i) !== -1 ? ' voices-word-mobile' : '';
-                return '<span class="voices-word' + mobileClass + '" style="left:' + slot.x + '%; top:' + slot.y + '%; font-size:' + size + 'px; animation-delay:' + delay + 's; --word-rotation:' + rotation + 'deg;">' + word + '</span>';
-            }).join('');
-            stage.insertAdjacentHTML('afterbegin', html);
-        }
+    if (gallery.eventDate) {
+        var d = new Date(gallery.eventDate + 'T00:00:00');
+        $('cover-date').textContent = d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
 
-        function clearTimers() { timers.forEach(clearTimeout); timers = []; }
-        function after(ms, fn) { var t = setTimeout(fn, ms); timers.push(t); return t; }
+    if (gallery.coverUrl) {
+        var bg = $('cover-bg');
+        var img = new Image();
+        img.onload = function () {
+            bg.style.backgroundImage = 'url(' + API + gallery.coverUrl + ')';
+            bg.classList.add('loaded');
+        };
+        img.src = API + gallery.coverUrl;
+    }
 
-        function pickNext() {
-            if (items.length === 1) return 0;
-            var idx;
-            do { idx = Math.floor(Math.random() * items.length); } while (idx === lastIndex);
-            lastIndex = idx;
-            return idx;
-        }
+    var daysLeft = Math.max(0, Math.ceil((new Date(gallery.expiresAt) - new Date()) / 86400000));
+    $('cover-expiry').textContent = daysLeft <= 0 ? 'Expires today' : 'Available for ' + daysLeft + ' more day' + (daysLeft === 1 ? '' : 's');
+    var guideExpiry = $('guide-expiry-text');
+    if (guideExpiry) guideExpiry.innerHTML = '<strong>This gallery expires in ' + daysLeft + ' day' + (daysLeft === 1 ? '' : 's') + '.</strong> Make sure to save your favourites before then.';
 
-        function starsHtml(rating) {
-            var filled = Math.max(0, Math.min(5, Math.round(rating || 0)));
-            var out = '';
-            for (var i = 1; i <= 5; i++) out += (i <= filled ? '\u2605' : '\u2606');
-            return out;
-        }
+    // Logo + extension fee (for the soft expiry banner)
+    fetch(API + '/api/settings').then(function (r) { return r.json(); }).then(function (d) {
+        var s = d.settings || {};
+        if (s.logo_url) { var logo = $('cover-logo'); logo.src = API + s.logo_url; logo.style.display = 'block'; }
+        var fee = parseInt(s.gallery_extension_fee, 10) || 9000;
+        var extDays = parseInt(s.gallery_extension_days, 10) || 14;
+        showExpiryBanner(daysLeft, fee, extDays);
+    }).catch(function () {});
 
-        function runCycle() {
-            if (!running) return;
-            var t = items[pickNext()];
+    // Header
+    $('header-name').textContent = gallery.eventTitle || gallery.clientName;
+    $('header-expiry').textContent = daysLeft <= 0 ? 'Expires today' : daysLeft + ' day' + (daysLeft === 1 ? '' : 's') + ' remaining';
 
-            var quoteEl = document.getElementById('voices-quote');
-            var nameEl = document.getElementById('voices-name');
-            var starsEl = document.getElementById('voices-stars');
-            quoteEl.textContent = t.quote;
-            nameEl.textContent = t.clientName;
-            starsEl.textContent = starsHtml(t.rating);
+    // Grid
+    renderGrid();
+}
 
-            stage.classList.add('is-focused');
-            // A frame of delay before adding is-visible so the browser
-            // registers the text change first — otherwise the reveal
-            // transition can be skipped entirely on some browsers.
-            after(reducedMotion ? 30 : 60, function () {
-                quoteEl.classList.add('is-visible');
-                nameEl.classList.add('is-visible');
-                starsEl.classList.add('is-visible');
-            });
+/* ── GRID ── */
+function renderGrid() {
+    var grid = $('gallery-grid');
+    if (!photos.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--cream-faint);padding:60px 20px;font-size:13px;">No photos in this gallery yet.</p>'; return; }
+    grid.innerHTML = photos.map(function (p, i) {
+        var cls = 'g-tile ' + (p.orientation || 'portrait') + (starred[p.id] ? ' is-starred' : '');
+        return '<div class="' + cls + '" data-index="' + i + '" data-id="' + p.id + '">' +
+            '<img src="' + API + (p.thumbUrl || p.url) + '" alt="" loading="lazy">' +
+            '<button class="g-tile-star" data-star-id="' + p.id + '" aria-label="Star">' + starSvg(starred[p.id]) + '</button>' +
+        '</div>';
+    }).join('');
 
-            var holdFor = reducedMotion ? 2000 : 3200;
-            var revealTime = reducedMotion ? 400 : 1300;
-            var dissolveTime = reducedMotion ? 400 : 1200;
+    updateSelectionBar();
+    updateDownloadAllButton();
+}
 
-            after(revealTime + holdFor, function () {
-                quoteEl.classList.remove('is-visible');
-                nameEl.classList.remove('is-visible');
-                starsEl.classList.remove('is-visible');
-                stage.classList.remove('is-focused');
-            });
-
-            after(revealTime + holdFor + dissolveTime + 900, runCycle);
-        }
-
-        function start() {
-            if (running) return;
-            running = true;
-            runCycle();
-        }
-        function stop() {
-            running = false;
-            clearTimers();
-        }
-
-        fetch(API_BASE + '/api/testimonials?publishedOnly=true')
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                items = data.testimonials || [];
-                if (!items.length) return;
-
-                buildWordField();
-                stage.insertAdjacentHTML('beforeend',
-                    '<div class="voices-quote-wrap">' +
-                        '<p class="voices-quote" id="voices-quote"></p>' +
-                        '<div class="voices-name" id="voices-name"></div>' +
-                        '<div class="voices-stars" id="voices-stars" aria-hidden="true"></div>' +
-                    '</div>'
-                );
-
-                lpRevealSmoothly(section);
-
-                if ('IntersectionObserver' in window) {
-                    var observer = new IntersectionObserver(function (entries) {
-                        entries.forEach(function (entry) {
-                            if (entry.isIntersecting) start(); else stop();
-                        });
-                    }, { threshold: 0.2 });
-                    observer.observe(section);
-                } else {
-                    start();
-                }
-            })
-            .catch(function (err) { console.error('Could not load Voices content:', err); });
-    })();
-
-    // THE EXPERIENCE — a quiet, editorial sequence of reassuring
-    // statements, pulled entirely from Settings (dashboard-editable).
-    // Stays hidden if nothing's been saved yet, same honesty rule as
-    // About and Testimonials — never shows placeholder text. Staggered
-    // reveal (not simultaneous) so it always reads as one statement
-    // delivered at a time, even on a fast scroll that brings several
-    // into view within the same instant — lpRevealOnScroll assigns
-    // each element's delay by its fixed position in the sequence, so
-    // they stay visually sequential regardless of how quickly they're
-    // all technically "in view" together.
-    (function () {
-        var sequenceEl = document.getElementById('experience-sequence');
-
-        settingsPromise
-            .then(function (data) {
-                var s = data.settings || {};
-                if (!s.experience_statements_json) return;
-
-                var statements;
-                try { statements = JSON.parse(s.experience_statements_json); } catch (e) { return; }
-                if (!Array.isArray(statements) || !statements.length) return;
-
-                sequenceEl.innerHTML = statements.map(function (item) {
-                    if (!item || !item.text) return '';
-                    var supportHtml = item.supporting ? '<p class="statement-support">' + escapeHtml(item.supporting) + '</p>' : '';
-                    return '<div class="experience-statement"><p class="statement-text serif">' + escapeHtml(item.text) + '</p>' + supportHtml + '</div>';
-                }).join('');
-
-                lpRevealOnScroll(sequenceEl.querySelectorAll('.experience-statement'), 180);
-            })
-            .catch(function (err) { console.error('Could not load Experience content:', err); });
-    })();
-
-    // SECTION REVEAL — as each section scrolls into view, its title
-    // writes itself in (left-to-right clip reveal) and then its
-    // content fades up after a short delay. Each section feels like
-    // its own page moment, with no overlap from adjacent sections.
-    (function () {
-        if (!('IntersectionObserver' in window)) {
-            // Fallback: show everything immediately
-            document.querySelectorAll('.section-heading, .testimonials-label').forEach(function (el) { el.classList.add('is-revealed'); });
-            document.querySelectorAll('.section-content').forEach(function (el) { el.classList.add('is-revealed'); });
+// Grid click handlers — outside renderGrid so they never stack
+(function () {
+    var grid = $('gallery-grid');
+    grid.addEventListener('click', function (e) {
+        var starBtn = e.target.closest('.g-tile-star');
+        if (starBtn) {
+            e.stopPropagation();
+            toggleStar(parseInt(starBtn.dataset.starId, 10));
             return;
         }
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (!entry.isIntersecting) return;
-                var section = entry.target;
-                var heading = section.querySelector('.section-heading, .testimonials-label');
-                var content = section.querySelector('.section-content');
-                if (heading && !heading.classList.contains('is-revealed')) {
-                    heading.classList.add('is-revealed');
-                }
-                if (content && !content.classList.contains('is-revealed')) {
-                    content.classList.add('is-revealed');
-                }
-                observer.unobserve(section);
+        var tile = e.target.closest('.g-tile');
+        if (tile) openLightbox(parseInt(tile.dataset.index, 10));
+    });
+})();
+
+function refreshTile(photoId) {
+    var tile = document.querySelector('.g-tile[data-id="' + photoId + '"]');
+    if (tile) {
+        tile.classList.toggle('is-starred', !!starred[photoId]);
+        tile.querySelector('.g-tile-star').innerHTML = starSvg(!!starred[photoId]);
+    }
+    refreshFilmThumb(photoId);
+    updateLbPicks();
+}
+
+function toggleStar(photoId) {
+    starred[photoId] = !starred[photoId];
+    fetch(API + '/api/gallery/' + encodeURIComponent(token) + '/photos/' + photoId + '/select', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isStarred: starred[photoId] })
+    }).catch(function () {});
+    refreshTile(photoId);
+    updateSelectionBar();
+    if (document.getElementById('lightbox').classList.contains('active')) {
+        var p = photos[currentLbIdx];
+        if (p && p.id === photoId) $('lb-star-btn').classList.toggle('is-active', starred[photoId]);
+    }
+}
+
+/* ── SELECTION BAR ── */
+function updateSelectionBar() {
+    var count = Object.keys(starred).filter(function (id) { return starred[id]; }).length;
+    $('selection-count').innerHTML = '<strong>' + count + '</strong> selected';
+    $('selection-bar').classList.toggle('visible', count > 0);
+    updateFavsButton();
+    updateFinishedPrompt();
+    updateLbPicks();
+}
+
+
+/* ── FAVOURITES FILTER ── */
+var showingFavs = false;
+var favsBtn = $('favs-toggle-btn');
+
+function updateFavsButton() {
+    var count = Object.keys(starred).filter(function (id) { return starred[id]; }).length;
+    if (favsBtn) favsBtn.style.display = count > 0 ? 'block' : 'none';
+}
+
+if (favsBtn) {
+    favsBtn.addEventListener('click', function () {
+        showingFavs = !showingFavs;
+        favsBtn.textContent = showingFavs ? 'Show All' : '\u2605 My Favourites';
+        favsBtn.style.background = showingFavs ? 'rgba(196,166,126,0.3)' : 'rgba(196,166,126,0.12)';
+        document.querySelectorAll('.g-tile').forEach(function (tile) {
+            var id = parseInt(tile.dataset.id, 10);
+            tile.style.display = (showingFavs && !starred[id]) ? 'none' : '';
+        });
+        if (showingFavs) window.scrollTo({ top: $('gallery-header').offsetTop, behavior: 'smooth' });
+    });
+}
+
+/* ── LIGHTBOX ── */
+var savedScrollY = 0;
+function openLightbox(idx) {
+    if ($('lightbox').classList.contains('active')) return;
+    currentLbIdx = idx;
+    renderLb();
+    savedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + savedScrollY + 'px';
+    document.body.style.width = '100%';
+    $('lightbox').classList.add('active');
+}
+function closeLightbox() {
+    $('lightbox').classList.remove('active');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, savedScrollY);
+}
+function renderLb() {
+    if (!photos.length) return;
+    buildFilm();
+    var p = photos[currentLbIdx];
+    $('lb-img').src = API + p.url;
+    $('lb-img').alt = p.filename || 'Photo';
+    var totalStr = String(photos.length);
+    $('lb-counter').textContent = String(currentLbIdx + 1).padStart(totalStr.length, '0') + ' / ' + totalStr;
+    $('lb-star-btn').classList.toggle('is-active', !!starred[p.id]);
+    $('lb-prev').style.visibility = currentLbIdx === 0 ? 'hidden' : 'visible';
+    $('lb-next').style.visibility = currentLbIdx === photos.length - 1 ? 'hidden' : 'visible';
+    syncFilmActive();
+    preloadLbNeighbors();
+    updateLbPicks();
+}
+$('lb-close-btn').addEventListener('click', closeLightbox);
+$('lb-prev').addEventListener('click', function () { if (currentLbIdx > 0) { currentLbIdx--; renderLb(); } });
+$('lb-next').addEventListener('click', function () { if (currentLbIdx < photos.length - 1) { currentLbIdx++; renderLb(); } });
+document.addEventListener('keydown', function (e) {
+    if (!$('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') $('lb-prev').click();
+    if (e.key === 'ArrowRight') $('lb-next').click();
+});
+// Swipe
+(function () {
+    var stage = $('lb-stage'), sx = 0, sy = 0;
+    stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) { if (dx > 0) $('lb-prev').click(); else $('lb-next').click(); }
+    }, { passive: true });
+})();
+
+$('lb-star-btn').addEventListener('click', function () {
+    var p = photos[currentLbIdx];
+    toggleStar(p.id);
+});
+
+/* ── FILM VIEWER — the Featured Work film rail fused onto the
+   gallery: every photo becomes a numbered 35mm frame on a perforated
+   strip at the stage's edge; starred photos carry a gold keep-mark
+   star right on their frame. ── */
+var filmThumbs = [];
+var filmBuilt = false;
+var BRAND_PATTERN = [null, 'LIBERTY PORTRA', null, 'LIBERTYPICTURES', null, null, 'LIBERTY PORTRA', null, 'LIBERTYPICTURES', null, 'LIBERTY PORTRA', null];
+
+function buildFilm() {
+    if (filmBuilt) return;
+    filmBuilt = true;
+    var film = $('lb-film');
+    var track = $('film-track');
+    if (!film || !track) return;
+    // A single photo needs no contact sheet — the stage takes the full width.
+    if (photos.length < 2) { film.style.display = 'none'; return; }
+    film.style.display = '';
+    var EAGER = 5;
+    var thumbsHtml = photos.map(function (p, i) {
+        var thumbUrl = API + (p.thumbUrl || p.url);
+        var srcAttr = i < EAGER ? 'src="' + thumbUrl + '" loading="lazy"' : 'data-src="' + thumbUrl + '"';
+        var brand = BRAND_PATTERN[i % BRAND_PATTERN.length];
+        var brandHtml = brand ? '<span class="brand-text">' + brand + '</span>' : '';
+        return '<button type="button" class="film-thumb' + (starred[p.id] ? ' is-starred' : '') + '" data-index="' + i + '" data-id="' + p.id + '" aria-label="View photo ' + (i + 1) + ' of ' + photos.length + '"><img ' + srcAttr + ' alt="" decoding="async"><span class="film-star">' + starSvg(true) + '</span><span class="frame-num">' + (i + 1) + '</span>' + brandHtml + '</button>';
+    }).join('');
+    track.innerHTML = thumbsHtml;
+    filmThumbs = track.querySelectorAll('.film-thumb');
+
+    // Deferred frames load as they scroll into the rail (rootMargin
+    // preloads ~250px ahead so the swap happens before the eye arrives).
+    var pending = track.querySelectorAll('.film-thumb img[data-src]');
+    if (pending.length && 'IntersectionObserver' in window) {
+        var filmObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                var img = e.target;
+                if (img.dataset.src) { img.src = img.dataset.src; delete img.dataset.src; }
+                filmObserver.unobserve(img);
             });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.section-block').forEach(function (s) { observer.observe(s); });
-    })();
+        }, { root: film, rootMargin: '250px 0px 250px 0px' });
+        pending.forEach(function (img) { filmObserver.observe(img); });
+    } else if (pending.length) {
+        pending.forEach(function (img) { img.src = img.dataset.src; delete img.dataset.src; });
+    }
 
-    // HERO VIDEO — resume on visibility change, same pattern as book.html.
-    (function () {
-        function resume() {
-            var video = document.getElementById('lp-hero-video');
-            if (video && video.paused) video.play().catch(function () {});
+    filmThumbs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var idx = parseInt(btn.dataset.index, 10);
+            if (idx === currentLbIdx) return;
+            currentLbIdx = idx;
+            renderLb();
+        });
+    });
+}
+
+function syncFilmActive() {
+    if (!filmThumbs.length) return;
+    filmThumbs.forEach(function (t) { t.classList.toggle('is-active', parseInt(t.dataset.index, 10) === currentLbIdx); });
+    var film = $('lb-film');
+    var active = filmThumbs[currentLbIdx];
+    if (film && active) {
+        var target = active.offsetTop - (film.clientHeight / 2) + (active.offsetHeight / 2);
+        film.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+    }
+}
+
+function refreshFilmThumb(photoId) {
+    if (!filmThumbs.length) return;
+    filmThumbs.forEach(function (t) {
+        if (parseInt(t.dataset.id, 10) !== photoId) return;
+        t.classList.toggle('is-starred', !!starred[photoId]);
+        var star = t.querySelector('.film-star');
+        if (star) star.innerHTML = starSvg(!!starred[photoId]);
+    });
+}
+
+// Warm the two neighbours of the current frame so advancing feels
+// instant, without ever downloading the whole shoot's full-res set.
+function preloadLbNeighbors() {
+    if (currentLbIdx > 0) { var a = new Image(); a.src = API + photos[currentLbIdx - 1].url; }
+    if (currentLbIdx < photos.length - 1) { var b = new Image(); b.src = API + photos[currentLbIdx + 1].url; }
+}
+
+function lbPickedCount() {
+    return Object.keys(starred).filter(function (id) { return starred[id]; }).length;
+}
+function updateLbPicks() {
+    var picks = $('lb-picks');
+    var saveAll = $('lb-save-all-btn');
+    if (!picks || !saveAll) return;
+    var count = lbPickedCount();
+    picks.textContent = '\u2605 ' + count + ' picked';
+    picks.classList.toggle('hidden', count === 0);
+    saveAll.style.display = count > 0 ? 'inline-flex' : 'none';
+}
+
+// Scroll the stage (wheel over the photo) to advance the film.
+(function () {
+    var stage = $('lb-stage');
+    if (!stage) return;
+    var last = 0;
+    stage.addEventListener('wheel', function (e) {
+        if (!$('lightbox').classList.contains('active')) return;
+        if (Math.abs(e.deltaY) < 8) return;
+        e.preventDefault();
+        var now = Date.now();
+        if (now - last < 280) return;
+        last = now;
+        if (e.deltaY > 0) $('lb-next').click(); else $('lb-prev').click();
+    }, { passive: false });
+})();
+
+// "Save all picks" inside the viewer reuses the same save flow as the
+// selection bar (native share for a few, zip otherwise).
+$('lb-save-all-btn').addEventListener('click', function () {
+    if (!lbPickedCount()) return;
+    $('save-selected-btn').click();
+});
+
+/* ── DOWNLOAD: single photo ── */
+$('lb-save-btn').addEventListener('click', function () { downloadSingle(photos[currentLbIdx]); });
+async function downloadSingle(p) {
+    try {
+        var res = await fetch(API + p.url);
+        var blob = await res.blob();
+        var fname = safeFilename(p.filename || 'photo', blob.type);
+        if (navigator.canShare && navigator.canShare({ files: [new File([blob], fname, { type: blob.type })] })) {
+            await navigator.share({ files: [new File([blob], fname, { type: blob.type })] });
+            return;
         }
-        document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') resume(); });
-        window.addEventListener('pageshow', resume);
-        ['touchstart', 'click'].forEach(function (evt) { document.addEventListener(evt, resume, { passive: true }); });
-    })();
-</script>
+        dlBlob(blob, fname);
+    } catch (e) { console.error('Save failed:', e); }
+}
 
+function dlBlob(blob, name) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+}
+
+/* ── CLEAR SELECTION ── */
+var clearSelBtn = $('clear-selection-btn');
+if (clearSelBtn) {
+    clearSelBtn.addEventListener('click', function () {
+        var sel = Object.keys(starred).filter(function (id) { return starred[id]; });
+        if (!sel.length) return;
+        if (!window.confirm('Clear all ' + sel.length + ' selected photo' + (sel.length === 1 ? '' : 's') + '? You can star them again anytime.')) return;
+        clearSelBtn.disabled = true;
+        fetch(API + '/api/gallery/' + encodeURIComponent(token) + '/clear-selection', { method: 'POST' })
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                clearSelBtn.disabled = false;
+                if (!d || d.status !== 'ok') {
+                    window.alert('Could not clear your selection \u2014 please try again.');
+                    return;
+                }
+                sel.forEach(function (id) { starred[id] = false; });
+                photos.forEach(function (p) { refreshTile(p.id); });
+                if ($('lightbox').classList.contains('active')) $('lb-star-btn').classList.remove('is-active');
+                if (showingFavs) {
+                    showingFavs = false;
+                    favsBtn.textContent = '\u2605 My Favourites';
+                    favsBtn.style.background = 'rgba(196,166,126,0.12)';
+                }
+                updateSelectionBar();
+            })
+            .catch(function () {
+                clearSelBtn.disabled = false;
+                window.alert('Could not clear your selection \u2014 check your connection and try again.');
+            });
+    });
+}
+
+/* ── DOWNLOAD: selected photos ── */
+$('save-selected-btn').addEventListener('click', async function () {
+    var sel = photos.filter(function (p) { return starred[p.id]; });
+    if (!sel.length) return;
+    var btn = this; btn.disabled = true; var orig = btn.textContent;
+
+    if (sel.length <= 10 && navigator.canShare) {
+        try {
+            btn.textContent = 'Preparing\u2026';
+            var files = [];
+            for (var i = 0; i < sel.length; i++) {
+                var r = await fetch(API + sel[i].url);
+                var b = await r.blob();
+                files.push(new File([b], safeFilename(sel[i].filename || ('photo-' + (i + 1)), b.type), { type: b.type }));
+            }
+            if (navigator.canShare({ files: files })) { await navigator.share({ files: files }); btn.disabled = false; btn.textContent = orig; return; }
+            await zipDl(sel);
+        } catch (e) { if (e.name !== 'AbortError') await zipDl(sel); }
+    } else { await zipDl(sel); }
+    btn.disabled = false; btn.textContent = orig;
+});
+
+async function zipDl(list) {
+    if (typeof JSZip === 'undefined') { alert('Could not load the download tool. Please refresh and try again.'); return; }
+    $('dl-overlay').classList.add('active');
+    $('dl-title').textContent = 'Preparing your photos';
+    $('dl-message').textContent = 'Zipping ' + list.length + ' photo' + (list.length === 1 ? '' : 's') + '\u2026';
+    $('dl-progress-bar').style.width = '0%';
+    $('dl-close-btn').style.display = 'none';
+    try {
+        var zip = new JSZip();
+        for (var i = 0; i < list.length; i++) {
+            var r = await fetch(API + list[i].url);
+            var b = await r.blob();
+            zip.file(safeFilename(list[i].filename || ('photo-' + (i + 1)), b.type), b);
+            $('dl-progress-bar').style.width = Math.round(((i + 1) / list.length) * 90) + '%';
+        }
+        $('dl-message').textContent = 'Finishing up\u2026';
+        var content = await zip.generateAsync({ type: 'blob' });
+        $('dl-progress-bar').style.width = '100%';
+        var zn = (gallery.eventTitle || gallery.clientName || 'gallery').replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '-photos.zip';
+        dlBlob(content, zn);
+        $('dl-title').textContent = 'Download ready';
+        $('dl-message').textContent = 'Your photos have been saved.';
+        $('dl-close-btn').style.display = 'inline-block';
+    } catch (e) {
+        $('dl-title').textContent = 'Something went wrong';
+        $('dl-message').textContent = 'Please try again in a moment.';
+        $('dl-close-btn').style.display = 'inline-block';
+    }
+}
+
+/* ── DOWNLOAD ALL — for galleries with 20+ photos ── */
+function updateDownloadAllButton() {
+    var bar = $('dl-all-bar');
+    if (!bar) return;
+    bar.style.display = photos.length >= 20 ? 'block' : 'none';
+}
+
+$('dl-all-btn').addEventListener('click', async function () {
+    if (!photos.length) return;
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Preparing...';
+    await zipDl(photos);
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download All Photos';
+});
+
+$('dl-close-btn').addEventListener('click', function () { $('dl-overlay').classList.remove('active'); });
+
+/* ── FINISHED PROMPT — gentle, appears after starring ── */
+function updateFinishedPrompt() {
+    var count = Object.keys(starred).filter(function (id) { return starred[id]; }).length;
+    var prompt = $('finished-prompt');
+    if (prompt) prompt.style.display = count > 0 ? 'block' : 'none';
+}
+document.addEventListener('click', function (e) {
+    if (e.target.id === 'finished-btn' || e.target.closest('#finished-btn')) {
+        var btn = $('finished-btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending\u2026';
+        fetch(API + '/api/gallery/' + encodeURIComponent(token) + '/done', { method: 'POST' })
+            .then(function () {
+                btn.style.display = 'none';
+                $('finished-done').style.display = 'block';
+            })
+            .catch(function () { btn.disabled = false; btn.textContent = 'Let your photographer know'; });
+    }
+});
+
+/* ── REVIEW ── */
+(function () {
+    var reviewRating = 0;
+    var starsEl = $('review-stars');
+    if (!starsEl) return;
+
+    starsEl.addEventListener('click', function (e) {
+        var btn = e.target.closest('button[data-star]');
+        if (!btn) return;
+        reviewRating = parseInt(btn.dataset.star, 10);
+        starsEl.querySelectorAll('svg').forEach(function (svg, i) {
+            svg.classList.toggle('is-filled', i < reviewRating);
+        });
+    });
+
+    $('review-submit-btn').addEventListener('click', async function () {
+        var name = gallery.clientName || 'Client';
+        var quote = $('review-quote').value.trim();
+        if (!quote) { alert('Please write your review.'); return; }
+        if (!reviewRating) { alert('Please select a star rating.'); return; }
+
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        try {
+            var res = await fetch(API + '/api/testimonials/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ clientName: name, quote: quote, rating: reviewRating })
+            });
+            if (!res.ok) throw new Error();
+            $('review-form').style.display = 'none';
+            $('review-thanks').style.display = 'block';
+        } catch (e) {
+            btn.disabled = false;
+            btn.textContent = 'Submit Review';
+            alert('Could not submit your review. Please try again.');
+        }
+    });
+})();
+
+</script>
 </body></html>
