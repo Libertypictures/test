@@ -170,7 +170,8 @@ a{color:inherit}
 .lb-state.on .lb-state-dot{background:#f0c766;box-shadow:0 0 12px rgba(240,199,102,.9)}
 .lb-state-body{display:inline-flex;align-items:baseline;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .lb-picks-txt{font-weight:500}
-.lb-picks-hint{color:rgba(227,182,78,.55);font-weight:400}
+.lb-picks-hint{color:rgba(227,182,78,.78);font-weight:500;display:inline-flex;align-items:center;gap:3px}
+.lb-picks-hint::after{content:'›';font-size:14px;line-height:1;color:#e3b64e;opacity:.85;transform:translateY(-1px)}
 .lb-state.on .lb-picks-hint{display:none}
 /* Hairline divider between state and actions */
 .lb-actionbar-sep{width:1px;background:linear-gradient(180deg,transparent 0%,rgba(212,160,48,.22) 25%,rgba(212,160,48,.22) 75%,transparent 100%);flex-shrink:0;margin:0 6px;align-self:stretch}
@@ -294,8 +295,11 @@ html.lp-demo .gallery-header{top:44px}
 .st-card h4{margin:0 0 12px;font-family:'Fraunces',serif;font-weight:400;font-size:16px;color:var(--cream);letter-spacing:0.2px}
 .st-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid rgba(246,241,231,0.07);flex-wrap:wrap}
 .st-row:first-of-type{border-top:none}
-.st-row .st-name{font-size:12.5px;color:var(--cream-soft);letter-spacing:0.3px}
-.st-row .st-name b{color:var(--cream);font-weight:500}
+.st-row .st-name{font-size:12.5px;color:var(--cream-soft);letter-spacing:0.3px;flex:1;min-width:0}
+.st-row .st-name b{color:var(--cream);font-weight:500;display:block;margin-bottom:2px}
+.st-row .st-help{display:block;font-size:11px;color:var(--cream-faint);line-height:1.5;letter-spacing:0.2px;font-weight:400}
+.st-section-title{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent);opacity:.85;margin:0 0 10px;font-weight:600}
+.st-cta-note{font-size:10.5px;color:var(--cream-faint);line-height:1.55;margin:8px 4px 0;text-align:center}
 .st-chip{font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;padding:5px 10px;border-radius:20px;white-space:nowrap}
 .st-chip.ok{color:#9fdf9a;background:rgba(127,201,111,0.12);border:1px solid rgba(127,201,111,0.35)}
 .st-chip.warn{color:var(--accent);background:rgba(196,166,126,0.12);border:1px solid rgba(196,166,126,0.35)}
@@ -367,7 +371,7 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
 /* Chip pulse still used when a star is added */
 .lb-state.pulse{animation:chipPulse .5s ease}
 @keyframes chipPulse{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
-@media(max-width:400px){.lb-picks-hint{display:none}}
+@media(max-width:340px){.lb-picks-hint{display:none}}
 
 /* ── 4. Grid tiles: star affordance visible on touch devices ── */
 @media (hover:none),(pointer:coarse){
@@ -1174,7 +1178,7 @@ function updateLbPicks() {
         if (hint) hint.textContent = '';
     } else {
         txt.textContent = 'You\u2019ve ' + noun + ' ' + c + ' photo' + (c === 1 ? '' : 's');
-        if (hint) hint.textContent = ' / view selection';
+        if (hint) hint.textContent = ' · View selection';
     }
     chip.title = c ? (lbPicksOnly ? 'Show all photos again' : 'View only the photos you ' + noun) : '';
 }
@@ -1734,10 +1738,41 @@ function simulatePay(kind, btn) {
         else { S.deliveryEndHr += EXT_DAYS * 24; S.deliveryExt++; S.payDelivery += extCost; }
         log('Paid \u20a6' + extCost.toLocaleString() + ' \u2014 ' + (kind === 'proof' ? 'proof gallery' : 'finals gallery') + ' +' + EXT_DAYS + ' days');
         save(); hideMo(); gate = '';
-        toast('\u2713 Payment received \u2014 ' + (kind === 'proof' ? 'your proof gallery is open for ' + EXT_DAYS + ' more days' : 'your finals are downloadable for ' + EXT_DAYS + ' more days'));
-        if (view === 'studio') renderStudio();
-        else { renderNow(); }
+        log('Paid \u2014 gallery reopened for ' + EXT_DAYS + ' more days');
+        if (view === 'studio') { renderStudio(); return; }
+        renderUnlockSuccess(kind);
     }, 1600);
+}
+
+/* Success interstitial between "paid" and "back in the gallery" \u2014 gives
+   the client an explicit confirmation instead of the tiny toast + jump
+   we used to do. Same lock-card visual language so the transition
+   reads as "same screen, new state". */
+function renderUnlockSuccess(kind) {
+    var isProof = kind === 'proof';
+    var whichLabel = isProof ? 'proof gallery' : 'finals gallery';
+    var whichBody = isProof
+        ? 'You have <strong>' + EXT_DAYS + ' more days</strong> to browse and pick photos.'
+        : 'Your finals are downloadable for <strong>' + EXT_DAYS + ' more days</strong>.';
+    var ctaLabel = isProof ? 'Open my gallery' : 'Open my finals';
+    var state = $('state-screen');
+    state.classList.add('lock-mode');
+    state.style.display = 'flex';
+    state.innerHTML =
+        '<div class="lock-wrap">' +
+            '<div class="lock-bg"></div><div class="lock-scrim"></div>' +
+            '<div class="lock-card">' +
+                '<div class="lock-icon" style="background:rgba(46,120,74,.18);border-color:rgba(126,196,150,.45);color:#7ec496"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>' +
+                '<h1>Payment received \u2014 your ' + whichLabel + ' is reopened.</h1>' +
+                '<p class="lock-lead">' + whichBody + '</p>' +
+                '<button class="lock-cta" id="lk-open-btn">' + ctaLabel + '</button>' +
+                '<p class="lock-help" style="margin-top:16px">A receipt has been logged in your account.</p>' +
+            '</div>' +
+        '</div>';
+    $('lk-open-btn').addEventListener('click', function () {
+        gate = '';
+        renderNow();
+    });
 }
 
 /* ===================== MODAL HELPER ===================== */
@@ -1791,32 +1826,66 @@ function renderStudio() {
     var historyHtml = S.log.map(function (l) {
         return '<div><span class="t">' + fmtClock(l.t) + '</span><b>' + escHtml(l.txt) + '</b></div>';
     }).join('');
+    var extProofLabel = S.proofExt ? S.proofExt + ' time' + (S.proofExt === 1 ? '' : 's') + ' \u00b7 \u20a6' + S.payProof.toLocaleString() + ' paid' : 'not extended yet';
+    var extDelivLabel = S.deliveryExt ? S.deliveryExt + ' time' + (S.deliveryExt === 1 ? '' : 's') + ' \u00b7 \u20a6' + S.payDelivery.toLocaleString() + ' paid' : 'not extended yet';
+    var lockedWhen = finalised ? (S.finaliseHow === 'auto' ? 'window closed on its own \u2014 current picks locked in' : 'client tapped Finalise \u2014 list locked in') : '';
+    var lockedAt = finalised ? '<span class="st-sub">at ' + fmtClock(S.finalisedHr) + '</span>' : '';
+
     sheet.innerHTML =
         '<div class="st-wrap">' +
             '<div class="st-head"><h2>Studio Console</h2>' +
-            '<p>Demo of the two-phase pipeline. Real plan: client picks within <b>5 days</b> \u00b7 you deliver edited finals \u00b7 client downloads for <b>7 days</b> \u00b7 anyone can reopen for <b>+30 days</b> at one global price. <span style="color:var(--accent)">Demo clock: 1 second \u2248 1 hour</span> \u2014 use \u201c+1 day\u201d above to move time.</p></div>' +
+            '<p>The shoot\u2019s control panel. In the real product you\u2019ll see this in your admin dashboard \u2014 one card per shoot with its paired proof + delivery links. This demo is a preview of that. <span style="color:var(--accent)">Demo clock: 1 second \u2248 1 hour</span> \u2014 use \u201c+1 day\u201d in the top bar to move time.</p></div>' +
+
             '<div class="st-card"><h4>Golden Hour Wedding \u00b7 Adaeze &amp; Tunde</h4>' +
-                '<div class="st-row"><span class="st-name"><b>Proof gallery</b> \u2014 picking</span>' + statusProof + '</div>' +
+
+                '<div class="st-section-title" style="margin-top:4px">Proof phase \u00b7 client picks their favourites</div>' +
+
+                '<div class="st-row"><span class="st-name"><b>Proof gallery link</b>' +
+                    '<span class="st-help">The link Adaeze uses to browse the shoot and star the photos she loves.</span></span>' +
+                    statusProof + '</div>' +
+
                 (finalised
-                    ? '<div class="st-row"><span class="st-name"><b>Picks locked</b> \u2014 ' + (S.finaliseHow === 'auto' ? 'auto-locked at window end' : 'finalised by client') + '</span><span class="st-sub">' + fmtClock(S.finalisedHr) + '</span></div>' +
-                      '<div class="st-thumbs">' + thumbsHtml + '</div>'
+                    ? '<div class="st-row"><span class="st-name"><b>Picks locked</b>' +
+                        '<span class="st-help">' + lockedWhen + '</span></span>' + lockedAt + '</div>' +
+                      '<div class="st-thumbs" title="The photos she picked">' + thumbsHtml + '</div>'
                     : '') +
-                '<div class="st-row"><span class="st-name"><b>Extensions</b> \u2014 paid</span><span class="st-sub">\u00d7' + S.proofExt + (S.proofExt ? ' \u00b7 \u20a6' + S.payProof.toLocaleString() : '') + '</span></div>' +
-                '<div class="st-row"><span class="st-name"><b>Delivery gallery</b> \u2014 finals</span>' + statusDeliv + '</div>' +
-                '<div class="st-row"><span class="st-name"><b>Delivery extensions</b> \u2014 paid</span><span class="st-sub">\u00d7' + S.deliveryExt + (S.deliveryExt ? ' \u00b7 \u20a6' + S.payDelivery.toLocaleString() : '') + '</span></div>' +
+
+                '<div class="st-row"><span class="st-name"><b>Window extensions</b>' +
+                    '<span class="st-help">Times Adaeze paid to reopen the proof window after it closed.</span></span>' +
+                    '<span class="st-sub">' + extProofLabel + '</span></div>' +
+
+                '<div class="st-section-title" style="margin-top:16px">Delivery phase \u00b7 you edit &amp; publish the finals</div>' +
+
+                '<div class="st-row"><span class="st-name"><b>Delivery gallery link</b>' +
+                    '<span class="st-help">The paired link she uses to view and download your edited finals.</span></span>' +
+                    statusDeliv + '</div>' +
+
+                '<div class="st-row"><span class="st-name"><b>Download extensions</b>' +
+                    '<span class="st-help">Times Adaeze paid to reopen the delivery window after it closed.</span></span>' +
+                    '<span class="st-sub">' + extDelivLabel + '</span></div>' +
+
                 (n === 0
-                    ? '<button class="st-primary" disabled>Deliver picks \u2014 waiting for picks</button>'
+                    ? '<button class="st-primary" disabled>Waiting for picks \u2014 nothing to deliver yet</button>' +
+                      '<p class="st-cta-note">This button turns on once Adaeze has picked at least one photo.</p>'
                     : delivered
-                        ? '<button class="st-primary" disabled>Delivered \u2014 \u2713 ' + n + ' finals live</button>'
-                        : '<button class="st-primary" id="st-deliver">Deliver picks \u2192 edit &amp; publish ' + n + ' finals</button>') +
+                        ? '<button class="st-primary" disabled>\u2713 Delivered \u2014 ' + n + ' finals live for Adaeze</button>' +
+                          '<p class="st-cta-note">The delivery link is live. Adaeze can view and download her finals.</p>'
+                        : '<button class="st-primary" id="st-deliver">Deliver picks \u2192 publish ' + n + ' final' + (n === 1 ? '' : 's') + '</button>' +
+                          '<p class="st-cta-note">Creates the paired delivery gallery with her ' + n + ' picked photo' + (n === 1 ? '' : 's') + ' and opens the download window.</p>') +
+
                 '<button class="st-ghost" id="st-open-proof">Open the proof link as Adaeze</button>' +
                 (delivered ? '<button class="st-ghost" id="st-open-delivery">Open the delivery link as Adaeze</button>' : '') +
             '</div>' +
+
             '<div class="st-card"><h4>Settings</h4>' +
-                '<div class="st-row" style="align-items:center"><span class="st-name"><b>Reopen price</b> \u2014 one global price (real product: Settings)</span>' +
-                '<span class="st-fee">\u20a6<input id="st-fee" type="number" min="500" step="500" value="' + S.fee + '"><button class="db-btn" id="st-fee-save">Save</button></span></div>' +
+                '<div class="st-row" style="align-items:center"><span class="st-name"><b>Reopen price</b>' +
+                    '<span class="st-help">Charged when a client extends either window (proof or delivery). One global price \u2014 lives under Settings in the real admin.</span></span>' +
+                    '<span class="st-fee">\u20a6<input id="st-fee" type="number" min="500" step="500" value="' + S.fee + '"><button class="db-btn" id="st-fee-save">Save</button></span></div>' +
+
+                '<div class="st-section-title" style="margin-top:16px">Activity log</div>' +
                 '<div class="st-log">' + (historyHtml || '<div style="opacity:.6">No activity yet</div>') + '</div>' +
             '</div>' +
+
             '<button class="st-ghost" id="st-reset" style="color:#e08a80;border-color:rgba(224,138,128,.3)">Reset entire demo</button>' +
         '</div>';
     if ($('st-deliver')) $('st-deliver').addEventListener('click', runEditSim);
