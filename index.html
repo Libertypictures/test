@@ -1110,7 +1110,7 @@ function updateLbPicks() {
     var noun = lbNoun();
     txt.textContent = lbPicksOnly
         ? '\u2605 ' + c + ' \u00b7 ' + lbOnlyNoun() + ' only \u2715'
-        : '\u2605 ' + c + ' ' + noun;
+        : 'You\u2019ve ' + noun + ' ' + c + ' photo' + (c === 1 ? '' : 's');
     chip.title = c ? (lbPicksOnly ? 'Show all photos again' : 'View only the photos you starred') : '';
 }
 function updateLbUi() { syncLbChrome(); }
