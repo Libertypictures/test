@@ -153,16 +153,42 @@ a{color:inherit}
 .film-thumb.is-starred .film-star{display:flex}
 .film-star svg{width:100%;height:100%;fill:var(--accent);stroke:var(--accent);stroke-width:2}
 @media(max-width:600px){.lb-counter .lb-hint{display:none}}
-.lb-bottom{padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.lb-picks{font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:var(--accent);letter-spacing:1px;white-space:nowrap}
-.lb-picks.hidden{visibility:hidden}
-.lb-bottom-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
-.lb-action-btn{display:flex;align-items:center;gap:8px;padding:12px 22px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:500;color:var(--cream);background:rgba(246,241,231,0.08);border:1px solid var(--border);border-radius:24px;transition:all .25s ease}
-.lb-action-btn:hover{background:rgba(246,241,231,0.14)}
-.lb-action-btn svg{width:15px;height:15px}
-.lb-action-btn.is-primary{color:#0f0c09;background:var(--accent);border-color:var(--accent)}
-.lb-action-btn.is-primary:hover{background:var(--accent-deep)}
-@media(max-width:600px){.lb-picks{font-size:10px}.lb-action-btn{padding:10px 14px;font-size:9.5px}}
+/* Unified premium action bar — the "resting place" for state + actions.
+   State segment on the left (tap toggles picks-only), a hairline
+   divider, then the action buttons on the right. All inside one pill
+   container with warm dark glass, gold hairline border, soft shadow. */
+.lb-bottom{padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));flex-shrink:0;display:flex;justify-content:center;pointer-events:none}
+.lb-actionbar{pointer-events:auto;display:inline-flex;align-items:stretch;gap:0;padding:6px;background:linear-gradient(180deg,rgba(30,24,17,.92) 0%,rgba(18,14,10,.94) 100%);border:1px solid rgba(212,160,48,.22);border-radius:999px;box-shadow:0 14px 40px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.04) inset,0 -1px 0 rgba(0,0,0,.35) inset;backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);max-width:100%;transition:opacity .25s ease,transform .25s ease}
+.lb-actionbar.is-hidden{opacity:0;transform:translateY(6px);pointer-events:none}
+.lb-actionbar.no-state .lb-state,.lb-actionbar.no-state .lb-actionbar-sep{display:none}
+.lb-actionbar.no-actions .lb-actions,.lb-actionbar.no-actions .lb-actionbar-sep{display:none}
+/* State segment — count + view-selection hint, tap toggles picks-only */
+.lb-state{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;gap:9px;padding:0 16px 0 13px;height:36px;background:transparent;border:none;border-radius:999px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:12px;letter-spacing:.3px;white-space:nowrap;cursor:pointer;transition:background .2s ease,color .2s ease;min-width:0}
+.lb-state:hover{background:rgba(196,166,126,.1)}
+.lb-state.on{background:rgba(196,166,126,.22);color:#e3b64e}
+.lb-state-dot{width:6px;height:6px;border-radius:50%;background:#e3b64e;box-shadow:0 0 8px rgba(227,182,78,.55);flex-shrink:0;transition:box-shadow .25s ease,background .25s ease}
+.lb-state.on .lb-state-dot{background:#f0c766;box-shadow:0 0 12px rgba(240,199,102,.9)}
+.lb-state-body{display:inline-flex;align-items:baseline;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lb-picks-txt{font-weight:500}
+.lb-picks-hint{color:rgba(227,182,78,.55);font-weight:400}
+.lb-state.on .lb-picks-hint{display:none}
+/* Hairline divider between state and actions */
+.lb-actionbar-sep{width:1px;background:linear-gradient(180deg,transparent 0%,rgba(212,160,48,.22) 25%,rgba(212,160,48,.22) 75%,transparent 100%);flex-shrink:0;margin:0 6px;align-self:stretch}
+/* Actions cluster */
+.lb-actions{display:inline-flex;align-items:center;gap:4px}
+.lb-action-btn{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;color:var(--cream);background:transparent;border:none;border-radius:999px;cursor:pointer;transition:background .2s ease,color .2s ease,box-shadow .2s ease;white-space:nowrap}
+.lb-action-btn:hover{background:rgba(246,241,231,.08)}
+.lb-action-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0}
+.lb-action-btn.is-primary{color:#0f0c09;background:linear-gradient(180deg,#e9c069 0%,#d4a648 100%);padding:0 16px;box-shadow:0 1px 0 rgba(255,235,190,.5) inset,0 -1px 0 rgba(90,60,10,.28) inset,0 2px 8px rgba(212,160,48,.35)}
+.lb-action-btn.is-primary:hover{background:linear-gradient(180deg,#f0c766 0%,#e0b552 100%);box-shadow:0 1px 0 rgba(255,240,200,.6) inset,0 -1px 0 rgba(90,60,10,.28) inset,0 4px 12px rgba(212,160,48,.45)}
+@media(max-width:600px){
+  .lb-bottom{padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px))}
+  .lb-actionbar{padding:5px}
+  .lb-state{height:34px;padding:0 12px 0 11px;font-size:10.5px;gap:7px}
+  .lb-action-btn{height:34px;padding:0 12px;font-size:9.5px;letter-spacing:1px;gap:5px}
+  .lb-action-btn.is-primary{padding:0 14px}
+  .lb-actionbar-sep{margin:0 3px}
+}
 .btn-short{display:none}
 @media(max-width:600px){.lb-action-btn .btn-long{display:none}.lb-action-btn .btn-short{display:inline}}
 
@@ -338,17 +364,9 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
 .lb-feedback.show{opacity:1;transform:translate(-50%,0)}
 .lb-feedback b{color:#e3b64e;font-weight:600}
 /* ── 3. Favourites inside the viewer — the count chip is now a toggle ── */
-.lb-picks{appearance:none;-webkit-appearance:none;background:rgba(196,166,126,.1);border:1px solid rgba(196,166,126,.34);border-radius:24px;padding:9px 16px;font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:#e3b64e;letter-spacing:1px;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .25s ease;margin:0}
-.lb-picks.hidden{visibility:hidden;pointer-events:none}
-.lb-picks:hover{background:rgba(196,166,126,.2)}
-.lb-picks.on{background:rgba(196,166,126,.28);border-color:rgba(227,182,78,.8);box-shadow:0 0 0 1px rgba(227,182,78,.35),0 0 18px rgba(212,160,48,.25)}
-.lb-picks .dot{width:5px;height:5px;border-radius:50%;background:#e3b64e;display:inline-block;flex-shrink:0}
-.lb-picks.on .dot{box-shadow:0 0 8px #e3b64e}
-.lb-picks.pulse{animation:chipPulse .5s ease}
-.lb-picks-hint{color:rgba(227,182,78,.55);font-weight:400}
-.lb-picks.on .lb-picks-hint{display:none}
-@keyframes chipPulse{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
-@media(max-width:600px){.lb-picks{font-size:10px;padding:8px 12px}}
+/* Chip pulse still used when a star is added */
+.lb-state.pulse{animation:chipPulse .5s ease}
+@keyframes chipPulse{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
 @media(max-width:400px){.lb-picks-hint{display:none}}
 
 /* ── 4. Grid tiles: star affordance visible on touch devices ── */
@@ -532,11 +550,20 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
         <div class="lb-film" id="lb-film"><div class="film-track" id="film-track"></div></div>
     </div>
     <div class="lb-bottom">
-        <button type="button" class="lb-picks hidden" id="lb-picks" aria-label="Your picks"><span class="dot"></span><span class="lb-picks-txt" id="lb-picks-txt">&#9733; 0 picked</span><span class="lb-picks-hint" id="lb-picks-hint"></span></button>
-        <div class="lb-bottom-actions">
-            <button class="lb-action-btn is-primary" id="lb-finalise-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-long">Finalise my picks</span><span class="btn-short">Finalise</span></button>
-            <button class="lb-action-btn is-primary" id="lb-save-all-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save all picks</span><span class="btn-short">Save all</span></button>
-            <button class="lb-action-btn" id="lb-save-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save Photo</span><span class="btn-short">Save</span></button>
+        <div class="lb-actionbar" id="lb-actionbar">
+            <button type="button" class="lb-state" id="lb-picks" aria-label="Your picks">
+                <span class="lb-state-dot"></span>
+                <span class="lb-state-body">
+                    <span class="lb-picks-txt" id="lb-picks-txt">You’ve picked 0 photos</span>
+                    <span class="lb-picks-hint" id="lb-picks-hint"></span>
+                </span>
+            </button>
+            <span class="lb-actionbar-sep" aria-hidden="true"></span>
+            <div class="lb-actions">
+                <button class="lb-action-btn" id="lb-save-btn" style="display:none;" aria-label="Save this photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save photo</span><span class="btn-short">Save</span></button>
+                <button class="lb-action-btn is-primary" id="lb-save-all-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Download my picks</span><span class="btn-short">Download all</span></button>
+                <button class="lb-action-btn is-primary" id="lb-finalise-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-long">Finalise my selection</span><span class="btn-short">Finalise</span></button>
+            </div>
         </div>
     </div>
     <!-- In-viewer guide: comprehensive walk-through, adapts to proof/delivery mode -->
@@ -1117,9 +1144,20 @@ function syncLbChrome() {
     var c = lbPickedCount();
     var isDeliv = (typeof view !== 'undefined' && view === 'delivery');
     var sb = $('lb-save-btn'), sa = $('lb-save-all-btn'), fin = $('lb-finalise-btn');
-    if (sb) sb.style.display = isDeliv ? 'inline-flex' : 'none';
-    if (sa) sa.style.display = (isDeliv && c > 0) ? 'inline-flex' : 'none';
-    if (fin) fin.style.display = (!isDeliv && c > 0) ? 'inline-flex' : 'none';
+    var showSb = isDeliv;
+    var showSa = isDeliv && c > 0;
+    var showFin = !isDeliv && c > 0;
+    if (sb) sb.style.display = showSb ? 'inline-flex' : 'none';
+    if (sa) sa.style.display = showSa ? 'inline-flex' : 'none';
+    if (fin) fin.style.display = showFin ? 'inline-flex' : 'none';
+    var hasActions = showSb || showSa || showFin;
+    var hasState = c > 0;
+    var bar = $('lb-actionbar');
+    if (bar) {
+        bar.classList.toggle('no-state', !hasState);
+        bar.classList.toggle('no-actions', !hasActions);
+        bar.classList.toggle('is-hidden', !hasState && !hasActions);
+    }
     updateLbPicks();
 }
 function updateLbPicks() {
@@ -1127,7 +1165,6 @@ function updateLbPicks() {
     if (!chip) return;
     var c = lbPickedCount();
     var txt = chip.querySelector('.lb-picks-txt') || chip;
-    chip.classList.toggle('hidden', c === 0);
     chip.classList.toggle('on', lbPicksOnly);
     chip.setAttribute('aria-pressed', lbPicksOnly ? 'true' : 'false');
     var noun = lbNoun();
@@ -1233,7 +1270,7 @@ function starFx(x, y, on, id) {
     lbAfterStarChange(id);
     if (navigator.vibrate) { try { navigator.vibrate(on ? 12 : 8); } catch (e) {} }
     var chip = $('lb-picks');
-    if (chip && !chip.classList.contains('hidden')) {
+    if (chip && lbPickedCount() > 0) {
         chip.classList.remove('pulse'); void chip.offsetWidth; chip.classList.add('pulse');
     }
     var topBtn = $('lb-star-btn');
