@@ -668,7 +668,7 @@ function freshState() {
     return { v: 2, created: Date.now(), fee: 9000,
              proofEndHr: PROOF_DAYS * 24, proofExt: 0,
              finalisedHr: null, finaliseHow: null,
-             proofStars: { 102: true, 105: true },     // she starred these two while browsing
+             proofStars: { 102: true, 105: true },     // they starred these two while browsing
              deliveryStars: {},
              deliveredHr: null, deliveryEndHr: null, deliveryExt: 0,
              payProof: 0, payDelivery: 0,
@@ -766,7 +766,7 @@ function decide() {
 }
 function applyBoundaries() {
     // Auto-lock: when the proof window ends without a manual finalise,
-    // whatever she has starred becomes her locked pick list. No chasing.
+    // whatever they've starred becomes their locked pick list. No chasing.
     if (view === 'proof' && S.finalisedHr === null && nowHr() >= S.proofEndHr && pickCount() > 0) {
         S.finalisedHr = S.proofEndHr; S.finaliseHow = 'auto';
         log('Picks auto-locked when the window ended (' + pickCount() + ' photos)');
@@ -865,7 +865,7 @@ function renderOpenGallery() {
         if (showingFavs) window.scrollTo({ top: $('gallery-header').offsetTop, behavior: 'smooth' });
     };
 
-    // finished prompt (proof only, once she has picks)
+    // finished prompt (proof only, once they have picks)
     var fp = $('finished-prompt');
     fp.style.display = isDeliv ? 'none' : (pickCount() > 0 ? 'block' : 'none');
     var fb = $('finished-btn');
@@ -1626,7 +1626,7 @@ function startFinalise() {
 function doFinalise(how) {
     if (S.finalisedHr !== null) return;
     S.finalisedHr = nowHr(); S.finaliseHow = how;
-    log('Adaeze ' + (how === 'auto' ? 'auto-locked' : 'finalised') + ' ' + pickCount() + ' picks');
+    log('The client ' + (how === 'auto' ? 'auto-locked' : 'finalised') + ' ' + pickCount() + ' picks');
     save(); hideMo(); gate = '';
     toast('\u2713 Picks locked \u2014 Liberty is editing your ' + pickCount() + ' photos');
     renderNow();
@@ -1841,40 +1841,40 @@ function renderStudio() {
                 '<div class="st-section-title" style="margin-top:4px">Proof phase \u00b7 client picks their favourites</div>' +
 
                 '<div class="st-row"><span class="st-name"><b>Proof gallery link</b>' +
-                    '<span class="st-help">The link Adaeze uses to browse the shoot and star the photos she loves.</span></span>' +
+                    '<span class="st-help">The link the client uses to browse the shoot and star the photos they love.</span></span>' +
                     statusProof + '</div>' +
 
                 (finalised
                     ? '<div class="st-row"><span class="st-name"><b>Picks locked</b>' +
                         '<span class="st-help">' + lockedWhen + '</span></span>' + lockedAt + '</div>' +
-                      '<div class="st-thumbs" title="The photos she picked">' + thumbsHtml + '</div>'
+                      '<div class="st-thumbs" title="The photos the client picked">' + thumbsHtml + '</div>'
                     : '') +
 
                 '<div class="st-row"><span class="st-name"><b>Window extensions</b>' +
-                    '<span class="st-help">Times Adaeze paid to reopen the proof window after it closed.</span></span>' +
+                    '<span class="st-help">Times the client paid to reopen the proof window after it closed.</span></span>' +
                     '<span class="st-sub">' + extProofLabel + '</span></div>' +
 
                 '<div class="st-section-title" style="margin-top:16px">Delivery phase \u00b7 you edit &amp; publish the finals</div>' +
 
                 '<div class="st-row"><span class="st-name"><b>Delivery gallery link</b>' +
-                    '<span class="st-help">The paired link she uses to view and download your edited finals.</span></span>' +
+                    '<span class="st-help">The paired link the client uses to view and download your edited finals.</span></span>' +
                     statusDeliv + '</div>' +
 
                 '<div class="st-row"><span class="st-name"><b>Download extensions</b>' +
-                    '<span class="st-help">Times Adaeze paid to reopen the delivery window after it closed.</span></span>' +
+                    '<span class="st-help">Times the client paid to reopen the delivery window after it closed.</span></span>' +
                     '<span class="st-sub">' + extDelivLabel + '</span></div>' +
 
                 (n === 0
                     ? '<button class="st-primary" disabled>Waiting for picks \u2014 nothing to deliver yet</button>' +
-                      '<p class="st-cta-note">This button turns on once Adaeze has picked at least one photo.</p>'
+                      '<p class="st-cta-note">This button turns on once the client has picked at least one photo.</p>'
                     : delivered
-                        ? '<button class="st-primary" disabled>\u2713 Delivered \u2014 ' + n + ' finals live for Adaeze</button>' +
-                          '<p class="st-cta-note">The delivery link is live. Adaeze can view and download her finals.</p>'
+                        ? '<button class="st-primary" disabled>\u2713 Delivered \u2014 ' + n + ' finals live for the client</button>' +
+                          '<p class="st-cta-note">The delivery link is live. The client can view and download their finals.</p>'
                         : '<button class="st-primary" id="st-deliver">Deliver picks \u2192 publish ' + n + ' final' + (n === 1 ? '' : 's') + '</button>' +
-                          '<p class="st-cta-note">Creates the paired delivery gallery with her ' + n + ' picked photo' + (n === 1 ? '' : 's') + ' and opens the download window.</p>') +
+                          '<p class="st-cta-note">Creates the paired delivery gallery with their ' + n + ' picked photo' + (n === 1 ? '' : 's') + ' and opens the download window.</p>') +
 
-                '<button class="st-ghost" id="st-open-proof">Open the proof link as Adaeze</button>' +
-                (delivered ? '<button class="st-ghost" id="st-open-delivery">Open the delivery link as Adaeze</button>' : '') +
+                '<button class="st-ghost" id="st-open-proof">Open the proof link as the client</button>' +
+                (delivered ? '<button class="st-ghost" id="st-open-delivery">Open the delivery link as the client</button>' : '') +
             '</div>' +
 
             '<div class="st-card"><h4>Settings</h4>' +
@@ -1926,9 +1926,9 @@ function runEditSim() {
             $('mo-title').textContent = 'Delivery gallery is live';
             $('mo-body').innerHTML =
                 '<p style="text-align:center"><span style="font-size:34px;color:#7fc96f">\u2713</span></p>' +
-                '<p>All ' + picks.length + ' finals are published. Adaeze\u2019s delivery link now opens her edited gallery with a <strong>7-day download window</strong>.</p>';
+                '<p>All ' + picks.length + ' finals are published. The client\u2019s delivery link now opens their edited gallery with a <strong>7-day download window</strong>.</p>';
             var okBtn = $('mo-ok');
-            okBtn.style.display = 'block'; okBtn.textContent = 'View it as Adaeze';
+            okBtn.style.display = 'block'; okBtn.textContent = 'View it as the client';
             okBtn.onclick = function () { hideMo(); view = 'delivery'; gate = ''; openView('delivery'); };
             $('mo-cancel').style.display = 'none';
             toast('Delivered \u2014 delivery link is live');
