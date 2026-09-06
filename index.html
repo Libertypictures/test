@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Outfit:wght@200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
-:root{--bg:#0f0c09;--surface:#1a1714;--surface2:#232019;--cream:#f6f1e7;--cream-soft:rgba(246,241,231,0.7);--cream-faint:rgba(246,241,231,0.4);--accent:#c4a67e;--accent-deep:#a3835c;--border:rgba(246,241,231,0.12);--gold-glow:rgba(196,166,126,0.25)}
+:root{--bg:#0f0c09;--surface:#1a1714;--surface2:#232019;--cream:#f6f1e7;--cream-soft:rgba(246,241,231,0.7);--cream-faint:rgba(246,241,231,0.4);--accent:#c4a67e;--accent-deep:#a3835c;--border:rgba(246,241,231,0.12);--gold-glow:rgba(196,166,126,0.25);--strip-surface:#38322b}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--cream);-webkit-font-smoothing:antialiased;-webkit-overflow-scrolling:touch}
 img{display:block;max-width:100%}
@@ -132,7 +132,7 @@ a{color:inherit}
 
 /* FILM RAIL — vertical perforated contact sheet along the stage's
    right edge, the same design language as the homepage viewer. */
-.lb-film{width:min(150px,23vw);flex-shrink:0;position:relative;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-y:contain;border-left:1px solid var(--border);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.4));-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.08) 0.4%,rgba(0,0,0,0.25) 0.9%,rgba(0,0,0,0.5) 1.4%,rgba(0,0,0,0.78) 1.9%,black 2.5%,black 97.5%,rgba(0,0,0,0.78) 98.1%,rgba(0,0,0,0.5) 98.6%,rgba(0,0,0,0.25) 99.1%,rgba(0,0,0,0.08) 99.6%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.08) 0.4%,rgba(0,0,0,0.25) 0.9%,rgba(0,0,0,0.5) 1.4%,rgba(0,0,0,0.78) 1.9%,black 2.5%,black 97.5%,rgba(0,0,0,0.78) 98.1%,rgba(0,0,0,0.5) 98.6%,rgba(0,0,0,0.25) 99.1%,rgba(0,0,0,0.08) 99.6%,transparent 100%)}
+.lb-film{width:min(150px,23vw);flex-shrink:0;position:relative;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-y:contain;background:var(--strip-surface);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.4));-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.08) 0.4%,rgba(0,0,0,0.25) 0.9%,rgba(0,0,0,0.5) 1.4%,rgba(0,0,0,0.78) 1.9%,black 2.5%,black 97.5%,rgba(0,0,0,0.78) 98.1%,rgba(0,0,0,0.5) 98.6%,rgba(0,0,0,0.25) 99.1%,rgba(0,0,0,0.08) 99.6%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.08) 0.4%,rgba(0,0,0,0.25) 0.9%,rgba(0,0,0,0.5) 1.4%,rgba(0,0,0,0.78) 1.9%,black 2.5%,black 97.5%,rgba(0,0,0,0.78) 98.1%,rgba(0,0,0,0.5) 98.6%,rgba(0,0,0,0.25) 99.1%,rgba(0,0,0,0.08) 99.6%,transparent 100%)}
 .lb-film::-webkit-scrollbar{display:none}
 .film-track{display:flex;flex-direction:column;position:relative;gap:0;background:none}
 .film-thumb{position:relative;width:100%;aspect-ratio:400/560;border:none;padding:0;cursor:pointer;display:block;flex-shrink:0;background-color:transparent;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='fb' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%230a0805'/%3E%3Cstop offset='0.5' stop-color='%2316100a'/%3E%3Cstop offset='1' stop-color='%230a0805'/%3E%3C/linearGradient%3E%3ClinearGradient id='fw' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23050403'/%3E%3Cstop offset='1' stop-color='%23070604'/%3E%3C/linearGradient%3E%3Cmask id='m'%3E%3Crect x='0' y='0' width='400' height='560' fill='white'/%3E%3Crect x='16' y='40' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='120' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='200' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='280' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='360' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='440' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='16' y='520' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='40' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='120' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='200' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='280' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='360' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='440' width='22' height='16' rx='2' fill='black'/%3E%3Crect x='362' y='520' width='22' height='16' rx='2' fill='black'/%3E%3C/mask%3E%3C/defs%3E%3Crect x='0' y='0' width='400' height='560' fill='url(%23fb)' mask='url(%23m)'/%3E%3Crect x='70' y='15' width='260' height='530' fill='url(%23fw)'/%3E%3C/svg%3E");background-size:100% 100%;background-repeat:no-repeat}
@@ -144,9 +144,9 @@ a{color:inherit}
 .film-thumb.is-landscape img{left:-16.25%;top:26.79%;width:132.5%;height:46.43%;max-width:none;transform:rotate(90deg)}
 .film-thumb.is-active::after{content:'';position:absolute;pointer-events:none;left:17.5%;top:2.68%;width:65%;height:94.64%;box-shadow:inset 0 0 0 1.5px #d4a030;z-index:4}
 .film-thumb .frame-num,.film-thumb .brand-text{position:absolute;top:50%;font-family:'Share Tech Mono','Courier New',monospace;font-weight:700;color:#d4a030;text-shadow:0 1px 2px rgba(0,0,0,0.85);pointer-events:none;line-height:1;z-index:3;white-space:nowrap}
-.film-thumb .frame-num{right:11%;transform:translate(50%,-50%) rotate(-90deg);transform-origin:center;font-size:7px;letter-spacing:0.3px}
+.film-thumb .frame-num{right:11%;transform:translate(50%,-50%) rotate(-90deg);transform-origin:center;font-size:5.5px;letter-spacing:0.3px}
 .film-thumb .frame-num::before{content:'\25B6 ';opacity:0.9}
-.film-thumb .brand-text{left:13%;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center;font-size:5px;letter-spacing:1.2px;text-transform:uppercase}
+.film-thumb .brand-text{left:13%;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center;font-size:4px;letter-spacing:1.2px;text-transform:uppercase}
 /* Gold keep-mark star on starred frames — the favourites system
    lives right on the film. */
 .film-star{position:absolute;top:4.5%;right:18.5%;width:11%;height:11%;display:none;align-items:center;justify-content:center;z-index:5;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.9))}
@@ -303,21 +303,12 @@ html.lp-demo .gallery-header{top:44px}
 button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit;text-align:center}
 .state-screen .lock-card .lock-cta{margin-top:4px}
 
-/* ═══ VIEWER v2 upgrades — warm visible-sprocket film, tap-to-star bursts,
-      favourites-inside-the-viewer chip, and the layered first-open tour ═══ */
+/* ═══ VIEWER v2 upgrades — tap-to-star bursts, favourites-inside-the-
+      viewer chip, star pop/glow. Film-strip design lives in the base
+      .film-thumb rules above and matches the live homepage sprocket:
+      mask-based perforations against --strip-surface. ═══ */
 
-/* ── 1. Film frame: warm celluloid base with LIT sprocket wells.
-   The old frame punched the perforations out to transparent — invisible
-   against the near-black stage. Now each frame is warm film stock with
-   deep wells + warm rims, so the perforations read like the homepage. ── */
-.film-thumb{
-  background-color:transparent;
-  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='fb' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23241709'/%3E%3Cstop offset='0.15' stop-color='%233a2914'/%3E%3Cstop offset='0.34' stop-color='%234c371b'/%3E%3Cstop offset='0.5' stop-color='%23553d1e'/%3E%3Cstop offset='0.66' stop-color='%234c371b'/%3E%3Cstop offset='0.85' stop-color='%233a2914'/%3E%3Cstop offset='1' stop-color='%23241709'/%3E%3C/linearGradient%3E%3ClinearGradient id='fv' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23000000' stop-opacity='0.6'/%3E%3Cstop offset='0.035' stop-color='%23000000' stop-opacity='0'/%3E%3Cstop offset='0.965' stop-color='%23000000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000000' stop-opacity='0.6'/%3E%3C/linearGradient%3E%3CradialGradient id='hd' cx='0.42' cy='0.38' r='0.85'%3E%3Cstop offset='0' stop-color='%230d0905'/%3E%3Cstop offset='0.55' stop-color='%23050403'/%3E%3Cstop offset='1' stop-color='%23020101'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='400' height='560' fill='url(%23fb)'/%3E%3Crect width='400' height='560' fill='url(%23fv)'/%3E%3Cg%3E%3Crect x='14' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='520' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='520' width='24' height='17' rx='3.5'/%3E%3C/g%3E%3Cg fill='none' stroke='%23c8a256' stroke-opacity='0.4'%3E%3Crect x='14' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='14' y='520' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='40' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='120' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='200' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='280' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='360' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='440' width='24' height='17' rx='3.5'/%3E%3Crect x='362' y='520' width='24' height='17' rx='3.5'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:100% 100%;background-repeat:no-repeat;
-}
-/* hairline gold shimmer on the ACTIVE frame so sprockets get their moment */
-.film-thumb.is-active{filter:brightness(1.12)}
-/* ── 2. Starring delights ── */
+/* ── Starring delights ── */
 /* keep-mark on the frame pops in */
 .film-star svg{transform-origin:center;transition:transform .3s cubic-bezier(.2,.9,.3,1.6),filter .3s}
 .film-star.pop svg{animation:starPop .5s cubic-bezier(.2,.9,.3,1.8)}
