@@ -346,9 +346,6 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
 .lb-feedback{position:absolute;left:50%;bottom:34px;transform:translate(-50%,14px);z-index:15;pointer-events:none;background:rgba(18,14,9,.92);border:1px solid rgba(212,160,48,.55);color:#f3e3c0;font-family:'Outfit',sans-serif;font-size:12.5px;letter-spacing:.5px;padding:10px 18px;border-radius:30px;opacity:0;transition:opacity .22s ease,transform .22s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 12px 30px rgba(0,0,0,.5);white-space:nowrap}
 .lb-feedback.show{opacity:1;transform:translate(-50%,0)}
 .lb-feedback b{color:#e3b64e;font-weight:600}
-/* ghost tap star preview while touring */
-.lb-burst.preview .st{animation:none;opacity:.92;transform:scale(1)}
-
 /* ── 3. Favourites inside the viewer — the count chip is now a toggle ── */
 .lb-picks{appearance:none;-webkit-appearance:none;background:rgba(196,166,126,.1);border:1px solid rgba(196,166,126,.34);border-radius:24px;padding:9px 16px;font-family:'Share Tech Mono','Courier New',monospace;font-size:12px;color:#e3b64e;letter-spacing:1px;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .25s ease;margin:0}
 .lb-picks.hidden{visibility:hidden;pointer-events:none}
@@ -357,8 +354,11 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
 .lb-picks .dot{width:5px;height:5px;border-radius:50%;background:#e3b64e;display:inline-block;flex-shrink:0}
 .lb-picks.on .dot{box-shadow:0 0 8px #e3b64e}
 .lb-picks.pulse{animation:chipPulse .5s ease}
+.lb-picks-hint{color:rgba(227,182,78,.55);font-weight:400}
+.lb-picks.on .lb-picks-hint{display:none}
 @keyframes chipPulse{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
 @media(max-width:600px){.lb-picks{font-size:10px;padding:8px 12px}}
+@media(max-width:400px){.lb-picks-hint{display:none}}
 
 /* ── 4. Grid tiles: star affordance visible on touch devices ── */
 @media (hover:none),(pointer:coarse){
@@ -366,22 +366,41 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
   .g-tile.is-starred .g-tile-star{background:rgba(196,166,126,.45)}
 }
 
-/* ── 5. Layered first-open tour (premium hand outline) ── */
-.lb-guide{position:absolute;inset:0;z-index:60;background:radial-gradient(130% 120% at 50% 42%,rgba(8,6,4,.12) 0%,rgba(8,6,4,.62) 100%);backdrop-filter:blur(2.5px);-webkit-backdrop-filter:blur(2.5px)}
-.lb-guide .lg-hand{position:absolute;color:#e3b64e;filter:drop-shadow(0 0 16px rgba(227,182,78,.55)) drop-shadow(0 6px 14px rgba(0,0,0,.65));transition:left .55s cubic-bezier(.3,.8,.35,1),top .55s cubic-bezier(.3,.8,.35,1),opacity .4s ease,transform .55s cubic-bezier(.3,.8,.35,1);opacity:0;will-change:left,top,transform;transform:translate(-50%,-50%)}
-.lb-guide .lg-hand svg{display:block;width:52px;height:82px;overflow:visible}
-.lb-guide .lg-hand .tapdot{display:none}
-.lb-guide .lg-hand.tapping .tapdot{display:block;position:absolute;left:50%;top:-2px;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1.5px solid rgba(227,182,78,.85);animation:tapDot .55s ease-out forwards}
-@keyframes tapDot{0%{transform:scale(.3);opacity:1}100%{transform:scale(1.6);opacity:0}}
-.lb-guide .lg-cap{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);max-width:82vw;text-align:center;background:rgba(16,12,8,.88);border:1px solid rgba(212,160,48,.5);box-shadow:0 18px 50px rgba(0,0,0,.55);border-radius:14px;padding:13px 22px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14.5px;letter-spacing:.3px;line-height:1.55;opacity:0;transition:opacity .35s ease}
-.lb-guide .lg-cap b{color:#e3b64e;font-weight:600}
-.lb-guide .lg-cap small{display:block;margin-top:3px;color:var(--cream-faint);font-size:10px;letter-spacing:1.6px;text-transform:uppercase}
-.lb-guide .lg-steps{position:absolute;top:64px;left:0;right:0;display:flex;justify-content:center;gap:7px}
-.lb-guide .lg-steps i{width:6px;height:6px;border-radius:50%;background:rgba(246,241,231,.28);transition:all .3s ease}
-.lb-guide .lg-steps i.on{background:#e3b64e;box-shadow:0 0 8px rgba(227,182,78,.9);transform:scale(1.25)}
-.lb-guide .lg-skip{position:absolute;top:56px;right:14px;background:rgba(16,12,8,.6);border:1px solid rgba(246,241,231,.3);color:var(--cream-soft);font-family:'Outfit',sans-serif;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:20px;cursor:pointer;transition:all .2s}
-.lb-guide .lg-skip:hover{color:#0f0c09;background:#e3b64e;border-color:#e3b64e}
-.lb-guide .lg-fade{opacity:0 !important;transition:opacity .3s ease}
+/* ── 5. In-viewer guide: comprehensive walk-through of the system ── */
+.lb-guide{position:absolute;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(140% 120% at 50% 40%,rgba(8,6,4,.55) 0%,rgba(8,6,4,.86) 100%);backdrop-filter:blur(6px) saturate(140%);-webkit-backdrop-filter:blur(6px) saturate(140%);opacity:0;transition:opacity .28s ease}
+.lb-guide.open{display:flex;opacity:1}
+.lg-card{position:relative;width:100%;max-width:460px;max-height:calc(100vh - 40px);overflow-y:auto;background:linear-gradient(180deg,rgba(24,18,12,.98) 0%,rgba(16,12,8,.98) 100%);border:1px solid rgba(212,160,48,.32);box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px rgba(227,182,78,.08);border-radius:18px;padding:28px 24px 22px;color:var(--cream);-webkit-overflow-scrolling:touch}
+.lg-card::-webkit-scrollbar{width:6px}
+.lg-card::-webkit-scrollbar-thumb{background:rgba(227,182,78,.28);border-radius:3px}
+.lg-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(246,241,231,.08);border:none;color:var(--cream-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s ease}
+.lg-close:hover{background:rgba(246,241,231,.16);color:var(--cream)}
+.lg-close svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.lg-kicker{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#e3b64e;opacity:.85;margin-bottom:8px}
+.lg-title{font-family:'Fraunces','Playfair Display',serif;font-weight:500;font-size:24px;line-height:1.25;letter-spacing:.2px;color:var(--cream);margin:0 0 6px}
+.lg-lead{font-family:'Outfit',sans-serif;font-size:13px;line-height:1.55;color:var(--cream-faint);margin:0 0 20px}
+.lg-steps-list{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.lg-step{display:flex;gap:12px;align-items:flex-start}
+.lg-step-ico{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:rgba(196,166,126,.14);border:1px solid rgba(212,160,48,.3);display:flex;align-items:center;justify-content:center;color:#e3b64e}
+.lg-step-ico svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lg-step-ico.filled svg{fill:currentColor;stroke:currentColor}
+.lg-step-body{flex:1;min-width:0}
+.lg-step-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:.2px;color:var(--cream);margin:0 0 3px}
+.lg-step-txt{font-family:'Outfit',sans-serif;font-size:12.5px;line-height:1.55;color:var(--cream-soft);margin:0}
+.lg-step-txt b{color:#e3b64e;font-weight:600}
+.lg-note{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border-radius:10px;background:rgba(196,166,126,.08);border:1px solid rgba(212,160,48,.18);margin:0 0 20px}
+.lg-note svg{flex-shrink:0;width:14px;height:14px;margin-top:2px;fill:none;stroke:#e3b64e;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lg-note p{font-family:'Outfit',sans-serif;font-size:11.5px;line-height:1.5;color:var(--cream-faint);margin:0}
+.lg-cta{display:block;width:100%;padding:13px 20px;background:#e3b64e;color:#0f0c09;border:none;border-radius:30px;font-family:'Outfit',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s ease}
+.lg-cta:hover{background:#f0c766}
+/* Help button in the viewer top bar */
+.lb-help-btn{width:32px;height:32px;border-radius:50%;background:rgba(246,241,231,.06);border:1px solid rgba(246,241,231,.12);color:var(--cream-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:all .2s ease;margin-left:8px}
+.lb-help-btn:hover{background:rgba(227,182,78,.16);color:#e3b64e;border-color:rgba(212,160,48,.4)}
+@media(max-width:600px){
+  .lg-card{padding:24px 20px 20px;max-height:calc(100vh - 24px)}
+  .lg-title{font-size:21px}
+  .lg-lead{font-size:12.5px;margin-bottom:18px}
+  .lb-help-btn{width:30px;height:30px;font-size:12px;margin-left:6px}
+}
 </style>
 </head>
 <body>
@@ -507,7 +526,10 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
     <div class="lb-top">
         <button class="lb-close" id="lb-close-btn" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         <span class="lb-counter" id="lb-counter"></span>
-        <button class="lb-star-btn" id="lb-star-btn" aria-label="Star this photo"><svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        <span style="display:inline-flex;align-items:center">
+            <button class="lb-help-btn" id="lb-help-btn" aria-label="How this gallery works" title="How this gallery works">?</button>
+            <button class="lb-star-btn" id="lb-star-btn" aria-label="Star this photo"><svg viewBox="0 0 24 24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+        </span>
     </div>
     <div class="lb-main">
         <div class="lb-stage" id="lb-stage">
@@ -518,18 +540,29 @@ button.lock-cta{display:block;width:100%;border:none;cursor:pointer;font:inherit
         <div class="lb-film" id="lb-film"><div class="film-track" id="film-track"></div></div>
     </div>
     <div class="lb-bottom">
-        <button type="button" class="lb-picks hidden" id="lb-picks" aria-label="Your picks"><span class="dot"></span><span class="lb-picks-txt" id="lb-picks-txt">&#9733; 0 picked</span></button>
+        <button type="button" class="lb-picks hidden" id="lb-picks" aria-label="Your picks"><span class="dot"></span><span class="lb-picks-txt" id="lb-picks-txt">&#9733; 0 picked</span><span class="lb-picks-hint" id="lb-picks-hint"></span></button>
         <div class="lb-bottom-actions">
             <button class="lb-action-btn is-primary" id="lb-finalise-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span class="btn-long">Finalise my picks</span><span class="btn-short">Finalise</span></button>
             <button class="lb-action-btn is-primary" id="lb-save-all-btn" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save all picks</span><span class="btn-short">Save all</span></button>
             <button class="lb-action-btn" id="lb-save-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span class="btn-long">Save Photo</span><span class="btn-short">Save</span></button>
         </div>
     </div>
-    <div class="lb-guide" id="lb-guide" style="display:none">
-        <div class="lg-steps"><i class="on"></i><i></i><i></i></div>
-        <button type="button" class="lg-skip" id="lg-skip">Skip</button>
-        <div class="lg-hand" id="lg-hand" style="opacity:0"><span class="tapdot"></span><svg viewBox="0 0 56 90" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="15" r="5.5"/><path d="M28 23 V54" stroke-width="10"/><path d="M23.5 36 h9" stroke-width="2.6" opacity="0.85"/><path d="M23.5 46 h9" stroke-width="2.6" opacity="0.85"/><path d="M28 57 C23 61 19 67 20 74" stroke-width="7"/><path d="M34 57 C41 60 45 67 43 74" stroke-width="7"/><path d="M24 82 C28 86 36 86 39 81" stroke-width="7"/></svg></div>
-        <div class="lg-cap" id="lg-cap"></div>
+    <!-- In-viewer guide: comprehensive walk-through, adapts to proof/delivery mode -->
+    <div class="lb-guide" id="lb-guide" role="dialog" aria-modal="true" aria-labelledby="lg-title">
+        <div class="lg-card" id="lg-card">
+            <button type="button" class="lg-close" id="lg-close" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            <div class="lg-kicker" id="lg-kicker">Your gallery</div>
+            <h2 class="lg-title" id="lg-title">How this gallery works</h2>
+            <p class="lg-lead" id="lg-lead">A short walk-through of everything you can do here. You can reopen this anytime from the <b style="color:#e3b64e">?</b> in the top bar.</p>
+            <div class="lg-steps-list" id="lg-steps-list">
+                <!-- Populated by fillLbGuide() -->
+            </div>
+            <div class="lg-note" id="lg-note">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <p id="lg-note-txt">Your gallery is open for a set number of days. If you need more time after it closes, you can extend it with a small fee — nothing is deleted.</p>
+            </div>
+            <button type="button" class="lg-cta" id="lg-cta">Start</button>
+        </div>
     </div>
 </div>
 
@@ -915,7 +948,6 @@ function starSemanticsTitle() { return view === 'delivery' ? 'Keep this final fo
 var savedScrollY = 0, filmThumbs = [], filmListKey = '', lastTapAt = 0;
 var lbPicksOnly = false;              // viewer filtered to starred photos
 var lbOrder = [];                     // currently browsable photos
-var lbTourTimers = [];
 
 function lbNoun() {
     // chip noun: proof uses 'picked', delivery uses 'kept', generic uses 'favourites'
@@ -934,9 +966,9 @@ function lbFilmNeg() {
     if (typeof FILM_NEGATIVE !== 'undefined') return FILM_NEGATIVE;
     return (typeof view !== 'undefined' && view === 'delivery');
 }
-function lbTourKey() {
+function lbGuideKey() {
     var m = (typeof view !== 'undefined' && view === 'delivery') ? 'deliv' : 'proof';
-    return 'lp-viewer-tour-' + m;
+    return 'lp-viewer-guide-' + m;
 }
 function lbCur() { return lbOrder.length ? lbOrder[currentLbIdx].p : null; }
 function orderIndexById(id) {
@@ -1052,11 +1084,11 @@ function openLightbox(idx) {
     applyLb();
     syncLbChrome();
     preloadLbNeighbors();
-    maybeStartLbTour();
+    maybeShowLbGuide();
 }
 function closeLightbox() {
     $('lightbox').classList.remove('active');
-    stopLbTour();
+    hideLbGuide();
     document.body.style.position = ''; document.body.style.top = ''; document.body.style.width = '';
     if (savedScrollY) window.scrollTo(0, savedScrollY);
 }
@@ -1108,10 +1140,15 @@ function updateLbPicks() {
     chip.classList.toggle('on', lbPicksOnly);
     chip.setAttribute('aria-pressed', lbPicksOnly ? 'true' : 'false');
     var noun = lbNoun();
-    txt.textContent = lbPicksOnly
-        ? '\u2605 ' + c + ' \u00b7 ' + lbOnlyNoun() + ' only \u2715'
-        : 'You\u2019ve ' + noun + ' ' + c + ' photo' + (c === 1 ? '' : 's');
-    chip.title = c ? (lbPicksOnly ? 'Show all photos again' : 'View only the photos you starred') : '';
+    var hint = $('lb-picks-hint');
+    if (lbPicksOnly) {
+        txt.textContent = '\u2605 ' + c + ' \u00b7 ' + lbOnlyNoun() + ' only \u2715';
+        if (hint) hint.textContent = '';
+    } else {
+        txt.textContent = 'You\u2019ve ' + noun + ' ' + c + ' photo' + (c === 1 ? '' : 's');
+        if (hint) hint.textContent = ' / view selection';
+    }
+    chip.title = c ? (lbPicksOnly ? 'Show all photos again' : 'View only the photos you ' + noun) : '';
 }
 function updateLbUi() { syncLbChrome(); }
 
@@ -1235,119 +1272,123 @@ function prewarmLb() {
     for (var i = 0; i < n; i++) { var im = new Image(); im.src = API + lbOrder[i].p.url; }
 }
 
-/* ---------- first-open layered tour ---------- */
-function maybeStartLbTour() {
-    var g = $('lb-guide');
-    if (!g) return;
-    var key = lbTourKey(), seen = 0;
-    try { seen = parseInt(sessionStorage.getItem(key), 10) || 0; } catch (e) {}
-    if (seen >= 2) return;
-    try { sessionStorage.setItem(key, String(seen + 1)); } catch (e) {}
-    startLbTour();
+/* ---------- in-viewer guide (comprehensive walk-through) ----------
+   Replaces the old animated hand tour. Static, adapts to view mode
+   (proof / delivery / generic), scrollable on mobile, dismissible.
+   Auto-shows once per session per mode; reopenable from the ? button. */
+
+function lbGuideIcons() {
+    // Returns SVG snippets keyed by step slug. Kept inline so the guide
+    // works even when external icon libs are blocked.
+    return {
+        browse: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>',
+        swipe:  '<svg viewBox="0 0 24 24"><path d="M4 12h16"/><polyline points="8 6 4 12 8 18"/><polyline points="16 6 20 12 16 18"/></svg>',
+        star:   '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+        chip:   '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>',
+        deliver:'<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+        download:'<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'
+    };
 }
-function stopLbTour() {
-    lbTourTimers.forEach(clearTimeout);
-    lbTourTimers = [];
-    var g = $('lb-guide');
-    if (!g) return;
-    g.style.display = 'none';
-    var hand = g.querySelector('.lg-hand');
-    if (hand) { hand.classList.remove('tapping'); hand.style.opacity = 0; }
+
+function lbGuideContent() {
+    // The copy for each mode. Keys match view: 'proof', 'delivery', else generic.
+    var mode = (typeof view !== 'undefined') ? view : 'proof';
+    var isDeliv = mode === 'delivery';
+    var pickVerb = isDeliv ? 'keep' : 'pick';
+    var pickedNoun = isDeliv ? 'kept' : 'picked';
+    var picksLabel = isDeliv ? 'kept finals' : 'picks';
+
+    var steps = [
+        {
+            ico: 'browse',
+            title: isDeliv ? 'Your edited finals' : 'Browse the shoot',
+            body: isDeliv
+                ? 'Scroll through your delivered finals. Tap any photo to open the <b>film viewer</b> full-screen.'
+                : 'Scroll through the film grid. Tap any photo to open the <b>film viewer</b> full-screen.'
+        },
+        {
+            ico: 'swipe',
+            title: 'Move through the roll',
+            body: 'Swipe left or right on the photo. Or tap any frame on the <b>film strip</b> below to jump straight to that shot.'
+        },
+        {
+            ico: 'star',
+            title: isDeliv ? 'Keep the finals you want' : 'Pick the photos you love',
+            body: isDeliv
+                ? 'Tap the photo or the <b>\u2605</b> to keep it for downloading. A gold star lands on its film frame.'
+                : 'Tap the photo or the <b>\u2605</b> to pick it for editing. A gold star lands on its film frame.'
+        },
+        {
+            ico: 'chip',
+            title: 'See only your ' + picksLabel,
+            body: 'The counter at the lower-left shows what you\u2019ve ' + pickedNoun + ' so far. Tap it to filter the film to just those photos \u2014 tap again for the full roll.'
+        },
+        {
+            ico: isDeliv ? 'download' : 'deliver',
+            title: isDeliv ? 'Download when you\u2019re ready' : 'When you\u2019re done',
+            body: isDeliv
+                ? 'Use <b>Download my picks</b> to save every kept final at once, or <b>Save Photo</b> for the one you\u2019re viewing.'
+                : 'Tap <b>Finalise my selection</b>. Liberty gets your list and starts editing your finals. Until you finalise, you can change your picks anytime.'
+        }
+    ];
+
+    var note = isDeliv
+        ? 'Your finals are downloadable for 7 days after delivery. If the window closes, you can extend it with a small fee \u2014 nothing is deleted.'
+        : 'Your gallery is open for a set number of days. If the window ends before you finalise, your current picks lock in automatically. You can extend the window with a small fee.';
+
+    return {
+        kicker: isDeliv ? 'Your finals' : 'Your gallery',
+        title: isDeliv ? 'How to download your finals' : 'How this gallery works',
+        lead: 'A short walk-through of everything you can do here. You can reopen this anytime from the <b style="color:#e3b64e">?</b> in the top bar.',
+        steps: steps,
+        note: note,
+        cta: isDeliv ? 'Start browsing your finals' : 'Start ' + pickVerb + 'ing'
+    };
 }
-function tourAt(ms, fn) { lbTourTimers.push(setTimeout(fn, ms)); }
-function startLbTour() {
-    var g = $('lb-guide');
+
+function fillLbGuide() {
+    var c = lbGuideContent();
+    var icons = lbGuideIcons();
+    var set = function (id, html) { var n = document.getElementById(id); if (n) n.innerHTML = html; };
+    set('lg-kicker', c.kicker);
+    set('lg-title', c.title);
+    set('lg-lead', c.lead);
+    set('lg-note-txt', c.note);
+    var cta = document.getElementById('lg-cta');
+    if (cta) cta.textContent = c.cta;
+    var list = document.getElementById('lg-steps-list');
+    if (!list) return;
+    list.innerHTML = c.steps.map(function (s) {
+        var iconClass = (s.ico === 'star') ? 'lg-step-ico filled' : 'lg-step-ico';
+        return '<div class="lg-step">' +
+            '<div class="' + iconClass + '">' + (icons[s.ico] || '') + '</div>' +
+            '<div class="lg-step-body">' +
+                '<div class="lg-step-title">' + s.title + '</div>' +
+                '<p class="lg-step-txt">' + s.body + '</p>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+function showLbGuide() {
+    var g = document.getElementById('lb-guide');
     if (!g) return;
-    var hand = g.querySelector('.lg-hand');
-    var cap = g.querySelector('.lg-cap');
-    var dots = g.querySelectorAll('.lg-steps i');
-    var stage = $('lb-stage'), film = $('lb-film');
-    if (!stage) return;
-    var sr = stage.getBoundingClientRect();
-    var hasFilm = film && film.style.display !== 'none' && film.offsetWidth > 0;
-    var fr = hasFilm ? film.getBoundingClientRect() : null;
-    var steps = hasFilm ? 3 : 2;
-    var off = function () { return 'translate(-50%,-22%)'; };
-    var mv = function (x, y, rot, op) {
-        hand.style.left = x + 'px'; hand.style.top = y + 'px';
-        hand.style.transform = 'translate(-50%,-22%) rotate(' + (rot || 0) + 'deg)';
-        hand.style.opacity = (op === undefined ? 1 : op);
-    };
-    var dot = function (i) {
-        dots.forEach(function (d, di) { d.classList.toggle('on', di === i); });
-    };
-    var tapHand = function (times, gap) {
-        var c = 0;
-        var tap = function () {
-            if (c >= times) return;
-            c++;
-            hand.classList.add('tapping');
-            setTimeout(function () { hand.classList.remove('tapping'); }, 240);
-            if (c < times) setTimeout(tap, gap);
-        };
-        tap();
-    };
-    g.style.display = 'flex';
-    void g.offsetWidth;
-    var cap0 = hasFilm
-        ? '<b>Swipe</b> across the photo to move through the shoot<small>STEP 1 OF ' + steps + '</small>'
-        : '<b>Swipe</b> across the photo to move through the shoot<small>STEP 1 OF ' + steps + '</small>';
-    cap.innerHTML = cap0; dot(0);
-    mv(sr.left + sr.width * 0.5, sr.top + sr.height * 0.5, 0, 0);
-    tourAt(250, function () {
-        mv(sr.left + sr.width * 0.82, sr.top + sr.height * 0.58, -12, 1);
-        tourAt(1050, function () {
-            mv(sr.left + sr.width * 0.18, sr.top + sr.height * 0.5, 12, 1);
-            tourAt(950, function () {
-                mv(sr.left + sr.width * 0.7, sr.top + sr.height * 0.55, -6, 1);
-                tourAt(850, function () {
-                    hand.style.opacity = 0;
-                    var cx = sr.left + sr.width * 0.5, cy = sr.top + sr.height * 0.52;
-                    cap.innerHTML = '<b>Tap the photo to ' + lbPickVerb() + ' it</b> \u2014 the star lights up on the film<small>STEP 2 OF ' + steps + '</small>';
-                    dot(1);
-                    tourAt(650, function () {
-                        mv(cx, cy, 0, 1);
-                        tourAt(750, function () {
-                            tapHand(2, 420);
-                            var bx = sr.width * 0.5, by = sr.height * 0.5;
-                            // ghost star stamp (does not actually change your picks)
-                            tourAt(700, function () {
-                                hand.style.opacity = 0;
-                                var b = $('lb-burst');
-                                if (b) {
-                                    b.style.left = bx + 'px'; b.style.top = by + 'px';
-                                    b.classList.add('preview');
-                                    b.classList.remove('go'); void b.offsetWidth; b.classList.add('go');
-                                }
-                            });
-                            tourAt(1850, function () {
-                                var b = $('lb-burst');
-                                if (b) { b.classList.remove('preview'); b.classList.remove('go'); }
-                                if (hasFilm && fr) {
-                                    cap.innerHTML = '<b>Tap a frame</b> on the film strip to jump straight there<small>STEP 3 OF 3</small>';
-                                    dot(2);
-                                    tourAt(600, function () {
-                                        mv(fr.left + fr.width * 0.5, fr.top + fr.height * 0.36, 0, 1);
-                                        tourAt(850, function () { tapHand(1, 0); });
-                                        tourAt(1800, endTour);
-                                    });
-                                } else {
-                                    tourAt(700, endTour);
-                                }
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
-    function endTour() {
-        g.style.opacity = 0;
-        tourAt(350, function () {
-            g.style.opacity = 1; g.style.display = 'none';
-            var b = $('lb-burst'); if (b) b.classList.remove('preview');
-        });
-    }
+    fillLbGuide();
+    g.classList.add('open');
+    var card = document.getElementById('lg-card');
+    if (card) card.scrollTop = 0;
+}
+function hideLbGuide() {
+    var g = document.getElementById('lb-guide');
+    if (!g) return;
+    g.classList.remove('open');
+}
+function maybeShowLbGuide() {
+    var key = lbGuideKey(), seen = '';
+    try { seen = sessionStorage.getItem(key) || ''; } catch (e) {}
+    if (seen) return;
+    try { sessionStorage.setItem(key, '1'); } catch (e) {}
+    showLbGuide();
 }
 
 /* ---------- viewer wiring (boot) ---------- */
@@ -1438,13 +1479,19 @@ document.addEventListener('keydown', function (e) {
     }, { passive: false });
 })();
 (function () {
+    // In-viewer guide wiring: close on ✕, CTA, or backdrop-click; open on ? button.
     var g = $('lb-guide');
     if (!g) return;
-    var skip = $('lg-skip') || g.querySelector('.lg-skip');
-    if (skip) skip.addEventListener('click', function () { stopLbTour(); });
+    var close = $('lg-close'), cta = $('lg-cta'), help = $('lb-help-btn');
+    if (close) close.addEventListener('click', hideLbGuide);
+    if (cta) cta.addEventListener('click', hideLbGuide);
+    if (help) help.addEventListener('click', function (e) { e.stopPropagation(); showLbGuide(); });
     g.addEventListener('pointerdown', function (e) {
-        if (e.target && e.target.closest && e.target.closest('.lg-skip')) return;
-        stopLbTour();
+        // Only dismiss when clicking the dim behind the card
+        if (e.target === g) hideLbGuide();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && g.classList.contains('open')) hideLbGuide();
     });
 })();
 (function () {
