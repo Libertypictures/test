@@ -243,20 +243,59 @@
         .invoice-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 13px; color: var(--text-secondary); }
         .invoice-total { border-top: 1px solid var(--border-color); margin-top: 16px; padding-top: 16px; font-weight: 600; color: var(--text-primary); font-size: 16px; display: flex; justify-content: space-between; }
         .invoice-retainer { background-color: var(--accent); color: #fff; padding: 17px 18px; margin-top: 22px; display: flex; justify-content: space-between; align-items: center; font-weight: 500; font-size: 16px; border-radius: var(--radius-sm); }
-        /* The summary is framed like the till receipt the client keeps: a ruled
-           header, a meta strip naming who it is for, then itemised lines. The
-           markup and IDs the totals logic uses are unchanged — only the framing
-           is new, so nothing below can be affected by it. */
-        .invoice-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--text-primary); padding-bottom: 14px; margin-bottom: 20px; gap: 12px; }
-        .invoice-head .invoice-brand { font-size: 15px; letter-spacing: 0.4px; }
-        .invoice-head .invoice-doc { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); text-align: right; }
-        .invoice-meta { display: none; grid-template-columns: 1fr 1fr; gap: 12px 22px; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px dashed var(--border-color); }
-        .invoice-meta.active { display: grid; }
-        .invoice-meta div { min-width: 0; }
-        .invoice-meta span { display: block; font-size: 9.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 3px; }
-        .invoice-meta strong { display: block; font-size: 12.5px; font-weight: 500; color: var(--text-primary); overflow-wrap: anywhere; }
-        .invoice-items { border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; margin-bottom: 4px; }
-        @media (max-width: 480px) { .invoice-meta { grid-template-columns: 1fr; } .invoice-head { flex-direction: column; align-items: flex-start; } .invoice-head .invoice-doc { text-align: left; } }
+        /* ============================================================
+           THERMAL TILL RECEIPT
+           Modelled on the paper a supermarket till prints: condensed
+           monospace, a centred shop name, dashed perforations, a
+           QTY / DESC / AMT item table, a right-aligned totals block,
+           *** THANK YOU *** and a barcode.
+
+           Built only from plain elements, borders and flat colours — no
+           CSS grid, no gradients, no masks — because the JPEG receipt is
+           rendered by html2canvas, which ignores all three. What you see
+           on screen is what comes out of the exporter.
+           ============================================================ */
+        .till {
+            --till-ink: #14110e;
+            --till-mute: #6f675c;
+            --till-rule: #b8b1a4;
+            --till-paper: #fdfcf9;
+            font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+            color: var(--till-ink);
+            background: var(--till-paper);
+            font-size: 12px;
+            line-height: 1.5;
+            letter-spacing: 0.02em;
+            font-variant-numeric: tabular-nums;
+            text-align: left;
+        }
+        .till-shop { text-align: center; font-weight: 700; font-size: 15px; letter-spacing: 0.18em; }
+        .till-sub { text-align: center; font-size: 10.5px; letter-spacing: 0.14em; color: var(--till-mute); margin-top: 4px; }
+        .till-perf { border-top: 1px dashed var(--till-rule); margin: 13px 0; height: 0; }
+        .till-row { display: flex; justify-content: space-between; gap: 10px; }
+        .till-row + .till-row { margin-top: 3px; }
+        .till-key { color: var(--till-mute); letter-spacing: 0.08em; white-space: nowrap; }
+        .till-val { text-align: right; overflow-wrap: anywhere; }
+        .till-table { width: 100%; border-collapse: collapse; }
+        .till-table th { font-size: 10px; font-weight: 400; letter-spacing: 0.12em; color: var(--till-mute); text-align: left; padding: 0 0 6px; border-bottom: 1px dashed var(--till-rule); }
+        .till-table td { padding: 5px 0; vertical-align: top; word-break: break-word; }
+        .till-qty { width: 34px; }
+        .till-amt { text-align: right; white-space: nowrap; padding-left: 10px; }
+        .till-total { display: flex; justify-content: space-between; gap: 10px; font-size: 11.5px; color: var(--till-mute); padding: 3px 0; }
+        .till-total span:last-child { color: var(--till-ink); }
+        .till-grand { display: flex; justify-content: space-between; gap: 10px; margin-top: 7px; padding-top: 8px; border-top: 1px solid var(--till-ink); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; }
+        .till-thanks { text-align: center; font-size: 11px; letter-spacing: 0.2em; }
+        .till-barcode { display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 44px; margin: 10px 0 5px; }
+        .till-barcode span { display: block; height: 100%; background: var(--till-ink); }
+        .till-barcode span.short { height: 70%; }
+        .till-barcode-ref { text-align: center; font-size: 9.5px; letter-spacing: 0.24em; color: var(--till-mute); }
+        .till-foot { text-align: center; font-size: 9.5px; letter-spacing: 0.1em; color: var(--till-mute); margin-top: 9px; }
+        .till-paper {
+            width: 100%; max-width: 380px; margin: 0 auto;
+            background: var(--till-paper); padding: 26px 22px 22px;
+            box-shadow: 0 1px 2px rgba(20,17,14,0.10), 0 18px 40px -18px rgba(20,17,14,0.45);
+        }
+        .invoice-box.till { padding: 0; background: transparent; border: none; }
 
         /* Booking Section */
         .booking-section { margin-top: 100px; background-color: var(--bg-booking); padding: 72px 44px; border-radius: var(--radius-lg); border: none; box-shadow: 0 4px 24px var(--shadow-subtle); }
@@ -571,25 +610,14 @@
         .receipt-action-btn:hover { background: rgba(138,115,85,0.12); border-color: var(--accent); color: var(--accent-deep); }
         @media (prefers-color-scheme: dark) { .receipt-action-btn { background: rgba(255,255,255,0.05); } }
 
+        /* The exporter shows this overlay and captures the .till-paper inside
+           it, so the saved image is the receipt itself rather than a
+           full-screen white page with the receipt floating in the middle. */
         .receipt-doc { display: none; }
         .receipt-doc.is-active {
             display: block; position: fixed; inset: 0; z-index: 200; overflow-y: auto;
-            background: #ffffff; color: #1a1815; padding: 48px 40px; font-family: 'Poppins', sans-serif;
+            background: #ffffff; padding: 32px 16px 48px;
         }
-        .receipt-doc .receipt-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #1a1815; padding-bottom: 18px; margin-bottom: 28px; }
-        .receipt-doc .receipt-logo { font-size: 20px; font-weight: 500; }
-        .receipt-doc .receipt-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #6b6459; }
-        .receipt-doc .receipt-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; margin-bottom: 28px; }
-        .receipt-doc .receipt-meta span { display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px; color: #6b6459; margin-bottom: 4px; }
-        .receipt-doc .receipt-meta strong { font-size: 13.5px; font-weight: 500; word-break: break-word; }
-        .receipt-doc .receipt-items { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-        .receipt-doc .receipt-items th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px; color: #6b6459; padding-bottom: 10px; border-bottom: 1px solid #e8e3d9; }
-        .receipt-doc .receipt-items td { padding: 12px 0; border-bottom: 1px dashed #e8e3d9; font-size: 13.5px; }
-        .receipt-doc .receipt-items td:last-child, .receipt-doc .receipt-items th:last-child { text-align: right; }
-        .receipt-doc .receipt-totals { max-width: 320px; margin-left: auto; }
-        .receipt-doc .receipt-totals > div { display: flex; justify-content: space-between; font-size: 13px; padding: 7px 0; color: #6b6459; }
-        .receipt-doc .receipt-paid-today { border-top: 1px solid #1a1815; margin-top: 6px; padding-top: 12px !important; font-weight: 600; color: #1a1815 !important; font-size: 14.5px !important; }
-        .receipt-doc .receipt-footer { margin-top: 40px; text-align: center; font-size: 12px; color: #6b6459; font-style: italic; }
 
         /* 📱 MOBILE OPTIMIZATION ENGINE */
         @media (max-width: 768px) {
@@ -705,35 +733,31 @@
             </div>
 
             <!-- LIVE INVOICE SUMMARY -->
-            <div class="invoice-box" id="invoice-ui">
-                <div class="invoice-head">
-                    <span class="invoice-brand serif">Libertypictures</span>
-                    <span class="invoice-doc">Booking Summary</span>
-                </div>
-                <div class="invoice-meta" id="inv-meta">
-                    <div><span>Prepared for</span><strong id="inv-meta-client"></strong></div>
-                    <div><span>Session</span><strong id="inv-meta-session"></strong></div>
-                    <div><span>Reference</span><strong id="inv-meta-reference"></strong></div>
-                    <div><span>Issued</span><strong id="inv-meta-issued"></strong></div>
-                </div>
-                <div class="invoice-items">
-                    <div class="invoice-row">
-                        <span id="inv-package-name">Package Name</span>
-                        <span id="inv-package-price">₦0</span>
+            <!-- The booking summary is a till receipt, not a price list. -->
+            <div class="invoice-box till" id="invoice-ui">
+                <div class="till-paper">
+                    <div class="till-shop">LIBERTYPICTURES</div>
+                    <div class="till-sub">BOOKING SUMMARY</div>
+                    <div class="till-perf"></div>
+                    <div id="inv-meta">
+                        <div class="till-row"><span class="till-key">DATE</span><span class="till-val" id="inv-meta-issued">&mdash;</span></div>
+                        <div class="till-row"><span class="till-key">CLIENT</span><span class="till-val" id="inv-meta-client">&mdash;</span></div>
+                        <div class="till-row"><span class="till-key">SESSION</span><span class="till-val" id="inv-meta-session">&mdash;</span></div>
+                        <div class="till-row"><span class="till-key">REF</span><span class="till-val" id="inv-meta-reference">&mdash;</span></div>
                     </div>
-                    <div id="inv-addons-list"></div>
-                </div>
-                <div class="invoice-total">
-                    <span>Subtotal</span>
-                    <span id="inv-subtotal">₦0</span>
-                </div>
-                <div class="invoice-row" style="margin-top: 12px; font-size: 12.5px;">
-                    <span>30% Balance (Due on session day)</span>
-                    <span id="inv-balance">₦0</span>
-                </div>
-                <div class="invoice-retainer">
-                    <span>70% Retainer Due Today:</span>
-                    <span id="inv-retainer">₦0</span>
+                    <div class="till-perf"></div>
+                    <table class="till-table">
+                        <thead><tr><th class="till-qty">QTY</th><th>DESC</th><th class="till-amt">AMT</th></tr></thead>
+                        <tbody id="inv-items-body"></tbody>
+                    </table>
+                    <div class="till-perf"></div>
+                    <div class="till-total"><span>SUBTOTAL</span><span id="inv-subtotal">₦0</span></div>
+                    <div class="till-total"><span>BALANCE DUE</span><span id="inv-balance">₦0</span></div>
+                    <div class="till-grand"><span>RETAINER TODAY</span><span id="inv-retainer">₦0</span></div>
+                    <div class="till-perf"></div>
+                    <div class="till-thanks" id="inv-state">*** AWAITING RETAINER ***</div>
+                    <div class="till-barcode" id="inv-barcode" data-till-barcode aria-hidden="true"></div>
+                    <div class="till-barcode-ref" id="inv-barcode-ref"></div>
                 </div>
             </div>
         </section>
@@ -867,26 +891,31 @@
              totals, the reference text) — this reads that state rather
              than modifying any of those functions. -->
         <div id="receipt-template" class="receipt-doc">
-            <div class="receipt-header">
-                <div class="receipt-logo serif">Libertypictures</div>
-                <div class="receipt-title">Payment Receipt</div>
+            <div class="till-paper till">
+                <div class="till-shop">LIBERTYPICTURES</div>
+                <div class="till-sub">STUDIO SESSION RECEIPT</div>
+                <div class="till-perf"></div>
+                <div>
+                    <div class="till-row"><span class="till-key">DATE</span><span class="till-val" id="receipt-date"></span></div>
+                    <div class="till-row"><span class="till-key">CLIENT</span><span class="till-val" id="receipt-client-name"></span></div>
+                    <div class="till-row"><span class="till-key">EMAIL</span><span class="till-val" id="receipt-client-email"></span></div>
+                    <div class="till-row"><span class="till-key">REF</span><span class="till-val" id="receipt-reference"></span></div>
+                </div>
+                <div class="till-perf"></div>
+                <table class="till-table">
+                    <thead><tr><th class="till-qty">QTY</th><th>DESC</th><th class="till-amt">AMT</th></tr></thead>
+                    <tbody id="receipt-items-body"></tbody>
+                </table>
+                <div class="till-perf"></div>
+                <div class="till-total"><span>SUBTOTAL</span><span id="receipt-subtotal"></span></div>
+                <div class="till-total"><span>BALANCE DUE</span><span id="receipt-balance"></span></div>
+                <div class="till-grand"><span>PAID TODAY</span><span id="receipt-retainer"></span></div>
+                <div class="till-perf"></div>
+                <div class="till-thanks">*** THANK YOU ***</div>
+                <div class="till-barcode" id="receipt-barcode" data-till-barcode aria-hidden="true"></div>
+                <div class="till-barcode-ref" id="receipt-barcode-ref"></div>
+                <div class="till-foot">libertypictures.github.io/pg/book</div>
             </div>
-            <div class="receipt-meta">
-                <div><span>Receipt for</span><strong id="receipt-client-name"></strong></div>
-                <div><span>Email</span><strong id="receipt-client-email"></strong></div>
-                <div><span>Date</span><strong id="receipt-date"></strong></div>
-                <div><span>Reference</span><strong id="receipt-reference"></strong></div>
-            </div>
-            <table class="receipt-items">
-                <thead><tr><th>Description</th><th>Amount</th></tr></thead>
-                <tbody id="receipt-items-body"></tbody>
-            </table>
-            <div class="receipt-totals">
-                <div><span>Subtotal</span><strong id="receipt-subtotal"></strong></div>
-                <div><span>Balance due on session day</span><strong id="receipt-balance"></strong></div>
-                <div class="receipt-paid-today"><span>Paid Today (Retainer)</span><strong id="receipt-retainer"></strong></div>
-            </div>
-            <div class="receipt-footer">Thank you for booking with Libertypictures.</div>
         </div>
 
         <section class="section-block" id="studio-policies" style="margin-top: 100px;">
@@ -1338,7 +1367,52 @@
             put('inv-meta-session', lpFormatSessionStamp(booking.start));
             put('inv-meta-reference', ref);
             put('inv-meta-issued', new Date().toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' }));
-            meta.classList.toggle('active', !!(booking.name || booking.start || ref));
+            // The receipt's footer line is a state, not decoration: a receipt
+            // must never say "thank you" for money that has not been taken.
+            var state = document.getElementById('inv-state');
+            if (state) state.innerText = ref ? '*** THANK YOU ***' : '*** AWAITING RETAINER ***';
+            tillBarcode(ref);
+        }
+
+        /** Escape for a till row — the same job escapeReceiptHtml does below, kept
+            here too because calculateTotals runs before that IIFE is defined. */
+        function tillEsc(str) {
+            var d = document.createElement('div');
+            d.textContent = String(str == null ? '' : str);
+            return d.innerHTML;
+        }
+
+        /**
+         * Draw the receipt barcode.
+         *
+         * Deterministic from the seed, so the same reference always produces the
+         * same bars for the same client. It is a visual marker for the document,
+         * NOT a scannable symbol — the reference itself is printed underneath in
+         * full, so nothing depends on reading the bars. Real spans rather than a
+         * gradient because html2canvas renders elements exactly as seen.
+         */
+        function tillBarcode(seed) {
+            /* One barcode, drawn into every [data-till-barcode] on the page —
+               the on-page booking summary and the JPEG export — so the two can
+               never disagree about the document they describe. An empty seed
+               clears the bars rather than inventing a reference. */
+            var s = String(seed == null ? '' : seed).trim();
+            var bars = '';
+            if (s) {
+                var h = 2166136261;
+                for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+                for (var n = 0; n < 44; n++) {
+                    h = (Math.imul(h, 1103515245) + 12345) >>> 0;
+                    var w = 1 + ((h >>> 16) % 4);
+                    bars += '<span class="' + (n % 5 === 2 ? 'short' : '') + '" style="width:' + w + 'px"></span>';
+                }
+            }
+            var targets = document.querySelectorAll('[data-till-barcode]');
+            for (var t = 0; t < targets.length; t++) {
+                targets[t].innerHTML = bars;
+                var ref = targets[t].parentNode ? targets[t].parentNode.querySelector('.till-barcode-ref') : null;
+                if (ref) ref.innerText = s ? s.toUpperCase() : '';
+            }
         }
 
         function calculateTotals() {
@@ -1348,19 +1422,17 @@
             cart.retainer = cart.subtotal * 0.70; 
             cart.balance = cart.subtotal * 0.30;
 
-            // Update DOM Invoice
-            document.getElementById('inv-package-name').innerText = cart.baseName;
-            document.getElementById('inv-package-price').innerText = formatNaira(cart.basePrice);
-            
-            const addonsListUI = document.getElementById('inv-addons-list');
-            addonsListUI.innerHTML = ""; 
-            cart.addons.forEach(addon => {
-                addonsListUI.innerHTML += `
-                    <div class="invoice-row">
-                        <span>+ ${addon.name}</span>
-                        <span>${formatNaira(addon.price)}</span>
-                    </div>`;
-            });
+            // Items render straight into the receipt's QTY / DESC / AMT table.
+            const itemsBody = document.getElementById('inv-items-body');
+            if (itemsBody) {
+                let rows = '<tr><td class="till-qty">1</td><td>' + tillEsc(cart.baseName) +
+                    '</td><td class="till-amt">' + formatNaira(cart.basePrice) + '</td></tr>';
+                cart.addons.forEach(function (addon) {
+                    rows += '<tr><td class="till-qty">1</td><td>+ ' + tillEsc(addon.name) +
+                        '</td><td class="till-amt">' + formatNaira(addon.price) + '</td></tr>';
+                });
+                itemsBody.innerHTML = rows;
+            }
 
             document.getElementById('inv-subtotal').innerText = formatNaira(cart.subtotal);
             document.getElementById('inv-balance').innerText = formatNaira(cart.balance);
@@ -1560,11 +1632,14 @@
                 var refEl = document.getElementById('lpb-payment-reference');
                 document.getElementById('receipt-reference').textContent = refEl ? refEl.textContent : '';
 
-                var rows = '<tr><td>' + escapeReceiptHtml(cart.baseName || 'Session') + '</td><td>' + formatNaira(cart.basePrice) + '</td></tr>';
+                var rows = '<tr><td class="till-qty">1</td><td>' + escapeReceiptHtml(cart.baseName || 'Session') +
+                    '</td><td class="till-amt">' + formatNaira(cart.basePrice) + '</td></tr>';
                 cart.addons.forEach(function (a) {
-                    rows += '<tr><td>' + escapeReceiptHtml(a.name) + '</td><td>' + formatNaira(a.price) + '</td></tr>';
+                    rows += '<tr><td class="till-qty">1</td><td>+ ' + escapeReceiptHtml(a.name) +
+                        '</td><td class="till-amt">' + formatNaira(a.price) + '</td></tr>';
                 });
                 document.getElementById('receipt-items-body').innerHTML = rows;
+                tillBarcode(document.getElementById('receipt-reference').textContent);
 
                 document.getElementById('receipt-subtotal').textContent = formatNaira(cart.subtotal);
                 document.getElementById('receipt-balance').textContent = formatNaira(cart.balance);
@@ -1587,7 +1662,10 @@
                 var originalText = jpegBtn.textContent;
                 jpegBtn.textContent = 'Preparing…';
                 jpegBtn.disabled = true;
-                html2canvas(receiptEl, { backgroundColor: '#ffffff', scale: 2 }).then(function (canvas) {
+                // Capture the paper, not the overlay — otherwise the exported
+                // JPEG is a full-screen white page with a small receipt in it.
+                var captureEl = receiptEl.querySelector('.till-paper') || receiptEl;
+                html2canvas(captureEl, { backgroundColor: '#ffffff', scale: 2 }).then(function (canvas) {
                     var link = document.createElement('a');
                     var ref = document.getElementById('receipt-reference').textContent || 'receipt';
                     link.download = 'libertypictures-receipt-' + ref + '.jpg';
