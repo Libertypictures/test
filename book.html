@@ -1403,12 +1403,23 @@
             // Enforce Book Appointment → Pay Retainer order: no retainer
             // charge without a real, saved booking behind it.
             if (!window.lpbBookingConfirmed) {
-                // This used to say "above" and then scroll to #secure-session —
-                // the payment heading itself, i.e. precisely where the client
-                // already was, so the page appeared not to move. It now goes to
-                // the form that actually needs filling in.
+                /* Two mistakes lived here. The alert said the form was "above" and
+                   then scrolled to #secure-session — the payment heading itself,
+                   i.e. exactly where the client already was, so the page appeared
+                   not to move. The first attempt at a fix then scrolled to
+                   #booking, which is the PAYMENT section: the id is named
+                   "booking", but it is not the booking form.
+
+                   What needs filling in is the calendar card — #lpb-form-card,
+                   inside #lp-booking. Target that, and fall back to the submit
+                   button's own container rather than to another guess about a
+                   name. */
                 alert('Please pick a date and time, enter your details, and press "Book Appointment" first — then you can pay the retainer.');
-                var bookingFormEl = document.getElementById('booking');
+                var submitBtnEl = document.getElementById('lpb-submit-btn');
+                var bookingFormEl = document.getElementById('lpb-form-card') ||
+                    document.getElementById('lp-booking') ||
+                    (submitBtnEl && submitBtnEl.closest('.lpb-card')) ||
+                    submitBtnEl;
                 if (typeof lpSmoothScrollTo === 'function' && bookingFormEl) {
                     lpSmoothScrollTo(bookingFormEl, {
                         duration: 700,
