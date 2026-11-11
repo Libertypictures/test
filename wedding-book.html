@@ -199,6 +199,91 @@
         .lpb-toast-body p { font-size:12.5px; color:var(--lpb-muted); line-height:1.7; margin:0; }
         @keyframes lpb-fade-up { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
         .lpb-animate-in { animation:lpb-fade-up 0.4s ease forwards; }
+
+        /* ============================================================
+           THE PRICE GUIDE & THE ATELIER
+
+           A catalogue, not a shop window: hairline rules, roman
+           numerals, serif figures, and nothing that floats or glows.
+           The two modes are the same decision made two ways — take a
+           collection, or compose one — and both hand the same cart to
+           the calendar and the retainer below.
+           ============================================================ */
+        .pg-head { text-align: center; margin-bottom: 48px; }
+        .pg-eyebrow { font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+        .pg-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 42px; line-height: 1.08; letter-spacing: -0.7px; margin: 18px 0 20px; color: var(--text-primary); }
+        .pg-lede { font-size: 14px; line-height: 1.85; color: var(--text-secondary); max-width: 45ch; margin: 0 auto; }
+        .pg-modes { display: flex; justify-content: center; gap: 36px; border-bottom: 1px solid var(--border-color); margin-bottom: 2px; }
+        .pg-mode { appearance: none; background: none; border: 0; padding: 0 0 15px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-secondary); cursor: pointer; position: relative; transition: color 0.25s ease; }
+        .pg-mode:hover { color: var(--text-primary); }
+        .pg-mode[aria-pressed="true"] { color: var(--text-primary); }
+        .pg-mode[aria-pressed="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1.5px; background: var(--accent); }
+        .pg-mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+        .pg-panel[hidden] { display: none; }
+
+        .pg-item { padding: 32px 0 28px; border-bottom: 1px solid var(--border-color); }
+        .pg-item:first-child { border-top: 1px solid var(--border-color); margin-top: 2px; }
+        .pg-row { display: flex; align-items: baseline; gap: 16px; }
+        .pg-numeral { font-family: 'Fraunces', serif; font-size: 11px; letter-spacing: 0.12em; color: var(--accent); min-width: 20px; }
+        .pg-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 23px; line-height: 1.25; letter-spacing: -0.2px; color: var(--text-primary); }
+        .pg-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 11.5px; color: var(--accent); white-space: nowrap; }
+        .pg-cost { margin-left: auto; font-family: 'Fraunces', serif; font-size: 19px; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-primary); }
+        .pg-inc { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px 36px; margin: 17px 0 0 36px; font-size: 12.5px; line-height: 1.8; color: var(--text-secondary); }
+        .pg-inc li { position: relative; padding-left: 14px; }
+        .pg-inc li::before { content: "\2014"; position: absolute; left: 0; color: var(--accent); opacity: 0.7; }
+        .pg-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 22px 0 0 36px; }
+        .pg-note { font-size: 10.5px; letter-spacing: 0.02em; color: var(--text-secondary); }
+        .pg-choose { background: none; border: 0; border-bottom: 1px solid var(--accent); padding: 0 0 5px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-primary); cursor: pointer; transition: color 0.25s ease; }
+        .pg-choose:hover { color: var(--accent); }
+        .pg-choose:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+        .pg-item.is-chosen .pg-name, .pg-item.is-chosen .pg-numeral { color: var(--accent); }
+        .pg-item.is-chosen .pg-choose { color: var(--accent); border-bottom-color: transparent; }
+
+        .pg-atelier { display: grid; grid-template-columns: 1.45fr 0.95fr; gap: 54px; padding-top: 34px; align-items: start; }
+        .pg-step { display: block; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 9px; }
+        .pg-group { margin: 0 0 44px; }
+        .pg-legend { margin: 0 0 6px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--text-primary); }
+        .pg-opt { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+        .pg-opt:first-of-type { border-top: 1px solid var(--border-color); }
+        .pg-opt input { appearance: none; -webkit-appearance: none; flex-shrink: 0; width: 15px; height: 15px; margin: 3px 0 0; border: 1px solid var(--border-dashed); background: transparent; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease; }
+        .pg-opt input[type="radio"] { border-radius: 50%; }
+        .pg-opt input:checked { background-color: var(--accent); border-color: var(--accent); }
+        .pg-opt input[type="checkbox"]:checked { box-shadow: inset 0 0 0 2.5px var(--bg-container); }
+        .pg-opt input[type="radio"]:checked { box-shadow: inset 0 0 0 3px var(--bg-container); }
+        .pg-opt input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+        .pg-opt-body { min-width: 0; }
+        .pg-opt-name { font-size: 13.5px; color: var(--text-primary); transition: color 0.2s ease; }
+        .pg-opt.is-on .pg-opt-name { color: var(--accent); }
+        .pg-opt-desc { display: block; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 3px; }
+        .pg-opt-price { margin-left: auto; font-family: 'Fraunces', serif; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-primary); padding-left: 12px; }
+
+        .pg-slip { position: sticky; top: 120px; background: var(--bg-booking); border: 1px solid var(--border-color); padding: 30px 28px 26px; }
+        .pg-slip-eyebrow { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); }
+        .pg-slip-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; margin: 10px 0 18px; color: var(--text-primary); }
+        .pg-line { display: flex; justify-content: space-between; gap: 14px; font-size: 12.5px; line-height: 1.6; padding: 7px 0; color: var(--text-secondary); }
+        .pg-line span:last-child { font-variant-numeric: tabular-nums; color: var(--text-primary); white-space: nowrap; }
+        .pg-line.is-empty { display: block; font-style: italic; line-height: 1.75; padding: 4px 0 2px; }
+        .pg-slip-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-top: 1px solid var(--text-primary); margin-top: 16px; padding-top: 14px; }
+        .pg-slip-total span:first-child { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); }
+        .pg-slip-total span:last-child { font-family: 'Fraunces', serif; font-size: 26px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+        .pg-slip-retainer { display: flex; justify-content: space-between; gap: 12px; font-size: 11.5px; color: var(--accent); margin-top: 9px; }
+        .pg-slip-cta { width: 100%; margin-top: 24px; padding: 17px 16px; background: var(--text-primary); color: var(--bg-container); border: 0; font-family: inherit; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background-color 0.3s ease, opacity 0.3s ease; }
+        .pg-slip-cta:hover:not(:disabled) { background: var(--accent); }
+        .pg-slip-cta:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pg-slip-note { font-size: 10.5px; line-height: 1.7; color: var(--text-secondary); margin-top: 14px; }
+
+        @media (max-width: 768px) {
+            .pg-title { font-size: 31px; }
+            .pg-lede { font-size: 13px; }
+            .pg-modes { gap: 22px; }
+            .pg-row { flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+            .pg-name { font-size: 20px; flex: 1 1 auto; }
+            .pg-cost { margin-left: auto; font-size: 17px; }
+            .pg-inc { grid-template-columns: 1fr; margin-left: 30px; font-size: 12px; }
+            .pg-foot { flex-direction: column; align-items: flex-start; gap: 14px; margin-left: 30px; }
+            .pg-atelier { grid-template-columns: 1fr; gap: 34px; }
+            .pg-slip { position: static; }
+        }
         /* ============================================================
            THERMAL TILL RECEIPT
            The paper a supermarket till prints: condensed monospace, a
@@ -297,10 +382,49 @@
             </div>
         </div>
         <section class="section-block" id="packages">
-            <h2 class="section-title serif">Wedding Packages</h2>
-            <p class="section-meta">Every package is crafted to honour the beauty of your celebration. Choose what feels right for your day.</p>
-            <div class="tier-stack" id="packages-grid">
-                <p style="text-align:center; color:var(--text-secondary); font-size:13px;">Loading packages&hellip;</p>
+            <header class="pg-head">
+                <p class="pg-eyebrow">Beloved Imprint &mdash; Wedding Photography</p>
+                <h2 class="pg-title serif">The Price Guide</h2>
+                <p class="pg-lede">Four collections, made for the day as it will actually happen. Or compose your own, piece by piece, and see the whole commission before you commit to anything.</p>
+            </header>
+
+            <div class="pg-modes" aria-label="How would you like to choose?">
+                <button type="button" class="pg-mode" id="pg-tab-collections" aria-pressed="true" aria-controls="pg-collections" data-mode="collections">The Collections</button>
+                <button type="button" class="pg-mode" id="pg-tab-atelier" aria-pressed="false" aria-controls="pg-atelier" data-mode="atelier">Compose Your Own</button>
+            </div>
+
+            <div class="pg-panel" id="pg-collections">
+                <div id="packages-grid">
+                    <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the collections&hellip;</p>
+                </div>
+            </div>
+
+            <div class="pg-panel" id="pg-atelier" aria-labelledby="pg-tab-atelier" hidden>
+                <div class="pg-atelier">
+                    <div>
+                        <div class="pg-group" role="group" aria-labelledby="pg-cov-legend">
+                            <span class="pg-step">First &mdash; the day</span>
+                            <h3 class="pg-legend" id="pg-cov-legend">How much of it should we keep?</h3>
+                            <div id="pg-coverage-list"></div>
+                        </div>
+                        <div class="pg-group" role="group" aria-labelledby="pg-piece-legend">
+                            <span class="pg-step">Then &mdash; anything else</span>
+                            <h3 class="pg-legend" id="pg-piece-legend">The pieces</h3>
+                            <div id="pg-pieces-list"></div>
+                        </div>
+                    </div>
+                    <aside class="pg-slip" aria-live="polite">
+                        <p class="pg-slip-eyebrow">Your commission</p>
+                        <h3 class="pg-slip-title" id="pg-slip-name">Nothing chosen yet</h3>
+                        <div id="pg-slip-lines">
+                            <p class="pg-line is-empty">Choose how much of the day to keep, and anything else you would like beside it.</p>
+                        </div>
+                        <div class="pg-slip-total"><span>Total</span><span id="pg-slip-total">&mdash;</span></div>
+                        <div class="pg-slip-retainer"><span>Retainer today (70%)</span><span id="pg-slip-retainer">&mdash;</span></div>
+                        <button type="button" class="pg-slip-cta" id="pg-slip-cta" disabled="">Continue with this commission</button>
+                        <p class="pg-slip-note">The balance is settled on delivery. Once you continue, the pieces above travel with your booking &mdash; there is nothing further to tick.</p>
+                    </aside>
+                </div>
             </div>
         </section>
         <section data-lp-booking="" id="lp-booking">
@@ -512,22 +636,191 @@
         }
         function lpStickyBarHeight() { var bar = document.getElementById('sticky-progress-wrap'); var h = bar ? bar.getBoundingClientRect().height : 0; return h > 0 ? h : 90; }
 
-        /* ── Dynamic render: Packages ── */
+        /* ── Dynamic render: the collections ──
+           One catalogue entry per package: numeral, name, the owner's own mark
+           if she set one, the full figure, and what it carries — set as a
+           printed price list rather than a card to be hovered over. */
         function renderPackages(packages) {
             var grid = document.getElementById('packages-grid');
-            if (!packages.length) { grid.innerHTML = '<p style="text-align:center;color:var(--text-secondary);font-size:13px;">Packages are being updated \u2014 check back shortly.</p>'; return; }
-            grid.innerHTML = packages.map(function (p) {
+            if (!grid) return;
+            if (!packages.length) { grid.innerHTML = '<p class="pg-line is-empty" style="text-align:center;padding:32px 0;">The collections are being updated \u2014 check back shortly.</p>'; return; }
+            var numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+            grid.innerHTML = packages.map(function (p, i) {
                 var bullets = (p.description || '').split('\n').filter(function (l) { return l.trim(); });
-                var bulletsHtml = bullets.length ? '<ul class="tier-details">' + bullets.map(function (b) { return '<li>' + escHtml(b) + '</li>'; }).join('') + '</ul>' : '';
-                var badgeHtml = p.badge ? '<span class="tier-badge">' + escHtml(p.badge) + '</span>' : '';
-                var priceLabel = '\u20a6' + Math.round(p.price / 1000) + 'k';
-                return '<div class="tier-card no-photo" data-price="' + p.price + '" data-name="' + escHtml(p.name) + '">' +
-                    '<div class="tier-photo-full"></div>' +
-                    '<div class="tier-scrim">' + badgeHtml + '<h3>' + escHtml(p.name) + '</h3>' + bulletsHtml +
-                    '<div class="tier-price-box"><span class="tier-price">' + priceLabel + '</span>' +
-                    '<button class="select-btn" onclick="selectPackage(this)">Select Package</button></div></div></div>';
+                var incHtml = bullets.length
+                    ? '<ul class="pg-inc">' + bullets.map(function (b) { return '<li>' + escHtml(b) + '</li>'; }).join('') + '</ul>'
+                    : '';
+                var markHtml = p.badge ? '<span class="pg-mark">' + escHtml(p.badge) + '</span>' : '';
+                return '<article class="pg-item" data-price="' + p.price + '" data-name="' + escHtml(p.name) + '">' +
+                    '<div class="pg-row">' +
+                        '<span class="pg-numeral">' + (numerals[i] || (i + 1)) + '</span>' +
+                        '<h3 class="pg-name">' + escHtml(p.name) + '</h3>' + markHtml +
+                        '<span class="pg-cost">' + formatNaira(p.price) + '</span>' +
+                    '</div>' + incHtml +
+                    '<div class="pg-foot">' +
+                        '<span class="pg-note">70% secures the date \u00b7 the balance on delivery</span>' +
+                        '<button type="button" class="pg-choose" onclick="chooseCollection(this)">Choose this collection</button>' +
+                    '</div>' +
+                '</article>';
             }).join('');
-            if (typeof window.lpInitScrollReveal === 'function') window.lpInitScrollReveal(grid.querySelectorAll('.tier-card'), 100);
+        }
+
+        /* ── THE ATELIER ──
+
+           Composing a commission. The day is chosen first (how much of it we
+           keep), then the pieces are added to it, and one running slip shows
+           the whole figure before anyone commits.
+
+           WHERE THESE PRICES COME FROM. The pieces are the studio's own add-on
+           list, read live from the dashboard, plus a few that only make sense
+           inside a commission (a second photographer, drone coverage) \u2014 so a
+           price the owner changes in the dashboard changes here too. The three
+           coverage levels below are the one thing she cannot set yet: they live
+           in this constant and are placeholders for this rehearsal. */
+        var ATELIER_COVERAGE = [
+            { name: 'The Ceremony', note: 'Six hours \u00b7 the ceremony and the reception that follows', price: 300000 },
+            { name: 'The Half Day', note: 'Ten hours \u00b7 preparation, the ceremony, the first dances', price: 480000 },
+            { name: 'The Full Day', note: 'Dawn to the last dance \u00b7 every event of the wedding', price: 680000 }
+        ];
+        var ATELIER_PIECES = [
+            { name: 'Second photographer', note: 'A second pair of eyes on the day, so nothing is missed at either end', price: 120000 },
+            { name: 'Drone coverage', note: 'Aerial frames of the venue and the celebration', price: 90000 },
+            { name: 'Pre-wedding session', note: 'Two outfits, two hours \u2014 before the day itself', price: 150000 }
+        ];
+        var configAddons = [];                 // the dashboard's own add-on rows
+        var atelier = { coverage: null, pieces: [] };
+
+        /* The piece menu: our own pieces first, then the dashboard's add-ons,
+           each name appearing once \u2014 a piece priced twice would double-charge. */
+        function atelierPieceMenu() {
+            var seen = {};
+            var menu = ATELIER_PIECES.slice();
+            menu.forEach(function (p) { seen[String(p.name).toLowerCase()] = true; });
+            configAddons.forEach(function (a) {
+                var key = String(a.name || '').toLowerCase();
+                if (!key || seen[key]) return;
+                seen[key] = true;
+                menu.push({ name: a.name, note: '', price: a.price });
+            });
+            return menu;
+        }
+
+        function renderAtelier() {
+            var covBox = document.getElementById('pg-coverage-list');
+            var pieceBox = document.getElementById('pg-pieces-list');
+            if (!covBox || !pieceBox) return;
+            covBox.innerHTML = ATELIER_COVERAGE.map(function (c, i) {
+                return '<label class="pg-opt' + (atelier.coverage === i ? ' is-on' : '') + '" for="pg-cov-' + i + '">' +
+                    '<input type="radio" id="pg-cov-' + i + '" name="pg-coverage" value="' + i + '"' + (atelier.coverage === i ? ' checked' : '') + '>' +
+                    '<span class="pg-opt-body"><span class="pg-opt-name">' + escHtml(c.name) + '</span>' +
+                    '<span class="pg-opt-desc">' + escHtml(c.note) + '</span></span>' +
+                    '<span class="pg-opt-price">' + formatNaira(c.price) + '</span></label>';
+            }).join('');
+            covBox.querySelectorAll('input[name="pg-coverage"]').forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    atelier.coverage = parseInt(radio.value, 10);
+                    covBox.querySelectorAll('.pg-opt').forEach(function (row) {
+                        var input = row.querySelector('input');
+                        row.classList.toggle('is-on', !!(input && input.checked));
+                    });
+                    atelierSlip();
+                });
+            });
+            pieceBox.innerHTML = atelierPieceMenu().map(function (p, i) {
+                var on = atelier.pieces.indexOf(p.name) !== -1;
+                return '<label class="pg-opt' + (on ? ' is-on' : '') + '" for="pg-piece-' + i + '">' +
+                    '<input type="checkbox" class="pg-piece" id="pg-piece-' + i + '" data-name="' + escHtml(p.name) + '" value="' + p.price + '"' + (on ? ' checked' : '') + '>' +
+                    '<span class="pg-opt-body"><span class="pg-opt-name">' + escHtml(p.name) + '</span>' +
+                    (p.note ? '<span class="pg-opt-desc">' + escHtml(p.note) + '</span>' : '') + '</span>' +
+                    '<span class="pg-opt-price">' + formatNaira(p.price) + '</span></label>';
+            }).join('');
+            pieceBox.querySelectorAll('.pg-piece').forEach(function (cb) {
+                cb.addEventListener('change', function () {
+                    var name = cb.getAttribute('data-name');
+                    atelier.pieces = atelier.pieces.filter(function (n) { return n !== name; });
+                    if (cb.checked) atelier.pieces.push(name);
+                    var row = cb.closest('.pg-opt');
+                    if (row) row.classList.toggle('is-on', cb.checked);
+                    atelierSlip();
+                });
+            });
+            atelierSlip();
+        }
+
+        /* The running slip. It recomputes from the composer's own state rather
+           than reading the cart, so a half-built commission is never mistaken
+           for one the client has chosen. */
+        function atelierSlip() {
+            var nameEl = document.getElementById('pg-slip-name');
+            var linesEl = document.getElementById('pg-slip-lines');
+            var totalEl = document.getElementById('pg-slip-total');
+            var retEl = document.getElementById('pg-slip-retainer');
+            var ctaEl = document.getElementById('pg-slip-cta');
+            if (!nameEl || !linesEl || !totalEl || !retEl || !ctaEl) return;
+            var cov = atelier.coverage === null ? null : ATELIER_COVERAGE[atelier.coverage];
+            var chosen = atelierPieceMenu().filter(function (p) { return atelier.pieces.indexOf(p.name) !== -1; });
+            var total = (cov ? cov.price : 0) + chosen.reduce(function (sum, p) { return sum + p.price; }, 0);
+            nameEl.innerText = cov ? 'Composed \u2014 ' + String(cov.name).replace(/^The /, '') : 'Nothing chosen yet';
+            if (!cov) {
+                linesEl.innerHTML = '<p class="pg-line is-empty">Choose how much of the day to keep, and anything else you would like beside it.</p>';
+            } else {
+                var html = '<div class="pg-line"><span>' + escHtml(cov.name) + '</span><span>' + formatNaira(cov.price) + '</span></div>';
+                chosen.forEach(function (p) {
+                    html += '<div class="pg-line"><span>' + escHtml(p.name) + '</span><span>' + formatNaira(p.price) + '</span></div>';
+                });
+                linesEl.innerHTML = html;
+            }
+            totalEl.innerText = cov ? formatNaira(total) : '\u2014';
+            retEl.innerText = cov ? formatNaira(total * 0.7) : '\u2014';
+            ctaEl.disabled = !cov;
+        }
+
+        /* One selection at a time. Choosing a collection or committing a
+           commission both clear the other, so the cart can never hold two
+           answers to the same question. */
+        function resetSelection(options) {
+            options = options || {};
+            cart.basePrice = 0; cart.baseName = ''; cart.addons = [];
+            cart.subtotal = 0; cart.retainer = 0; cart.balance = 0;
+            document.querySelectorAll('.pg-item').forEach(function (el) { el.classList.remove('is-chosen'); });
+            document.querySelectorAll('.pg-choose').forEach(function (b) { b.innerText = 'Choose this collection'; });
+            document.querySelectorAll('.addon-checkbox').forEach(function (cb) { cb.checked = false; });
+            var invoice = document.getElementById('invoice-ui');
+            if (invoice) invoice.classList.remove('active');
+            showAddons(true);
+            if (!options.keepComposer) { atelier.coverage = null; atelier.pieces = []; renderAtelier(); }
+        }
+
+        /* A composed commission carries its own pieces, so the separate
+           Custom Additions list \u2014 which offers many of the same things \u2014 is
+           put away rather than left open to charge for them twice. */
+        function showAddons(show) {
+            var section = document.getElementById('addons');
+            if (!section) return;
+            section.style.display = show ? '' : 'none';
+            if (!show) document.querySelectorAll('.addon-checkbox').forEach(function (cb) { cb.checked = false; });
+        }
+
+        function commitCommission() {
+            var cov = atelier.coverage === null ? null : ATELIER_COVERAGE[atelier.coverage];
+            if (!cov) return;
+            var pieces = atelierPieceMenu()
+                .filter(function (p) { return atelier.pieces.indexOf(p.name) !== -1; })
+                .map(function (p) { return { name: p.name, price: p.price }; });
+            var label = 'Composed \u2014 ' + String(cov.name).replace(/^The /, '');
+            resetSelection({ keepComposer: true });
+            cart.baseName = label;
+            cart.basePrice = cov.price;
+            cart.addons = pieces;
+            document.getElementById('addons-box').classList.add('active');
+            document.getElementById('invoice-ui').classList.add('active');
+            setAddonsEnabled(true);
+            showAddons(false);
+            updateStep(2);
+            calculateTotals();
+            var slip = document.getElementById('pg-slip-name');
+            if (slip) slip.innerText = label + ' \u2014 continued below';
+            lpSmoothScrollTo(document.getElementById('lp-booking'), { duration: 750, offset: -(lpStickyBarHeight() + 20) });
         }
 
         /* ── Add-on gate ──
@@ -576,11 +869,15 @@
         /* ── Fetch config from admin, fall back to defaults ── */
         (function () {
             fetch(API_BASE + '/api/wedding-config').then(function (r) { return r.json(); }).then(function (d) {
+                configAddons = (d.addons && d.addons.length) ? d.addons : DEFAULT_ADDONS;
                 renderPackages((d.packages && d.packages.length) ? d.packages : DEFAULT_PACKAGES);
-                renderAddons((d.addons && d.addons.length) ? d.addons : DEFAULT_ADDONS);
+                renderAddons(configAddons);
+                renderAtelier();
             }).catch(function () {
+                configAddons = DEFAULT_ADDONS;
                 renderPackages(DEFAULT_PACKAGES);
                 renderAddons(DEFAULT_ADDONS);
+                renderAtelier();
             });
         })();
 
@@ -596,20 +893,43 @@
         });
 
         /* ── Protected functions ── */
-        function selectPackage(btn) {
-            document.querySelectorAll('.tier-card').forEach(function (c) { c.classList.remove('selected'); });
-            document.querySelectorAll('.select-btn').forEach(function (b) { b.innerText = 'Select Package'; });
-            var card = btn.closest('.tier-card'); card.classList.add('selected'); btn.innerText = 'Selected';
-            cart.basePrice = parseFloat(card.getAttribute('data-price')); cart.baseName = card.getAttribute('data-name');
-            document.getElementById('addons-box').classList.add('active'); document.getElementById('invoice-ui').classList.add('active');
+        function chooseCollection(btn) {
+            var item = btn.closest('.pg-item');
+            if (!item) return;
+            var name = item.getAttribute('data-name');
+            var price = parseFloat(item.getAttribute('data-price'));
+            resetSelection({ keepComposer: false });
+            item.classList.add('is-chosen');
+            btn.innerText = 'Chosen';
+            cart.basePrice = price; cart.baseName = name;
+            document.getElementById('addons-box').classList.add('active');
+            document.getElementById('invoice-ui').classList.add('active');
             setAddonsEnabled(true);
             updateStep(2);
-            // Scroll to the date picker, not to the extras: choosing a package
-            // is step 1 and the next thing needed is a date. Custom Additions
-            // and the Booking Summary now sit below the calendar.
+            // Scroll to the date picker, not to the extras: choosing a collection
+            // is step 1 and the next thing needed is a date.
             lpSmoothScrollTo(document.getElementById('lp-booking'), { duration: 750, offset: -(lpStickyBarHeight() + 20) });
             calculateTotals();
         }
+
+        /* ── The two modes ── */
+        (function () {
+            var modes = document.querySelectorAll('.pg-mode');
+            var collectionsPanel = document.getElementById('pg-collections');
+            var atelierPanel = document.getElementById('pg-atelier');
+            function setMode(mode) {
+                modes.forEach(function (m) { m.setAttribute('aria-pressed', String(m.getAttribute('data-mode') === mode)); });
+                if (collectionsPanel) collectionsPanel.hidden = (mode !== 'collections');
+                if (atelierPanel) atelierPanel.hidden = (mode !== 'atelier');
+                if (mode === 'atelier') renderAtelier();
+            }
+            modes.forEach(function (m) {
+                m.addEventListener('click', function () { setMode(m.getAttribute('data-mode')); });
+            });
+            var cta = document.getElementById('pg-slip-cta');
+            if (cta) cta.addEventListener('click', commitCommission);
+            renderAtelier();
+        })();
         /** Escape for a till row. */
         function tillEsc(str) {
             var d = document.createElement('div');
