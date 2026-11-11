@@ -254,6 +254,8 @@
         .pg-opt-body { min-width: 0; }
         .pg-opt-name { font-size: 13.5px; color: var(--text-primary); transition: color 0.2s ease; }
         .pg-opt.is-on .pg-opt-name { color: var(--accent); }
+        .pg-group-label { display: block; padding: 34px 0 2px; border-top: 1px solid var(--border-color); margin-top: 34px; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); }
+        .pg-group-label:first-child { border-top: 0; margin-top: 0; padding-top: 6px; }
         .pg-opt-desc { display: block; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 3px; }
         .pg-opt-price { margin-left: auto; font-family: 'Fraunces', serif; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-primary); padding-left: 12px; }
 
@@ -385,7 +387,7 @@
             <header class="pg-head">
                 <p class="pg-eyebrow">Beloved Imprint &mdash; Wedding Photography</p>
                 <h2 class="pg-title serif">The Price Guide</h2>
-                <p class="pg-lede">Four collections, made for the day as it will actually happen. Or compose your own, piece by piece, and see the whole commission before you commit to anything.</p>
+                <p class="pg-lede">Collections, made for the day as it will actually happen. Or compose your own, piece by piece, and see the whole commission before you commit to anything.</p>
             </header>
 
             <div class="pg-modes" aria-label="How would you like to choose?">
@@ -671,12 +673,11 @@
            keep), then the pieces are added to it, and one running slip shows
            the whole figure before anyone commits.
 
-           WHERE THESE PRICES COME FROM. The pieces are the studio's own add-on
-           list, read live from the dashboard, plus a few that only make sense
-           inside a commission (a second photographer, drone coverage) \u2014 so a
-           price the owner changes in the dashboard changes here too. The three
-           coverage levels below are the one thing she cannot set yet: they live
-           in this constant and are placeholders for this rehearsal. */
+           WHERE THESE PRICES COME FROM. Every price is read from the dashboard's
+           Packages screen: the category decides whether a row is a collection,
+           a coverage level or a piece group, so no figure on this page has to be
+           edited in code again. The two constants below are the fallback, used
+           only until she has added those rows of her own. */
         var ATELIER_COVERAGE = [
             { name: 'The Ceremony', note: 'Six hours \u00b7 the ceremony and the reception that follows', price: 300000 },
             { name: 'The Half Day', note: 'Ten hours \u00b7 preparation, the ceremony, the first dances', price: 480000 },
@@ -687,21 +688,75 @@
             { name: 'Drone coverage', note: 'Aerial frames of the venue and the celebration', price: 90000 },
             { name: 'Pre-wedding session', note: 'Two outfits, two hours \u2014 before the day itself', price: 150000 }
         ];
+
+        /* THE CATEGORIES THAT DRIVE THIS PAGE. Everything is her own data, read
+           from the Packages screen she already edits:
+
+             Wedding           the collections
+             Wedding Coverage  the "how much of the day" radio levels
+             Wedding <Group>   a group of pieces, titled <Group>
+
+           Only categories beginning "Wedding" are read, so the studio's own
+           packages can never appear on the wedding page. */
+        var COLLECTIONS_CATEGORY = 'wedding';
+        var COVERAGE_CATEGORY = 'wedding coverage';
         var configAddons = [];                 // the dashboard's own add-on rows
+        var coverageLevels = ATELIER_COVERAGE.slice();
+        var pieceGroups = defaultPieceGroups();
         var atelier = { coverage: null, pieces: [] };
 
-        /* The piece menu: our own pieces first, then the dashboard's add-ons,
-           each name appearing once \u2014 a piece priced twice would double-charge. */
-        function atelierPieceMenu() {
-            var seen = {};
-            var menu = ATELIER_PIECES.slice();
-            menu.forEach(function (p) { seen[String(p.name).toLowerCase()] = true; });
-            configAddons.forEach(function (a) {
-                var key = String(a.name || '').toLowerCase();
-                if (!key || seen[key]) return;
-                seen[key] = true;
-                menu.push({ name: a.name, note: '', price: a.price });
+        /* A piece carries a key as well as a name: the same name can sit in two
+           groups, and a tick has to survive a re-render. The fallback pieces
+           have no database id, so their position is their key. */
+        function pieceKey(p, i) {
+            return p && p.id ? 'pkg' + p.id : 'n' + i;
+        }
+
+        function defaultPieceGroups() {
+            return [{ title: '', items: ATELIER_PIECES.map(function (p, i) {
+                return { key: pieceKey(p, i), name: p.name, note: p.note, price: p.price };
+            }) }];
+        }
+
+        /* One sub-line per row, whatever punctuation she used in the dashboard:
+           line breaks become middots rather than five-line paragraphs. */
+        function oneLine(text) {
+            return String(text == null ? '' : text).replace(/\s*\n+\s*/g, ' \u00b7 ').trim();
+        }
+
+        /* Sort her rows into the three places this page keeps. */
+        function readWeddingPackages(rows) {
+            var collections = [], coverage = [], groups = [], byTitle = {};
+            (rows || []).forEach(function (p) {
+                var category = String(p.category || '').trim();
+                var lower = category.toLowerCase();
+                if (lower === COLLECTIONS_CATEGORY) { collections.push(p); return; }
+                if (lower === COVERAGE_CATEGORY) { coverage.push(p); return; }
+                if (lower.indexOf('wedding ') !== 0) return;
+                var title = category.slice('Wedding '.length).trim();
+                if (!title) return;
+                if (!byTitle[title]) { byTitle[title] = { title: title, items: [] }; groups.push(byTitle[title]); }
+                byTitle[title].items.push({
+                    key: pieceKey(p, byTitle[title].items.length),
+                    name: p.name,
+                    note: oneLine(p.description),
+                    price: p.price
+                });
             });
+            return {
+                collections: collections,
+                coverage: coverage.map(function (p) {
+                    return { name: p.name, note: oneLine(p.description), price: p.price };
+                }),
+                groups: groups
+            };
+        }
+
+        /* Every piece on the page, flattened: the slip and the cart both read
+           from this one list, each item keeping the key it was rendered with. */
+        function atelierPieceMenu() {
+            var menu = [];
+            pieceGroups.forEach(function (g) { g.items.forEach(function (p) { menu.push(p); }); });
             return menu;
         }
 
@@ -709,7 +764,7 @@
             var covBox = document.getElementById('pg-coverage-list');
             var pieceBox = document.getElementById('pg-pieces-list');
             if (!covBox || !pieceBox) return;
-            covBox.innerHTML = ATELIER_COVERAGE.map(function (c, i) {
+            covBox.innerHTML = coverageLevels.map(function (c, i) {
                 return '<label class="pg-opt' + (atelier.coverage === i ? ' is-on' : '') + '" for="pg-cov-' + i + '">' +
                     '<input type="radio" id="pg-cov-' + i + '" name="pg-coverage" value="' + i + '"' + (atelier.coverage === i ? ' checked' : '') + '>' +
                     '<span class="pg-opt-body"><span class="pg-opt-name">' + escHtml(c.name) + '</span>' +
@@ -726,19 +781,32 @@
                     atelierSlip();
                 });
             });
-            pieceBox.innerHTML = atelierPieceMenu().map(function (p, i) {
-                var on = atelier.pieces.indexOf(p.name) !== -1;
-                return '<label class="pg-opt' + (on ? ' is-on' : '') + '" for="pg-piece-' + i + '">' +
-                    '<input type="checkbox" class="pg-piece" id="pg-piece-' + i + '" data-name="' + escHtml(p.name) + '" value="' + p.price + '"' + (on ? ' checked' : '') + '>' +
-                    '<span class="pg-opt-body"><span class="pg-opt-name">' + escHtml(p.name) + '</span>' +
-                    (p.note ? '<span class="pg-opt-desc">' + escHtml(p.note) + '</span>' : '') + '</span>' +
-                    '<span class="pg-opt-price">' + formatNaira(p.price) + '</span></label>';
-            }).join('');
+            /* One list per category she has written, each under its own label
+               when there is more than one — so a studio list of "Albums" and
+               "Film" reads as two shelves rather than one pile. */
+            var pieceHtml = '';
+            var pieceId = 0;
+            var showGroupTitles = pieceGroups.length > 1;
+            pieceGroups.forEach(function (group) {
+                if (showGroupTitles && group.title) {
+                    pieceHtml += '<span class="pg-group-label">' + escHtml(group.title) + '</span>';
+                }
+                group.items.forEach(function (p) {
+                    var on = atelier.pieces.indexOf(p.key) !== -1;
+                    var id = 'pg-piece-' + (pieceId++);
+                    pieceHtml += '<label class="pg-opt' + (on ? ' is-on' : '') + '" for="' + id + '">' +
+                        '<input type="checkbox" class="pg-piece" id="' + id + '" data-key="' + escHtml(p.key) + '" value="' + p.price + '"' + (on ? ' checked' : '') + '>' +
+                        '<span class="pg-opt-body"><span class="pg-opt-name">' + escHtml(p.name) + '</span>' +
+                        (p.note ? '<span class="pg-opt-desc">' + escHtml(p.note) + '</span>' : '') + '</span>' +
+                        '<span class="pg-opt-price">' + formatNaira(p.price) + '</span></label>';
+                });
+            });
+            pieceBox.innerHTML = pieceHtml;
             pieceBox.querySelectorAll('.pg-piece').forEach(function (cb) {
                 cb.addEventListener('change', function () {
-                    var name = cb.getAttribute('data-name');
-                    atelier.pieces = atelier.pieces.filter(function (n) { return n !== name; });
-                    if (cb.checked) atelier.pieces.push(name);
+                    var key = cb.getAttribute('data-key');
+                    atelier.pieces = atelier.pieces.filter(function (k) { return k !== key; });
+                    if (cb.checked) atelier.pieces.push(key);
                     var row = cb.closest('.pg-opt');
                     if (row) row.classList.toggle('is-on', cb.checked);
                     atelierSlip();
@@ -757,8 +825,8 @@
             var retEl = document.getElementById('pg-slip-retainer');
             var ctaEl = document.getElementById('pg-slip-cta');
             if (!nameEl || !linesEl || !totalEl || !retEl || !ctaEl) return;
-            var cov = atelier.coverage === null ? null : ATELIER_COVERAGE[atelier.coverage];
-            var chosen = atelierPieceMenu().filter(function (p) { return atelier.pieces.indexOf(p.name) !== -1; });
+            var cov = atelier.coverage === null ? null : (coverageLevels[atelier.coverage] || null);
+            var chosen = atelierPieceMenu().filter(function (p) { return atelier.pieces.indexOf(p.key) !== -1; });
             var total = (cov ? cov.price : 0) + chosen.reduce(function (sum, p) { return sum + p.price; }, 0);
             nameEl.innerText = cov ? 'Composed \u2014 ' + String(cov.name).replace(/^The /, '') : 'Nothing chosen yet';
             if (!cov) {
@@ -802,10 +870,19 @@
         }
 
         function commitCommission() {
-            var cov = atelier.coverage === null ? null : ATELIER_COVERAGE[atelier.coverage];
+            var cov = atelier.coverage === null ? null : (coverageLevels[atelier.coverage] || null);
             if (!cov) return;
+            /* A name she has written into two groups must still be charged
+               once: the cart holds line items, not ticks. */
+            var seenPiece = {};
             var pieces = atelierPieceMenu()
-                .filter(function (p) { return atelier.pieces.indexOf(p.name) !== -1; })
+                .filter(function (p) { return atelier.pieces.indexOf(p.key) !== -1; })
+                .filter(function (p) {
+                    var name = String(p.name).toLowerCase();
+                    if (seenPiece[name]) return false;
+                    seenPiece[name] = true;
+                    return true;
+                })
                 .map(function (p) { return { name: p.name, price: p.price }; });
             var label = 'Composed \u2014 ' + String(cov.name).replace(/^The /, '');
             resetSelection({ keepComposer: true });
@@ -866,19 +943,45 @@
             setAddonsEnabled(!!cart.baseName);
         }
 
-        /* ── Fetch config from admin, fall back to defaults ── */
+        /* ── Fetch her data from the dashboard, fall back to defaults ──
+           Two public reads rather than the wedding-config endpoint: that one
+           only ever returns the Wedding category, and the coverage levels and
+           piece groups live in categories of their own. */
         (function () {
-            fetch(API_BASE + '/api/wedding-config').then(function (r) { return r.json(); }).then(function (d) {
-                configAddons = (d.addons && d.addons.length) ? d.addons : DEFAULT_ADDONS;
-                renderPackages((d.packages && d.packages.length) ? d.packages : DEFAULT_PACKAGES);
+            function useFallbacks() {
+                configAddons = DEFAULT_ADDONS;
+                coverageLevels = ATELIER_COVERAGE.slice();
+                pieceGroups = defaultPieceGroups();
+                atelier.pieces = [];
+                renderPackages(DEFAULT_PACKAGES);
                 renderAddons(configAddons);
                 renderAtelier();
-            }).catch(function () {
-                configAddons = DEFAULT_ADDONS;
-                renderPackages(DEFAULT_PACKAGES);
-                renderAddons(DEFAULT_ADDONS);
+            }
+            function readJson(url) {
+                return fetch(url).then(function (r) {
+                    if (!r.ok) throw new Error(url);
+                    return r.json();
+                });
+            }
+            Promise.all([
+                readJson(API_BASE + '/api/packages?activeOnly=true'),
+                readJson(API_BASE + '/api/addons?activeOnly=true&category=Wedding')
+            ]).then(function (parts) {
+                var split = readWeddingPackages(parts[0] && parts[0].packages);
+                var addonRows = (parts[1] && parts[1].addons) || [];
+                configAddons = addonRows.length ? addonRows : DEFAULT_ADDONS;
+                coverageLevels = split.coverage.length ? split.coverage : ATELIER_COVERAGE.slice();
+                pieceGroups = split.groups.length ? split.groups : defaultPieceGroups();
+                /* Ticks made before the data arrived must survive it, and an
+                   index that no longer exists must not point at a price. */
+                atelier.pieces = atelier.pieces.filter(function (key) {
+                    return atelierPieceMenu().some(function (p) { return p.key === key; });
+                });
+                if (atelier.coverage !== null && !coverageLevels[atelier.coverage]) atelier.coverage = null;
+                renderPackages(split.collections.length ? split.collections : DEFAULT_PACKAGES);
+                renderAddons(configAddons);
                 renderAtelier();
-            });
+            }).catch(useFallbacks);
         })();
 
         /* ── DOMContentLoaded: scrollspy + policy link only ── */
