@@ -727,6 +727,7 @@
         .pg-atelier { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 52px; padding-top: 36px; align-items: start; }
         .pg-step { display: block; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 9px; }
         .pg-legend { margin: 0 0 6px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--text-primary); }
+        .pg-note { font-size: 12.5px; line-height: 1.8; color: var(--text-secondary); margin: 0 0 22px; max-width: 46ch; }
 
         .st-line { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--border-color); }
         .st-line:first-child { border-top: 1px solid var(--border-color); }
@@ -742,7 +743,12 @@
         .st-qty-val { min-width: 30px; text-align: center; font-family: 'Fraunces', serif; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
         .st-line-total { min-width: 96px; text-align: right; font-family: 'Fraunces', serif; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
 
-        .pg-slip { position: sticky; top: 120px; background: var(--bg-booking); border: 1px solid var(--border-color); padding: 30px 28px 26px; }
+        .pg-slip { position: sticky; top: 120px; }
+        .pg-slip.till { background: transparent; }
+        .pg-slip .till-paper { max-width: none; }
+        .pg-slip .pg-slip-cta { margin-top: 18px; background: var(--till-ink); color: var(--till-paper); }
+        .pg-slip .pg-slip-cta:hover:not(:disabled) { background: #3a3129; }
+        .pg-slip-cta-note { text-align: center; font-size: 9.5px; letter-spacing: 0.1em; color: var(--till-mute); margin-top: 12px; }
         .pg-slip-eyebrow { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); }
         .pg-slip-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; margin: 10px 0 18px; color: var(--text-primary); }
         .pg-line { display: flex; justify-content: space-between; gap: 14px; font-size: 12.5px; line-height: 1.6; padding: 7px 0; color: var(--text-secondary); }
@@ -756,6 +762,7 @@
         .pg-slip-cta:hover:not(:disabled) { background: var(--accent); }
         .pg-slip-cta:disabled { opacity: 0.4; cursor: not-allowed; }
         .pg-slip-note { font-size: 10.5px; line-height: 1.7; color: var(--text-secondary); margin-top: 14px; }
+        .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
             .pg-modes { gap: 22px; }
@@ -823,17 +830,18 @@
         <!-- PACKAGES SECTION — THE SESSION GUIDE -->
         <section class="section-block" id="packages">
             <header class="pg-head">
-                <p class="pg-eyebrow">Studio Sessions &mdash; Portraits, Couples &amp; Families</p>
-                <h2 class="pg-title serif">The Price Guide</h2>
-                <p class="pg-lede">Five sittings, each priced for what it carries — or build your own package, line by line: the hours, the images, the retouching. You decide what is in it.</p>
+                <p class="pg-eyebrow" data-copy="eyebrow">Studio sessions</p>
+                <h2 class="pg-title serif" data-copy="title">Price guide</h2>
+                <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package. You choose the hours, the images and the retouching, and the total changes as you go.</p>
             </header>
             <div class="pg-modes" aria-label="How would you like to choose?">
-                <button type="button" class="pg-mode" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">The Sessions</button>
-                <button type="button" class="pg-mode" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">Build Your Own</button>
+                <button type="button" class="pg-mode" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions" data-copy="sessions tab">Sessions</button>
+                <button type="button" class="pg-mode" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose" data-copy="build tab">Build your own</button>
             </div>
 
             <div class="pg-panel" id="pg-collections">
-                <div class="tier-stack" id="packages-grid">
+                <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
+                <div id="packages-grid" class="tier-stack">
                     <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
                 </div>
             </div>
@@ -841,28 +849,35 @@
             <div class="pg-panel" id="pg-compose" hidden>
                 <div class="pg-atelier">
                     <div>
-                        <span class="pg-step">Line by line</span>
-                        <h3 class="pg-legend">Choose what you need</h3>
+                        <h3 class="pg-legend" data-copy="build heading">What you need</h3>
+                        <p class="pg-note" data-copy="build intro">Set your hours first, then add the images and the retouching you want.</p>
                         <div id="st-lines">
                             <p class="pg-line is-empty">Loading the rates&hellip;</p>
                         </div>
                         <div id="st-fixed-wrap" hidden>
                             <div class="st-divider"></div>
-                            <span class="pg-step">Sold once, not by the number</span>
-                            <h3 class="pg-legend">The thinking</h3>
+                            <h3 class="pg-legend" data-copy="direction heading">Direction</h3>
+                            <p class="pg-note" data-copy="direction intro">Planned before the shoot: the moodboard, the styling and the vendor suggestions. Priced once.</p>
                             <div id="st-fixed"></div>
                         </div>
                     </div>
-                    <aside class="pg-slip" aria-live="polite">
-                        <p class="pg-slip-eyebrow">Your package</p>
-                        <h3 class="pg-slip-title" id="st-slip-name">Nothing chosen yet</h3>
-                        <div id="st-slip-lines">
-                            <p class="pg-line is-empty">Add the hours you need, then the images and the retouching you would like.</p>
+                    <aside class="pg-slip till" aria-live="polite">
+                        <div class="till-paper">
+                            <div class="till-shop">YOUR PACKAGE</div>
+                            <div class="till-sub" id="st-slip-name">Nothing chosen yet</div>
+                            <div class="till-perf"></div>
+                            <table class="till-table">
+                                <thead><tr><th class="till-qty">QTY</th><th>DESC</th><th class="till-amt">AMT</th></tr></thead>
+                                <tbody id="st-slip-lines">
+                                    <tr><td colspan="3" class="st-slip-empty">Set your hours first.</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="till-perf"></div>
+                            <div class="till-total"><span>SUBTOTAL</span><span id="st-slip-total">&mdash;</span></div>
+                            <div class="till-grand"><span>RETAINER TODAY (70%)</span><span id="st-slip-retainer">&mdash;</span></div>
+                            <button type="button" class="pg-slip-cta" id="st-slip-cta" disabled>Continue with this package</button>
+                            <div class="pg-slip-cta-note">Balance settled on delivery</div>
                         </div>
-                        <div class="pg-slip-total"><span>Total</span><span id="st-slip-total">&mdash;</span></div>
-                        <div class="pg-slip-retainer"><span>Retainer today (70%)</span><span id="st-slip-retainer">&mdash;</span></div>
-                        <button type="button" class="pg-slip-cta" id="st-slip-cta" disabled>Continue with this package</button>
-                        <p class="pg-slip-note">70% secures the date; the balance is settled on delivery. Off-studio shoots and express delivery can be added below once your package is on the receipt.</p>
                     </aside>
                 </div>
             </div>
@@ -951,8 +966,8 @@
 
         <!-- ADD-ONS SECTION -->
         <section class="section-block" id="addons">
-            <h2 class="section-title serif">Custom Additions</h2>
-            <p class="section-meta">Entirely optional — studio sessions already include a backdrop. Add these only for off-studio shoots or faster delivery.</p>
+            <h2 class="section-title serif" data-copy="extras heading">Custom additions</h2>
+            <p class="section-meta" data-copy="extras intro">Optional. A session already includes a backdrop in the studio. Add these for off-studio shoots or faster delivery.</p>
             <div class="addons-container" id="addons-box"></div>
 
             <!-- LIVE INVOICE SUMMARY -->
@@ -1217,9 +1232,10 @@
                 .catch(function (err) { console.error('Could not load logo from Settings:', err); });
         })();
 
-        // THE SESSION GUIDE — sessions and extras read from the dashboard, printed
-        // as a catalogue rather than photo tiles to hover over. Each session keeps
-        // its own photograph: on this page the work is the argument for the price.
+        // THE PRICE GUIDE — sessions and extras read from the dashboard. Sessions
+        // print as cards on purpose: this page is a studio shopfront, and the
+        // photograph is most of what the client is buying. Section wording comes
+        // from rows in "Studio Guide" (name = slot, description = the text).
         //
         // The category decides where a row lands, exactly as on the wedding page:
         //   Studio            the five sessions
@@ -1330,11 +1346,16 @@
                 var rows = (parts[0] && parts[0].packages) || [];
                 var sessions = [];
                 var groups = [];
+                var guideRows = [];
                 var byTitle = {};
                 rows.forEach(function (p) {
                     var category = String(p.category || '').trim();
                     var lower = category.toLowerCase();
                     if (lower === 'studio') { sessions.push(p); return; }
+                    if (lower === 'studio guide') { guideRows.push(p); return; }
+                    /* Rate rows and fees are priced by the composer; offering
+                       them again as tick-box extras would charge them twice. */
+                    if (lower === 'studio coverage' || lower === 'studio direction') return;
                     if (lower.indexOf('studio ') !== 0) return;
                     var title = category.slice('Studio '.length).trim();
                     if (!title) return;
@@ -1351,6 +1372,7 @@
                 allGroups = allGroups.concat(groups);
                 renderSessions(sessions.length ? sessions : DEFAULT_SESSIONS);
                 renderExtras(allGroups.length ? allGroups : [{ title: '', items: DEFAULT_ADDONS }]);
+                if (typeof applyGuideCopy === 'function') applyGuideCopy(guideRows);
                 if (typeof lpSetStudioCoverage === 'function') lpSetStudioCoverage(rows);
             });
         })();
@@ -1366,15 +1388,14 @@
         //
         // The lists below are the fallback for an API that cannot be reached.
         var STUDIO_LINE_FALLBACK = [
-            { name: 'My time', note: 'per hour \u00b7 on set or in the studio', price: 80000 },
-            { name: 'The images', note: 'per image \u00b7 selected and colour finished', price: 10000 },
-            { name: 'Retouching \u2014 standard', note: 'per image \u00b7 clean skin, texture kept, light shaping', price: 20000 },
-            { name: 'Retouching \u2014 beauty', note: 'per image \u00b7 dodge and burn, hair, makeup, composite', price: 45000 }
+            { name: 'Studio time', note: 'per hour', price: 80000 },
+            { name: 'Images', note: 'per image', price: 10000 },
+            { name: 'Retouching', note: 'per image', price: 20000 }
         ];
-        /* Work sold once rather than by the number: it belongs beside the bill,
+        /* Work sold once rather than by the number: it sits beside the bill,
            not inside it as a quantity. */
         var STUDIO_FIXED_FALLBACK = [
-            { name: 'Creative direction', note: 'Moodboards, styling and vendor recommendations, planned with you before the shoot.', price: 60000 }
+            { name: 'Creative direction', note: 'Moodboard, styling and vendor recommendations, planned before the shoot.', price: 60000 }
         ];
         var studioLines = STUDIO_LINE_FALLBACK.slice();
         var studioFixedLines = STUDIO_FIXED_FALLBACK.slice();
@@ -1384,6 +1405,39 @@
         function studioMoney(amount) {
             return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(amount);
         }
+        /* The page's own words, editable from the dashboard.
+           Rows in the category "Studio Guide" carry them: the name is the slot,
+           the description is the text. Clear a description and that line
+           disappears; delete the row and the built-in wording comes back. */
+        var GUIDE_COPY = {};
+        var GUIDE_SLOTS = {};
+
+        function guideSlotKey(name) {
+            return String(name == null ? '' : name).toLowerCase().replace(/[^a-z ]/g, '').replace(/\s+/g, ' ').trim();
+        }
+
+        function applyGuideCopy(rows) {
+            GUIDE_COPY = {};
+            (rows || []).forEach(function (row) {
+                var key = guideSlotKey(row.name);
+                if (!key) return;
+                GUIDE_COPY[key] = String(row.description == null ? '' : row.description);
+            });
+            document.querySelectorAll('[data-copy]').forEach(function (el) {
+                if (!el.hasAttribute('data-default')) el.setAttribute('data-default', el.innerHTML);
+                var key = guideSlotKey(el.getAttribute('data-copy'));
+                var value = GUIDE_COPY[key];
+                var text = (value === undefined) ? el.getAttribute('data-default') : String(value).trim();
+                if (text) {
+                    el.innerHTML = studioEsc(text).replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+                    el.hidden = false;
+                } else {
+                    el.innerHTML = '';
+                    el.hidden = true;
+                }
+            });
+        }
+
         function studioEsc(str) {
             var d = document.createElement('div');
             d.textContent = String(str == null ? '' : str);
@@ -1492,19 +1546,19 @@
             var hours = studioQty[0] || 0;
 
             nameEl.innerText = hours
-                ? 'Studio package \u2014 ' + hours + (hours === 1 ? ' hour' : ' hours')
+                ? 'Studio package, ' + hours + (hours === 1 ? ' hour' : ' hours')
                 : 'Nothing chosen yet';
 
             if (chosen.length || fixedChosen.length) {
                 linesEl.innerHTML = chosen.map(function (row) {
-                    return '<div class="pg-line"><span>' + row.qty + ' \u00d7 ' + studioEsc(row.line.name) +
-                        '</span><span>' + studioMoney(row.total) + '</span></div>';
+                    return '<tr><td class="till-qty">' + row.qty + '</td><td>' + studioEsc(row.line.name) +
+                        '</td><td class="till-amt">' + studioMoney(row.total) + '</td></tr>';
                 }).join('') + fixedChosen.map(function (line) {
-                    return '<div class="pg-line"><span>' + studioEsc(line.name) +
-                        '</span><span>' + studioMoney(line.price) + '</span></div>';
+                    return '<tr><td class="till-qty">1</td><td>' + studioEsc(line.name) +
+                        '</td><td class="till-amt">' + studioMoney(line.price) + '</td></tr>';
                 }).join('');
             } else {
-                linesEl.innerHTML = '<p class="pg-line is-empty">Add the hours you need, then the images and the retouching you would like.</p>';
+                linesEl.innerHTML = '<tr><td colspan="3" class="st-slip-empty">Set your hours first.</td></tr>';
             }
 
             totalEl.innerText = (chosen.length || fixedChosen.length) ? studioMoney(total) : '\u2014';
@@ -1548,7 +1602,7 @@
                 addons.push({ name: cb.getAttribute('data-name'), price: parseFloat(cb.value) });
             });
 
-            cart.baseName = 'Studio package \u2014 ' + hours + (hours === 1 ? ' hour' : ' hours');
+            cart.baseName = 'Studio package, ' + hours + (hours === 1 ? ' hour' : ' hours');
             cart.basePrice = timeLine.price * hours;
             cart.addons = addons;
             document.getElementById('addons-box').classList.add('active');
