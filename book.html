@@ -716,12 +716,16 @@
            direction if they want it thought through. Each line is a row in
            the dashboard, so no rate on this page is written in code.
            ============================================================ */
-        .pg-modes { display: flex; justify-content: center; gap: 36px; border-bottom: 1px solid var(--border-color); margin: -6px 0 2px; }
-        .pg-mode { appearance: none; background: none; border: 0; padding: 0 0 15px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-secondary); cursor: pointer; position: relative; transition: color 0.25s ease; }
-        .pg-mode:hover { color: var(--text-primary); }
-        .pg-mode[aria-pressed="true"] { color: var(--text-primary); }
-        .pg-mode[aria-pressed="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1.5px; background: var(--accent); }
-        .pg-mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+        /* Two ways to buy, side by side and impossible to miss: a tab row
+           let half the clients walk straight past the builder. */
+        .pg-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 2px 0 34px; }
+        .pg-choice { position: relative; display: block; width: 100%; text-align: left; padding: 20px 22px 18px; border: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; transition: border-color 0.25s ease, background-color 0.25s ease; }
+        .pg-choice:hover { border-color: var(--text-secondary); }
+        .pg-choice[aria-pressed="true"] { border-color: var(--accent); background: var(--highlight-bg); }
+        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 19px; line-height: 1.25; color: var(--text-primary); }
+        .pg-choice[aria-pressed="true"] .pg-choice-title { color: var(--accent-deep); }
+        .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 7px; }
+        .pg-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
         .pg-panel[hidden] { display: none; }
 
         .pg-atelier { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 52px; padding-top: 36px; align-items: start; }
@@ -765,7 +769,10 @@
         .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
-            .pg-modes { gap: 22px; }
+            .pg-choices { gap: 10px; margin-bottom: 26px; }
+            .pg-choice { padding: 15px 13px 14px; }
+            .pg-choice-title { font-size: 15.5px; }
+            .pg-choice-note { font-size: 10.5px; margin-top: 5px; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
             .pg-slip { position: static; }
             .st-line { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main qty" "total qty"; gap: 6px 14px; padding: 16px 0; align-items: start; }
@@ -834,13 +841,19 @@
                 <h2 class="pg-title serif" data-copy="title">Price guide</h2>
                 <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package.</p>
             </header>
-            <div class="pg-modes" aria-label="How would you like to choose?">
-                <button type="button" class="pg-mode" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions" data-copy="sessions tab">Sessions</button>
-                <button type="button" class="pg-mode" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose" data-copy="build tab">Build your own</button>
+            <div class="pg-choices" role="group" aria-label="How would you like to choose?">
+                <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
+                    <span class="pg-choice-title" data-copy="sessions tab">Sessions</span>
+                    <span class="pg-choice-note" id="pg-choice-sessions-note">Loading the sittings&hellip;</span>
+                </button>
+                <button type="button" class="pg-mode pg-choice" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">
+                    <span class="pg-choice-title" data-copy="build tab">Build your own</span>
+                    <span class="pg-choice-note" id="pg-choice-build-note">Loading the rates&hellip;</span>
+                </button>
             </div>
 
             <div class="pg-panel" id="pg-collections">
-                <p class="pg-note" data-copy="sessions intro">Prices are in naira. Your edited images arrive in a private gallery.</p>
+                <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
                 <div id="packages-grid" class="tier-stack">
                     <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
                 </div>
@@ -1312,6 +1325,12 @@
                         '</div>' +
                     '</div>';
                 }).join('');
+
+                var cheapest = sessions.reduce(function (min, p) { return Math.min(min, p.price); }, Infinity);
+                var hint = document.getElementById('pg-choice-sessions-note');
+                if (hint && isFinite(cheapest)) {
+                    hint.textContent = sessions.length + (sessions.length === 1 ? ' sitting, from ' : ' sittings, from ') + money(cheapest);
+                }
             }
 
             /* Extras: the studio's add-ons first (they are the real ones, and they
@@ -1532,6 +1551,12 @@
                         studioSlip();
                     });
                 });
+            }
+
+            var firstLine = studioLines[0];
+            var buildHint = document.getElementById('pg-choice-build-note');
+            if (buildHint && firstLine) {
+                buildHint.textContent = 'From ' + studioMoney(firstLine.price) + (firstLine.note ? ' ' + firstLine.note : '');
             }
             studioSlip();
         }
