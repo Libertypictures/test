@@ -657,6 +657,56 @@
             .lpb-times { grid-template-columns: repeat(3, 1fr); gap: 8px; }
             .lpb-time-btn { padding: 12px 6px; font-size: 12px; }
         }
+
+        /* ============================================================
+           THE PRICE GUIDE — a catalogue, not a shop window
+
+           The same language as the wedding guide: hairline rules, roman
+           numerals, serif figures, nothing that floats or glows. Each
+           session keeps its own photograph, because on this page the work
+           is the argument for the price.
+           ============================================================ */
+        .pg-head { text-align: center; margin-bottom: 46px; }
+        .pg-eyebrow { font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+        .pg-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 42px; line-height: 1.08; letter-spacing: -0.7px; margin: 18px 0 20px; color: var(--text-primary); }
+        .pg-lede { font-size: 14px; line-height: 1.85; color: var(--text-secondary); max-width: 45ch; margin: 0 auto; }
+        .pg-item { padding: 30px 0 26px; border-bottom: 1px solid var(--border-color); }
+        .pg-item:first-child { border-top: 1px solid var(--border-color); }
+        .pg-session { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 26px; align-items: start; }
+        .pg-session.no-photo { grid-template-columns: minmax(0, 1fr); }
+        .pg-plate { width: 92px; aspect-ratio: 3 / 4; overflow: hidden; background: var(--bg-booking); }
+        .pg-plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .pg-session-body { min-width: 0; }
+        .pg-row { display: flex; align-items: baseline; gap: 14px; }
+        .pg-numeral { font-family: 'Fraunces', serif; font-size: 11px; letter-spacing: 0.12em; color: var(--accent); min-width: 18px; }
+        .pg-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 23px; min-width: 0; line-height: 1.25; letter-spacing: -0.2px; color: var(--text-primary); }
+        .pg-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 11.5px; color: var(--accent); white-space: nowrap; }
+        .pg-cost { margin-left: auto; font-family: 'Fraunces', serif; font-size: 19px; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-primary); }
+        .pg-inc { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px 32px; margin: 16px 0 0 32px; font-size: 12.5px; line-height: 1.8; color: var(--text-secondary); }
+        .pg-inc li { position: relative; padding-left: 14px; }
+        .pg-inc li::before { content: "\2014"; position: absolute; left: 0; color: var(--accent); opacity: 0.7; }
+        .pg-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 20px 0 0 32px; }
+        .pg-note { font-size: 10.5px; color: var(--text-secondary); }
+        .pg-choose { background: none; border: 0; border-bottom: 1px solid var(--accent); padding: 0 0 5px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-primary); cursor: pointer; transition: color 0.25s ease; }
+        .pg-choose:hover { color: var(--accent); }
+        .pg-choose:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+        .pg-item.is-chosen .pg-name, .pg-item.is-chosen .pg-numeral { color: var(--accent); }
+        .pg-item.is-chosen .pg-choose { color: var(--accent); border-bottom-color: transparent; }
+        .pg-group-label { display: block; padding: 0 0 4px; margin-top: 40px; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); }
+        .pg-group-label:first-child { margin-top: 0; }
+        .pg-line.is-empty { display: block; font-size: 12.5px; font-style: italic; color: var(--text-secondary); line-height: 1.75; }
+        .addon-note { display: block; font-style: normal; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 2px; }
+        @media (max-width: 600px) {
+            .pg-title { font-size: 30px; }
+            .pg-lede { font-size: 13px; }
+            .pg-session { grid-template-columns: 68px minmax(0, 1fr); gap: 16px; }
+            .pg-plate { width: 68px; }
+            .pg-row { gap: 4px 10px; }
+            .pg-name { font-size: 20px; flex: 1 1 auto; min-width: 0; }
+            .pg-cost { font-size: 17px; }
+            .pg-inc { grid-template-columns: 1fr; margin-left: 0; font-size: 12px; }
+            .pg-foot { flex-direction: column; align-items: flex-start; gap: 12px; margin-left: 0; }
+        }
     </style>
 </head>
 <body>
@@ -694,19 +744,15 @@
             </div>
         </div>
 
-        <!-- PACKAGES SECTION -->
+        <!-- PACKAGES SECTION — THE SESSION GUIDE -->
         <section class="section-block" id="packages">
-            <h2 class="section-title serif">Our Sessions</h2>
-            <p class="section-meta">Perfect for portraits, pre-birthdays, maternity, corporate headshots, duo, and family sessions.</p>
-            <div class="tier-stack" id="packages-grid">
-                <!-- Skeleton cards match the real cards' exact dimensions
-                     (same class), so nothing below shifts when the live
-                     packages swap in. -->
-                <div class="tier-card is-skeleton" aria-hidden="true"></div>
-                <div class="tier-card is-skeleton" aria-hidden="true"></div>
-                <div class="tier-card is-skeleton" aria-hidden="true"></div>
-                <div class="tier-card is-skeleton" aria-hidden="true"></div>
-                <div class="tier-card is-skeleton" aria-hidden="true"></div>
+            <header class="pg-head">
+                <p class="pg-eyebrow">Studio Sessions &mdash; Portraits, Couples &amp; Families</p>
+                <h2 class="pg-title serif">The Session Guide</h2>
+                <p class="pg-lede">Five sittings, each priced for what it carries. Choose one, then add only what your session actually needs.</p>
+            </header>
+            <div id="packages-grid">
+                <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
             </div>
         </section>
 
@@ -795,29 +841,7 @@
         <section class="section-block" id="addons">
             <h2 class="section-title serif">Custom Additions</h2>
             <p class="section-meta">Entirely optional — studio sessions already include a backdrop. Add these only for off-studio shoots or faster delivery.</p>
-            <div class="addons-container" id="addons-box">
-                <label class="addon-row">
-                    <div class="addon-label">
-                        <input type="checkbox" class="addon-checkbox" value="50000" data-name="Off-Studio Shoot — No Backdrop">
-                        <span>Shoot at an Off-Studio Location — No Backdrop</span>
-                    </div>
-                    <span class="addon-price">₦50,000</span>
-                </label>
-                <label class="addon-row">
-                    <div class="addon-label">
-                        <input type="checkbox" class="addon-checkbox" value="70000" data-name="Off-Studio Shoot — With Backdrop">
-                        <span>Shoot at an Off-Studio Location — With Backdrop</span>
-                    </div>
-                    <span class="addon-price">₦70,000</span>
-                </label>
-                <label class="addon-row">
-                    <div class="addon-label">
-                        <input type="checkbox" class="addon-checkbox" value="30000" data-name="Express 24Hr Delivery">
-                        <span>Express 24-Hour Digital Turnaround</span>
-                    </div>
-                    <span class="addon-price">+₦30,000</span>
-                </label>
-            </div>
+            <div class="addons-container" id="addons-box"></div>
 
             <!-- LIVE INVOICE SUMMARY -->
             <!-- The booking summary is a till receipt, not a price list. -->
@@ -1081,65 +1105,142 @@
                 .catch(function (err) { console.error('Could not load logo from Settings:', err); });
         })();
 
-        // PACKAGES — loaded from the real backend, matching the same
-        // pattern used throughout Libertypictures: whatever's in the
-        // dashboard is exactly what shoppers see, no GitHub-hosted
-        // files involved.
+        // THE SESSION GUIDE — sessions and extras read from the dashboard, printed
+        // as a catalogue rather than photo tiles to hover over. Each session keeps
+        // its own photograph: on this page the work is the argument for the price.
+        //
+        // The category decides where a row lands, exactly as on the wedding page:
+        //   Studio            the five sessions
+        //   Studio <Group>    a group of extras, titled <Group>
+        // Only categories beginning "Studio" are read, so a wedding row can never
+        // appear here. The copies below are the fallback for an API that cannot be
+        // reached, so the page never renders empty.
         (function () {
             var API_BASE = 'https://liberty-booking-api.visualsliberty.workers.dev';
             var grid = document.getElementById('packages-grid');
+
+            var DEFAULT_SESSIONS = [
+                { name: 'Individual', price: 150000, badge: 'Most booked', description: '1 Outfit/concept\n5 retouched photographs' },
+                { name: 'Individual Two Looks', price: 200000, badge: '', description: '2 distinct outfits/concept\n9 edited photographs' },
+                { name: 'Individual Three Looks', price: 300000, badge: 'Premium', description: '3 distinct outfits/concepts\n15 retouched photographs' },
+                { name: 'Duo', price: 150000, badge: '', description: 'For pre-weddings, couple portraits, mommy & me, twin portraits\n1 distinct concept\n10 retouched photographs' },
+                { name: 'Family', price: 280000, badge: '', description: 'Maximum of two outfits\n18 retouched photographs\n1 photo album' }
+            ];
+            var DEFAULT_ADDONS = [
+                { name: 'Off-Studio Shoot \u2014 No Backdrop', price: 50000 },
+                { name: 'Off-Studio Shoot \u2014 With Backdrop', price: 70000 },
+                { name: 'Express 24Hr Delivery', price: 30000 }
+            ];
+            var NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
             function escapeHtmlLocal(str) {
                 var div = document.createElement('div');
                 div.textContent = String(str == null ? '' : str);
                 return div.innerHTML;
             }
-
-            function cardHtml(p, isFirst) {
-                // The first card is the page's LCP candidate once the
-                // section scrolls into view — load it eagerly with high
-                // priority instead of lazy (a several-hundred-KB photo
-                // that only starts downloading when scrolled to).
-                var loadingAttr = isFirst ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
-                var photoHtml = p.imageUrl
-                    ? '<img src="' + API_BASE + p.imageUrl + '" alt="' + escapeHtmlLocal(p.name) + '" ' + loadingAttr + ' decoding="async">'
-                    : '';
-                var bullets = (p.description || '').split('\n').filter(function (line) { return line.trim(); });
-                var bulletsHtml = bullets.length
-                    ? '<ul class="tier-details">' + bullets.map(function (b) { return '<li>' + escapeHtmlLocal(b) + '</li>'; }).join('') + '</ul>'
-                    : '';
-                var priceLabel = '\u20a6' + Math.round(p.price / 1000) + 'k';
-
-                return '<div class="tier-card' + (photoHtml ? '' : ' no-photo') + '" data-price="' + p.price + '" data-name="' + escapeHtmlLocal(p.name) + '">' +
-                    '<div class="tier-photo-full">' + photoHtml + '</div>' +
-                    '<div class="tier-scrim">' +
-                        '<h3>' + escapeHtmlLocal(p.name) + '</h3>' +
-                        bulletsHtml +
-                        '<div class="tier-price-box">' +
-                            '<span class="tier-price">' + priceLabel + '</span>' +
-                            '<button class="select-btn" onclick="selectPackage(this)">Select Session</button>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>';
+            function money(amount) {
+                return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(amount);
+            }
+            function oneLine(text) {
+                return String(text == null ? '' : text).replace(/\s*\n+\s*/g, ' \u00b7 ').trim();
             }
 
-            fetch(API_BASE + '/api/packages?activeOnly=true&category=Studio')
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                    var packages = (data.packages || []).slice().sort(function (a, b) { return a.displayOrder - b.displayOrder; });
-                    if (!packages.length) {
-                        grid.innerHTML = '<p style="text-align:center; color:var(--text-secondary); font-size:13px;">Sessions are being updated \u2014 check back shortly.</p>';
-                        return;
+            function renderSessions(sessions) {
+                if (!sessions.length) {
+                    grid.innerHTML = '<p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Sessions are being updated \u2014 check back shortly.</p>';
+                    return;
+                }
+                grid.innerHTML = sessions.map(function (p, i) {
+                    // The first photograph is the page's LCP candidate once the
+                    // section is reached, so it is the one loaded eagerly.
+                    var photo = p.imageUrl
+                        ? '<div class="pg-plate"><img src="' + API_BASE + p.imageUrl + '" alt="' + escapeHtmlLocal(p.name) + '" ' +
+                            (i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ' decoding="async"></div>'
+                        : '';
+                    var bullets = (p.description || '').split('\n').filter(function (line) { return line.trim(); });
+                    var incHtml = bullets.length
+                        ? '<ul class="pg-inc">' + bullets.map(function (b) { return '<li>' + escapeHtmlLocal(b) + '</li>'; }).join('') + '</ul>'
+                        : '';
+                    var markHtml = p.badge ? '<span class="pg-mark">' + escapeHtmlLocal(p.badge) + '</span>' : '';
+                    return '<article class="pg-item pg-session' + (photo ? '' : ' no-photo') + '" data-price="' + p.price + '" data-name="' + escapeHtmlLocal(p.name) + '">' +
+                        photo +
+                        '<div class="pg-session-body">' +
+                            '<div class="pg-row">' +
+                                '<span class="pg-numeral">' + (NUMERALS[i] || (i + 1)) + '</span>' +
+                                '<h3 class="pg-name">' + escapeHtmlLocal(p.name) + '</h3>' + markHtml +
+                                '<span class="pg-cost">' + money(p.price) + '</span>' +
+                            '</div>' + incHtml +
+                            '<div class="pg-foot">' +
+                                '<span class="pg-note">70% secures the date \u00b7 the balance on the day</span>' +
+                                '<button type="button" class="pg-choose" onclick="chooseSession(this)">Choose this session</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</article>';
+                }).join('');
+            }
+
+            /* Extras: the studio's add-ons first (they are the real ones, and they
+               need no setup), then any Studio <Group> rows the owner has written,
+               each under its own label. A category of her own is therefore a new
+               shelf of extras, with prices and one-line descriptions. */
+            function renderExtras(groups) {
+                var box = document.getElementById('addons-box');
+                if (!box) return;
+                var html = '';
+                var showTitles = groups.length > 1;
+                groups.forEach(function (group) {
+                    if (showTitles && group.title) {
+                        html += '<span class="pg-group-label">' + escapeHtmlLocal(group.title) + '</span>';
                     }
-                    grid.innerHTML = packages.map(function (p, i) { return cardHtml(p, i === 0); }).join('');
-                    if (typeof window.lpInitScrollReveal === 'function') {
-                        window.lpInitScrollReveal(grid.querySelectorAll('.tier-card'), 100);
-                    }
-                })
-                .catch(function (err) {
-                    grid.innerHTML = '<p style="text-align:center; color:var(--text-secondary); font-size:13px;">Couldn\'t load sessions right now \u2014 please refresh.</p>';
-                    console.error('Packages load failed:', err);
+                    group.items.forEach(function (a) {
+                        html += '<label class="addon-row"><div class="addon-label">' +
+                            '<input type="checkbox" class="addon-checkbox" value="' + a.price + '" data-name="' + escapeHtmlLocal(a.name) + '">' +
+                            '<span>' + escapeHtmlLocal(a.name) +
+                            (a.note ? '<em class="addon-note">' + escapeHtmlLocal(a.note) + '</em>' : '') +
+                            '</span></div>' +
+                            '<span class="addon-price">+' + money(a.price) + '</span></label>';
+                    });
                 });
+                box.innerHTML = html;
+                setAddonsEnabled(!!cart.baseName);
+            }
+
+            function readJson(url) {
+                return fetch(url).then(function (res) {
+                    if (!res.ok) throw new Error(url);
+                    return res.json();
+                });
+            }
+
+            Promise.all([
+                readJson(API_BASE + '/api/packages?activeOnly=true').catch(function () { return null; }),
+                readJson(API_BASE + '/api/addons?activeOnly=true&category=Studio').catch(function () { return null; })
+            ]).then(function (parts) {
+                var rows = (parts[0] && parts[0].packages) || [];
+                var sessions = [];
+                var groups = [];
+                var byTitle = {};
+                rows.forEach(function (p) {
+                    var category = String(p.category || '').trim();
+                    var lower = category.toLowerCase();
+                    if (lower === 'studio') { sessions.push(p); return; }
+                    if (lower.indexOf('studio ') !== 0) return;
+                    var title = category.slice('Studio '.length).trim();
+                    if (!title) return;
+                    if (!byTitle[title]) { byTitle[title] = { title: title, items: [] }; groups.push(byTitle[title]); }
+                    byTitle[title].items.push({ name: p.name, note: oneLine(p.description), price: p.price });
+                });
+                var addonRows = (parts[1] && parts[1].addons) || [];
+                var allGroups = [];
+                if (addonRows.length) {
+                    allGroups.push({ title: '', items: addonRows.map(function (a) {
+                        return { name: a.name, note: '', price: a.price };
+                    }) });
+                }
+                allGroups = allGroups.concat(groups);
+                renderSessions(sessions.length ? sessions : DEFAULT_SESSIONS);
+                renderExtras(allGroups.length ? allGroups : [{ title: '', items: DEFAULT_ADDONS }]);
+            });
         })();
 
         // PROMO POPUP — opens only on click, closes on the × / overlay / Escape
@@ -1299,30 +1400,28 @@
         }
         setAddonsEnabled(false);
 
-        // Package Selection
-        function selectPackage(btn) {
-            // Remove selection from all cards
-            document.querySelectorAll('.tier-card').forEach(card => card.classList.remove('selected'));
-            document.querySelectorAll('.select-btn').forEach(b => b.innerText = "Select Session");
+        // Session Selection — one session at a time, the same reset the
+        // catalogue shows: the chosen row turns, every other row clears.
+        function chooseSession(btn) {
+            var item = btn.closest('.pg-item');
+            if (!item) return;
 
-            // Add selection to clicked card
-            const card = btn.closest('.tier-card');
-            card.classList.add('selected');
-            btn.innerText = "Selected";
+            document.querySelectorAll('.pg-item').forEach(function (el) { el.classList.remove('is-chosen'); });
+            document.querySelectorAll('.pg-choose').forEach(function (b) { b.innerText = 'Choose this session'; });
 
-            // Update Cart State
-            cart.basePrice = parseFloat(card.getAttribute('data-price'));
-            cart.baseName = card.getAttribute('data-name');
+            item.classList.add('is-chosen');
+            btn.innerText = 'Chosen';
 
-            // Enable Addons & update UI
+            cart.basePrice = parseFloat(item.getAttribute('data-price'));
+            cart.baseName = item.getAttribute('data-name');
+
             document.getElementById('addons-box').classList.add('active');
             setAddonsEnabled(true);
             document.getElementById('invoice-ui').classList.add('active');
             updateStep(2);
 
             // Seamless scroll to the date picker: choosing a session is step 1,
-            // and the next thing the client needs is a date. Custom Additions
-            // and the Booking Summary now sit below the calendar.
+            // and the next thing the client needs is a date.
             lpSmoothScrollTo(document.getElementById('lp-booking'), {
                 duration: 750,
                 offset: -(lpStickyBarHeight() + 20)
@@ -1331,27 +1430,29 @@
             calculateTotals();
         }
 
-        // Add-on Checkbox Listeners
-        document.querySelectorAll('.addon-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-                /* Belt and braces: the inputs are disabled until a session is
-                   chosen, but a change event that arrives anyway must not be
-                   able to put add-ons into a cart with no session behind them. */
-                if (!cart.baseName) {
-                    checkbox.checked = false;
-                    cart.addons = [];
-                    calculateTotals();
-                    return;
-                }
+        // Add-on Checkbox Listeners — delegated, because the rows are rendered
+        // from the dashboard after this script runs.
+        document.getElementById('addons-box').addEventListener('change', function (e) {
+            var checkbox = e.target && e.target.closest ? e.target.closest('.addon-checkbox') : null;
+            if (!checkbox) return;
+
+            /* Belt and braces: the inputs are disabled until a session is
+               chosen, but a change event that arrives anyway must not be able
+               to put add-ons into a cart with no session behind them. */
+            if (!cart.baseName) {
+                checkbox.checked = false;
                 cart.addons = [];
-                document.querySelectorAll('.addon-checkbox:checked').forEach(checkedBox => {
-                    cart.addons.push({
-                        name: checkedBox.getAttribute('data-name'),
-                        price: parseFloat(checkedBox.value)
-                    });
-                });
                 calculateTotals();
+                return;
+            }
+            cart.addons = [];
+            document.querySelectorAll('#addons-box .addon-checkbox:checked').forEach(function (checkedBox) {
+                cart.addons.push({
+                    name: checkedBox.getAttribute('data-name'),
+                    price: parseFloat(checkedBox.value)
+                });
             });
+            calculateTotals();
         });
 
         // Calculate and Update UI
