@@ -832,7 +832,7 @@
             <header class="pg-head">
                 <p class="pg-eyebrow" data-copy="eyebrow">Studio sessions</p>
                 <h2 class="pg-title serif" data-copy="title">Price guide</h2>
-                <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package. You choose the hours, the images and the retouching, and the total changes as you go.</p>
+                <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package.</p>
             </header>
             <div class="pg-modes" aria-label="How would you like to choose?">
                 <button type="button" class="pg-mode" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions" data-copy="sessions tab">Sessions</button>
@@ -840,7 +840,7 @@
             </div>
 
             <div class="pg-panel" id="pg-collections">
-                <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
+                <p class="pg-note" data-copy="sessions intro">Prices are in naira. Your edited images arrive in a private gallery.</p>
                 <div id="packages-grid" class="tier-stack">
                     <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
                 </div>
@@ -850,14 +850,12 @@
                 <div class="pg-atelier">
                     <div>
                         <h3 class="pg-legend" data-copy="build heading">What you need</h3>
-                        <p class="pg-note" data-copy="build intro">Set your hours first, then add the images and the retouching you want.</p>
                         <div id="st-lines">
                             <p class="pg-line is-empty">Loading the rates&hellip;</p>
                         </div>
                         <div id="st-fixed-wrap" hidden>
                             <div class="st-divider"></div>
-                            <h3 class="pg-legend" data-copy="direction heading">Direction</h3>
-                            <p class="pg-note" data-copy="direction intro">Planned before the shoot: the moodboard, the styling and the vendor suggestions. Priced once.</p>
+                            <h3 class="pg-legend" data-copy="direction heading">Art direction</h3>
                             <div id="st-fixed"></div>
                         </div>
                     </div>
@@ -967,7 +965,7 @@
         <!-- ADD-ONS SECTION -->
         <section class="section-block" id="addons">
             <h2 class="section-title serif" data-copy="extras heading">Custom additions</h2>
-            <p class="section-meta" data-copy="extras intro">Optional. A session already includes a backdrop in the studio. Add these for off-studio shoots or faster delivery.</p>
+            <p class="section-meta" data-copy="extras intro">A session already includes a backdrop in the studio. Add these for off-studio shoots or faster delivery.</p>
             <div class="addons-container" id="addons-box"></div>
 
             <!-- LIVE INVOICE SUMMARY -->
@@ -1546,7 +1544,7 @@
             var hours = studioQty[0] || 0;
 
             nameEl.innerText = hours
-                ? 'Studio package, ' + hours + (hours === 1 ? ' hour' : ' hours')
+                ? hours + (hours === 1 ? ' hour' : ' hours')
                 : 'Nothing chosen yet';
 
             if (chosen.length || fixedChosen.length) {
