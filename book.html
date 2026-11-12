@@ -707,6 +707,64 @@
             .pg-inc { grid-template-columns: 1fr; margin-left: 0; font-size: 12px; }
             .pg-foot { flex-direction: column; align-items: flex-start; gap: 12px; margin-left: 0; }
         }
+
+        /* ============================================================
+           COMPOSE YOUR OWN — the studio bill, line by line
+
+           The client buys quantities, not bundles: hours of her time, the
+           images themselves, retouching at the depth they want, and creative
+           direction if they want it thought through. Each line is a row in
+           the dashboard, so no rate on this page is written in code.
+           ============================================================ */
+        .pg-modes { display: flex; justify-content: center; gap: 36px; border-bottom: 1px solid var(--border-color); margin: -6px 0 2px; }
+        .pg-mode { appearance: none; background: none; border: 0; padding: 0 0 15px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-secondary); cursor: pointer; position: relative; transition: color 0.25s ease; }
+        .pg-mode:hover { color: var(--text-primary); }
+        .pg-mode[aria-pressed="true"] { color: var(--text-primary); }
+        .pg-mode[aria-pressed="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1.5px; background: var(--accent); }
+        .pg-mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+        .pg-panel[hidden] { display: none; }
+
+        .pg-atelier { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 52px; padding-top: 36px; align-items: start; }
+        .pg-step { display: block; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 9px; }
+        .pg-legend { margin: 0 0 6px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--text-primary); }
+
+        .st-line { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--border-color); }
+        .st-line:first-child { border-top: 1px solid var(--border-color); }
+        .st-line-main { min-width: 0; }
+        .st-line-name { display: block; font-size: 13.5px; color: var(--text-primary); }
+        .st-line-note { display: block; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 3px; }
+        .st-qty { display: flex; align-items: center; border: 1px solid var(--border-color); }
+        .st-step { appearance: none; background: none; border: 0; width: 32px; height: 32px; font: inherit; font-size: 15px; line-height: 1; color: var(--text-secondary); cursor: pointer; transition: color 0.2s ease, background-color 0.2s ease; }
+        .st-step:hover:not(:disabled) { color: var(--accent); background: var(--highlight-bg); }
+        .st-step:disabled { opacity: 0.3; cursor: not-allowed; }
+        .st-step:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+        .st-qty-val { min-width: 30px; text-align: center; font-family: 'Fraunces', serif; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+        .st-line-total { min-width: 96px; text-align: right; font-family: 'Fraunces', serif; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+
+        .pg-slip { position: sticky; top: 120px; background: var(--bg-booking); border: 1px solid var(--border-color); padding: 30px 28px 26px; }
+        .pg-slip-eyebrow { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); }
+        .pg-slip-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; margin: 10px 0 18px; color: var(--text-primary); }
+        .pg-line { display: flex; justify-content: space-between; gap: 14px; font-size: 12.5px; line-height: 1.6; padding: 7px 0; color: var(--text-secondary); }
+        .pg-line span:last-child { font-variant-numeric: tabular-nums; color: var(--text-primary); white-space: nowrap; }
+        .pg-line.is-empty { display: block; font-size: 12.5px; font-style: italic; line-height: 1.75; padding: 4px 0 2px; }
+        .pg-slip-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-top: 1px solid var(--text-primary); margin-top: 16px; padding-top: 14px; }
+        .pg-slip-total span:first-child { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); }
+        .pg-slip-total span:last-child { font-family: 'Fraunces', serif; font-size: 26px; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+        .pg-slip-retainer { display: flex; justify-content: space-between; gap: 12px; font-size: 11.5px; color: var(--accent); margin-top: 9px; }
+        .pg-slip-cta { width: 100%; margin-top: 24px; padding: 17px 16px; background: var(--text-primary); color: var(--bg-container); border: 0; font-family: inherit; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background-color 0.3s ease, opacity 0.3s ease; }
+        .pg-slip-cta:hover:not(:disabled) { background: var(--accent); }
+        .pg-slip-cta:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pg-slip-note { font-size: 10.5px; line-height: 1.7; color: var(--text-secondary); margin-top: 14px; }
+
+        @media (max-width: 768px) {
+            .pg-modes { gap: 22px; }
+            .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
+            .pg-slip { position: static; }
+            .st-line { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main qty" "total qty"; gap: 6px 14px; padding: 16px 0; align-items: start; }
+            .st-line-main { grid-area: main; }
+            .st-qty { grid-area: qty; }
+            .st-line-total { grid-area: total; text-align: left; min-width: 0; align-self: end; }
+        }
     </style>
 </head>
 <body>
@@ -751,8 +809,38 @@
                 <h2 class="pg-title serif">The Session Guide</h2>
                 <p class="pg-lede">Five sittings, each priced for what it carries. Choose one, then add only what your session actually needs.</p>
             </header>
-            <div id="packages-grid">
-                <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
+            <div class="pg-modes" aria-label="How would you like to choose?">
+                <button type="button" class="pg-mode" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">The Sessions</button>
+                <button type="button" class="pg-mode" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">Compose Your Own</button>
+            </div>
+
+            <div class="pg-panel" id="pg-collections">
+                <div id="packages-grid">
+                    <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
+                </div>
+            </div>
+
+            <div class="pg-panel" id="pg-compose" hidden>
+                <div class="pg-atelier">
+                    <div>
+                        <span class="pg-step">Line by line</span>
+                        <h3 class="pg-legend">What would you like?</h3>
+                        <div id="st-lines">
+                            <p class="pg-line is-empty">Loading the rates&hellip;</p>
+                        </div>
+                    </div>
+                    <aside class="pg-slip" aria-live="polite">
+                        <p class="pg-slip-eyebrow">Your commission</p>
+                        <h3 class="pg-slip-title" id="st-slip-name">Nothing chosen yet</h3>
+                        <div id="st-slip-lines">
+                            <p class="pg-line is-empty">Add the hours you need, then the images and the retouching you would like.</p>
+                        </div>
+                        <div class="pg-slip-total"><span>Total</span><span id="st-slip-total">&mdash;</span></div>
+                        <div class="pg-slip-retainer"><span>Retainer today (70%)</span><span id="st-slip-retainer">&mdash;</span></div>
+                        <button type="button" class="pg-slip-cta" id="st-slip-cta" disabled>Continue with this commission</button>
+                        <p class="pg-slip-note">70% secures the date; the balance is settled on delivery. Off-studio shoots and express delivery can be added below once your commission is on the receipt.</p>
+                    </aside>
+                </div>
             </div>
         </section>
 
@@ -1240,6 +1328,199 @@
                 allGroups = allGroups.concat(groups);
                 renderSessions(sessions.length ? sessions : DEFAULT_SESSIONS);
                 renderExtras(allGroups.length ? allGroups : [{ title: '', items: DEFAULT_ADDONS }]);
+                if (typeof lpSetStudioCoverage === 'function') lpSetStudioCoverage(rows);
+            });
+        })();
+
+        // COMPOSE YOUR OWN — the studio bill, line by line.
+        //
+        // Every row in the dashboard category "Studio Coverage" is one priced
+        // unit: her time by the hour, the images by the image, retouching by the
+        // image at whatever depth she sells, creative direction by the concept.
+        // The description she writes is the unit line under the name, so
+        // "per hour · on set or in the studio" prints beside her own price. The
+        // client sets every quantity; nothing is bundled and nothing assumed.
+        //
+        // The lists below are the fallback for an API that cannot be reached.
+        var STUDIO_LINE_FALLBACK = [
+            { name: 'My time', note: 'per hour \u00b7 on set or in the studio', price: 80000 },
+            { name: 'The images', note: 'per image \u00b7 selected and colour finished', price: 10000 },
+            { name: 'Retouching \u2014 standard', note: 'per image \u00b7 clean skin, texture kept, light shaping', price: 20000 },
+            { name: 'Retouching \u2014 beauty', note: 'per image \u00b7 dodge and burn, hair, makeup, composite', price: 45000 },
+            { name: 'Creative direction', note: 'per concept \u00b7 moodboard, styling, shot list', price: 60000 }
+        ];
+        var studioLines = STUDIO_LINE_FALLBACK.slice();
+        var studioQty = {};
+        var STUDIO_MAX_QTY = 24;
+
+        function studioMoney(amount) {
+            return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(amount);
+        }
+        function studioEsc(str) {
+            var d = document.createElement('div');
+            d.textContent = String(str == null ? '' : str);
+            return d.innerHTML;
+        }
+
+        /* Her rows, if the dashboard has any: name, her unit line, her price. */
+        function lpSetStudioCoverage(rows) {
+            var list = (rows || []).filter(function (p) {
+                return String(p.category || '').trim().toLowerCase() === 'studio coverage';
+            }).map(function (p) {
+                return {
+                    name: p.name,
+                    note: String(p.description || '').replace(/\s*\n+\s*/g, ' \u00b7 ').trim(),
+                    price: p.price
+                };
+            });
+            if (!list.length) return;
+            studioLines = list;
+            var next = {};
+            Object.keys(studioQty).forEach(function (k) {
+                if (studioLines[parseInt(k, 10)]) next[k] = studioQty[k];
+            });
+            studioQty = next;
+            renderStudioComposer();
+        }
+
+        function studioLineTotal(i) {
+            var line = studioLines[i];
+            var q = studioQty[i] || 0;
+            return line ? line.price * q : 0;
+        }
+        function studioComposerTotal() {
+            return studioLines.reduce(function (sum, line, i) { return sum + studioLineTotal(i); }, 0);
+        }
+
+        function renderStudioComposer() {
+            var box = document.getElementById('st-lines');
+            if (!box) return;
+            box.innerHTML = studioLines.map(function (line, i) {
+                var q = studioQty[i] || 0;
+                return '<div class="st-line">' +
+                    '<div class="st-line-main">' +
+                        '<span class="st-line-name">' + studioEsc(line.name) + '</span>' +
+                        '<span class="st-line-note">' + studioMoney(line.price) +
+                            (line.note ? ' ' + studioEsc(line.note) : '') + '</span>' +
+                    '</div>' +
+                    '<div class="st-qty" role="group" aria-label="' + studioEsc(line.name) + ' quantity">' +
+                        '<button type="button" class="st-step" data-key="' + i + '" data-delta="-1" aria-label="One fewer ' + studioEsc(line.name) + '"' + (q <= 0 ? ' disabled' : '') + '>\u2212</button>' +
+                        '<span class="st-qty-val" id="st-qty-' + i + '">' + q + '</span>' +
+                        '<button type="button" class="st-step" data-key="' + i + '" data-delta="1" aria-label="One more ' + studioEsc(line.name) + '"' + (q >= STUDIO_MAX_QTY ? ' disabled' : '') + '>+</button>' +
+                    '</div>' +
+                    '<span class="st-line-total" id="st-total-' + i + '">' + (q ? studioMoney(studioLineTotal(i)) : '') + '</span>' +
+                '</div>';
+            }).join('');
+            studioSlip();
+        }
+
+        /* The running slip. It reads the composer's own state rather than the
+           cart, so a half-built commission is never mistaken for a chosen one. */
+        function studioSlip() {
+            var nameEl = document.getElementById('st-slip-name');
+            var linesEl = document.getElementById('st-slip-lines');
+            var totalEl = document.getElementById('st-slip-total');
+            var retEl = document.getElementById('st-slip-retainer');
+            var ctaEl = document.getElementById('st-slip-cta');
+            if (!nameEl || !linesEl || !totalEl || !retEl || !ctaEl) return;
+
+            var chosen = studioLines.map(function (line, i) {
+                return { line: line, qty: studioQty[i] || 0, total: studioLineTotal(i) };
+            }).filter(function (row) { return row.qty > 0; });
+            var total = chosen.reduce(function (sum, row) { return sum + row.total; }, 0);
+            var timeRow = chosen[0];
+
+            nameEl.innerText = timeRow
+                ? 'Composed \u2014 ' + timeRow.qty + (timeRow.qty === 1 ? ' hour' : ' hours')
+                : 'Nothing chosen yet';
+            linesEl.innerHTML = chosen.length
+                ? chosen.map(function (row) {
+                    return '<div class="pg-line"><span>' + row.qty + ' \u00d7 ' + studioEsc(row.line.name) +
+                        '</span><span>' + studioMoney(row.total) + '</span></div>';
+                }).join('')
+                : '<p class="pg-line is-empty">Add the hours you need, then the images and the retouching you would like.</p>';
+            totalEl.innerText = chosen.length ? studioMoney(total) : '\u2014';
+            retEl.innerText = chosen.length ? studioMoney(total * 0.7) : '\u2014';
+            /* Her time is the thing being booked: a commission with images but
+               no hours is not a commission. */
+            ctaEl.disabled = !(studioQty[0] > 0);
+            ctaEl.innerText = 'Continue with this commission';
+        }
+
+        function lpResetComposer() {
+            studioQty = {};
+            renderStudioComposer();
+        }
+
+        function commitStudioCommission() {
+            if (!(studioQty[0] > 0)) return;
+            var hours = studioQty[0];
+            var timeLine = studioLines[0];
+            var addons = [];
+            studioLines.forEach(function (line, i) {
+                if (i === 0) return;
+                var q = studioQty[i] || 0;
+                if (!q) return;
+                addons.push({ name: q + ' \u00d7 ' + line.name, price: line.price * q });
+            });
+
+            /* One answer at a time: a composed commission clears any chosen
+               session, so the cart can never hold two. */
+            document.querySelectorAll('.pg-item').forEach(function (el) { el.classList.remove('is-chosen'); });
+            document.querySelectorAll('.pg-choose').forEach(function (b) { b.innerText = 'Choose this session'; });
+
+            /* Extras already ticked in Custom Additions travel with the
+               commission rather than being silently dropped from the total. */
+            document.querySelectorAll('#addons-box .addon-checkbox:checked').forEach(function (cb) {
+                addons.push({ name: cb.getAttribute('data-name'), price: parseFloat(cb.value) });
+            });
+
+            cart.baseName = 'Composed \u2014 ' + hours + (hours === 1 ? ' hour' : ' hours');
+            cart.basePrice = timeLine.price * hours;
+            cart.addons = addons;
+            document.getElementById('addons-box').classList.add('active');
+            setAddonsEnabled(true);
+            document.getElementById('invoice-ui').classList.add('active');
+            updateStep(2);
+            calculateTotals();
+            lpSmoothScrollTo(document.getElementById('lp-booking'), {
+                duration: 750,
+                offset: -(lpStickyBarHeight() + 20)
+            });
+        }
+
+        (function () {
+            var box = document.getElementById('st-lines');
+            if (!box) return;
+            box.addEventListener('click', function (e) {
+                var btn = e.target && e.target.closest ? e.target.closest('.st-step') : null;
+                if (!btn) return;
+                var i = parseInt(btn.getAttribute('data-key'), 10);
+                var delta = parseInt(btn.getAttribute('data-delta'), 10);
+                var next = (studioQty[i] || 0) + delta;
+                if (next < 0) next = 0;
+                if (next > STUDIO_MAX_QTY) next = STUDIO_MAX_QTY;
+                studioQty[i] = next;
+                renderStudioComposer();
+            });
+            var cta = document.getElementById('st-slip-cta');
+            if (cta) cta.addEventListener('click', commitStudioCommission);
+            renderStudioComposer();
+        })();
+
+        /* The two ways of choosing, mutually exclusive. */
+        (function () {
+            var modes = document.querySelectorAll('.pg-mode');
+            var collectionsPanel = document.getElementById('pg-collections');
+            var composePanel = document.getElementById('pg-compose');
+            function setMode(mode) {
+                modes.forEach(function (m) { m.setAttribute('aria-pressed', String(m.getAttribute('data-mode') === mode)); });
+                if (collectionsPanel) collectionsPanel.hidden = (mode !== 'sessions');
+                if (composePanel) composePanel.hidden = (mode !== 'compose');
+                if (mode === 'compose') renderStudioComposer();
+            }
+            modes.forEach(function (m) {
+                m.addEventListener('click', function () { setMode(m.getAttribute('data-mode')); });
             });
         })();
 
@@ -1414,6 +1695,15 @@
 
             cart.basePrice = parseFloat(item.getAttribute('data-price'));
             cart.baseName = item.getAttribute('data-name');
+            /* A composed commission leaves its pieces in the cart; choosing a
+               session replaces that whole answer, so the pieces go with it.
+               Anything ticked in Custom Additions is re-collected afterwards, so
+               a checkbox can never sit ticked without its price in the total. */
+            cart.addons = [];
+            document.querySelectorAll('#addons-box .addon-checkbox:checked').forEach(function (cb) {
+                cart.addons.push({ name: cb.getAttribute('data-name'), price: parseFloat(cb.value) });
+            });
+            if (typeof lpResetComposer === 'function') lpResetComposer();
 
             document.getElementById('addons-box').classList.add('active');
             setAddonsEnabled(true);
