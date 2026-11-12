@@ -965,7 +965,7 @@
         <!-- ADD-ONS SECTION -->
         <section class="section-block" id="addons">
             <h2 class="section-title serif" data-copy="extras heading">Custom additions</h2>
-            <p class="section-meta" data-copy="extras intro">A session already includes a backdrop in the studio. Add these for off-studio shoots or faster delivery.</p>
+            <p class="section-meta" data-copy="extras intro">A session already includes a backdrop in the studio. Add one of these if you want to shoot somewhere else, or need the pictures sooner.</p>
             <div class="addons-container" id="addons-box"></div>
 
             <!-- LIVE INVOICE SUMMARY -->
@@ -1253,9 +1253,9 @@
                 { name: 'Family', price: 280000, badge: '', description: 'Maximum of two outfits\n18 retouched photographs\n1 photo album' }
             ];
             var DEFAULT_ADDONS = [
-                { name: 'Off-Studio Shoot \u2014 No Backdrop', price: 50000 },
-                { name: 'Off-Studio Shoot \u2014 With Backdrop', price: 70000 },
-                { name: 'Express 24Hr Delivery', price: 30000 }
+                { name: 'On location, no backdrop', price: 50000 },
+                { name: 'On location, with backdrop', price: 70000 },
+                { name: 'Express delivery, 24 hours', price: 30000 }
             ];
             var NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
@@ -1266,6 +1266,16 @@
             }
             function money(amount) {
                 return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(amount);
+            }
+            /* The dashboard still holds rows that begin "Off-Studio", wording
+               from before this page changed. A client reads where the shoot
+               happens; rename the rows in the dashboard and this stops
+               applying to them. */
+            function addonLabel(name) {
+                var text = String(name == null ? '' : name).trim();
+                var m = text.match(/^off[-\s]?studio\s*(?:shoot)?\s*[\u2014\u2013-]?\s*(.+)$/i);
+                if (!m) return text;
+                return 'On location, ' + m[1].toLowerCase();
             }
             function oneLine(text) {
                 return String(text == null ? '' : text).replace(/\s*\n+\s*/g, ' \u00b7 ').trim();
@@ -1364,7 +1374,7 @@
                 var allGroups = [];
                 if (addonRows.length) {
                     allGroups.push({ title: '', items: addonRows.map(function (a) {
-                        return { name: a.name, note: '', price: a.price };
+                        return { name: addonLabel(a.name), note: '', price: a.price };
                     }) });
                 }
                 allGroups = allGroups.concat(groups);
@@ -1393,7 +1403,9 @@
         /* Work sold once rather than by the number: it sits beside the bill,
            not inside it as a quantity. */
         var STUDIO_FIXED_FALLBACK = [
-            { name: 'Creative direction', note: 'Moodboard, styling and vendor recommendations, planned before the shoot.', price: 60000 }
+            { name: 'Creative direction', note: 'Concept, moodboard, styling notes and the plan for the day, including who to book for hair, makeup and tailoring.', price: 60000 },
+            { name: 'Location scouting', note: 'Two or three locations visited and shortlisted, with timing and permits checked.', price: 40000 },
+            { name: 'Selection and print planning', note: 'Choosing your final images with you, and the sizes for your walls or album.', price: 30000 }
         ];
         var studioLines = STUDIO_LINE_FALLBACK.slice();
         var studioFixedLines = STUDIO_FIXED_FALLBACK.slice();
