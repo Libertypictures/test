@@ -721,17 +721,18 @@
            ============================================================ */
         /* Two ways to buy, side by side and impossible to miss: a tab row
            let half the clients walk straight past the builder. */
-        /* Two pills, side by side. The one in use keeps only its name: the line
-           under it describes the other road, and repeating the road you are
-           already looking at is how a page starts talking to itself. */
-        .pg-choices { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; margin: 0 0 30px; padding-top: 26px; border-top: 1px solid var(--border-color); }
-        .pg-choice { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; width: auto; padding: 11px 20px; text-align: left; border: 0; border-radius: 22px; background: rgba(138, 115, 85, 0.1); font: inherit; color: inherit; cursor: pointer; transition: background-color 0.28s ease; }
-        .pg-choice:hover { background: rgba(138, 115, 85, 0.18); }
-        .pg-choice[aria-pressed="true"] { background: #14110e; }
-        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; line-height: 1.3; letter-spacing: -0.1px; color: var(--text-primary); }
-        .pg-choice-note { display: block; font-size: 11px; line-height: 1.45; color: var(--text-secondary); }
+        /* Two labels over one moving highlight. Both pieces keep their size and
+           their second line at all times, so nothing changes shape when the
+           choice moves; the light slides instead, and its foot dissolves into
+           the page rather than sitting there like a button. */
+        .pg-choices { position: relative; display: flex; align-items: stretch; gap: 10px; margin: 0 0 30px; padding-top: 26px; border-top: 1px solid var(--border-color); }
+        .pg-choice-thumb { position: absolute; top: 0; left: 0; width: 0; height: 0; border-radius: 22px; z-index: 0; opacity: 0; pointer-events: none; background: linear-gradient(to bottom, #14110e 0%, #14110e 68%, rgba(20, 17, 14, 0.72) 84%, rgba(20, 17, 14, 0) 100%); transition: left 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), height 0.4s ease, opacity 0.35s ease; }
+        .pg-choice { position: relative; z-index: 1; display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; width: auto; padding: 11px 20px; text-align: left; border: 0; border-radius: 22px; background: transparent; font: inherit; color: inherit; cursor: pointer; }
+        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; line-height: 1.3; letter-spacing: -0.1px; color: var(--text-primary); transition: color 0.35s ease; }
+        .pg-choice-note { display: block; font-size: 11px; line-height: 1.45; color: var(--text-secondary); transition: color 0.35s ease; }
+        .pg-choice:hover .pg-choice-title { color: var(--accent); }
         .pg-choice[aria-pressed="true"] .pg-choice-title { color: #f6f1e7; }
-        .pg-choice[aria-pressed="true"] .pg-choice-note { display: none; }
+        .pg-choice[aria-pressed="true"] .pg-choice-note { color: transparent; }
         .pg-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
         /* On a wide screen the sessions sit in a centred column, so the head and
@@ -859,6 +860,7 @@
                 <p class="pg-lede" data-copy="intro" hidden></p>
             </header>
             <div class="pg-choices" role="group" aria-label="How would you like to choose?">
+                <span class="pg-choice-thumb" id="pg-choice-thumb" aria-hidden="true"></span>
                 <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
                     <span class="pg-choice-title" data-copy="sessions tab">Our sessions</span>
                     <span class="pg-choice-note" id="pg-choice-sessions-note">Loading the sittings&hellip;</span>
@@ -1348,6 +1350,7 @@
                 if (hint && isFinite(cheapest)) {
                     hint.textContent = sessions.length + (sessions.length === 1 ? ' sitting, from ' : ' sittings, from ') + money(cheapest);
                 }
+                if (typeof window.lpPlacePills === 'function') window.lpPlacePills();
             }
 
             /* Extras: the studio's add-ons first (they are the real ones, and they
@@ -1575,6 +1578,7 @@
             if (buildHint && firstLine) {
                 buildHint.textContent = 'From ' + studioMoney(firstLine.price) + (firstLine.note ? ' ' + firstLine.note : '');
             }
+            if (typeof window.lpPlacePills === 'function') window.lpPlacePills();
             studioSlip();
         }
 
@@ -1697,10 +1701,39 @@
                 if (collectionsPanel) collectionsPanel.hidden = (mode !== 'sessions');
                 if (composePanel) composePanel.hidden = (mode !== 'compose');
                 if (mode === 'compose') renderStudioComposer();
+                if (typeof window.lpPlacePills === 'function') window.lpPlacePills();
             }
             modes.forEach(function (m) {
                 m.addEventListener('click', function () { setMode(m.getAttribute('data-mode')); });
             });
+        })();
+
+        /* The highlight is one element that moves to whichever label is in use,
+           measured rather than assumed: the two labels are different widths, and
+           a hard-coded 50% would land in the gap between them. */
+        (function () {
+            var wrap = document.querySelector('.pg-choices');
+            var thumb = document.getElementById('pg-choice-thumb');
+            if (!wrap || !thumb) return;
+            function place(first) {
+                var active = wrap.querySelector('.pg-choice[aria-pressed="true"]');
+                if (!active || !active.offsetWidth) return;
+                if (first) thumb.style.transition = 'none';
+                thumb.style.left = active.offsetLeft + 'px';
+                thumb.style.top = active.offsetTop + 'px';
+                thumb.style.width = active.offsetWidth + 'px';
+                thumb.style.height = active.offsetHeight + 'px';
+                thumb.style.opacity = '1';
+                if (first) {
+                    void thumb.offsetWidth;
+                    thumb.style.transition = '';
+                }
+            }
+            window.lpPlacePills = function () { place(false); };
+            place(true);
+            window.addEventListener('resize', function () { place(false); });
+            window.addEventListener('load', function () { place(false); });
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(false); });
         })();
 
         // PROMO POPUP — opens only on click, closes on the × / overlay / Escape
