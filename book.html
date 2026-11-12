@@ -670,7 +670,7 @@
            sittings are for, set as the standfirst the title used to be. One
            line of type, then straight to the table. */
         .pg-head { text-align: center; max-width: 580px; margin: 0 auto 40px; }
-        .pg-standfirst { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(22px, 2.7vw, 31px); line-height: 1.38; letter-spacing: -0.4px; margin: 0; color: var(--text-primary); text-wrap: balance; }
+        .pg-standfirst { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(18px, 2.1vw, 25px); line-height: 1.42; letter-spacing: -0.4px; margin: 0; color: var(--text-primary); text-wrap: balance; }
         .pg-item { padding: 30px 0 26px; border-bottom: 1px solid var(--border-color); }
         .pg-item:first-child { border-top: 1px solid var(--border-color); }
         .pg-session { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 26px; align-items: start; }
@@ -680,7 +680,7 @@
         .pg-session-body { min-width: 0; }
         .pg-row { display: flex; align-items: baseline; gap: 14px; }
         .pg-numeral { font-family: 'Fraunces', serif; font-size: 11px; letter-spacing: 0.12em; color: var(--accent); min-width: 18px; }
-        .pg-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 23px; min-width: 0; line-height: 1.25; letter-spacing: -0.2px; color: var(--text-primary); }
+        .pg-name { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; min-width: 0; line-height: 1.25; letter-spacing: -0.2px; color: var(--text-primary); }
         .pg-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 11.5px; color: var(--accent); white-space: nowrap; }
         .pg-cost { margin-left: auto; font-family: 'Fraunces', serif; font-size: 19px; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-primary); }
         .pg-inc { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px 32px; margin: 16px 0 0 32px; font-size: 12.5px; line-height: 1.8; color: var(--text-secondary); }
@@ -698,11 +698,11 @@
         .pg-line.is-empty { display: block; font-size: 12.5px; font-style: italic; color: var(--text-secondary); line-height: 1.75; }
         .addon-note { display: block; font-style: normal; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 2px; }
         @media (max-width: 600px) {
-            .pg-standfirst { font-size: 21px; line-height: 1.42; }
+            .pg-standfirst { font-size: 17.5px; line-height: 1.45; }
             .pg-session { grid-template-columns: 68px minmax(0, 1fr); gap: 16px; }
             .pg-plate { width: 68px; }
             .pg-row { gap: 4px 10px; }
-            .pg-name { font-size: 20px; flex: 1 1 auto; min-width: 0; }
+            .pg-name { font-size: 17.5px; flex: 1 1 auto; min-width: 0; }
             .pg-cost { font-size: 17px; }
             .pg-inc { grid-template-columns: 1fr; margin-left: 0; font-size: 12px; }
             .pg-foot { flex-direction: column; align-items: flex-start; gap: 12px; margin-left: 0; }
@@ -722,11 +722,11 @@
            buttons: hairlines, square corners, and the chosen cell reversed out
            of the paper the way a printed guide reverses a selected row. */
         .pg-choices { display: grid; grid-template-columns: 1fr 1fr; max-width: 660px; margin: 0 auto 36px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-        .pg-choice { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 20px 22px; text-align: left; border: 0; border-right: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; }
+        .pg-choice { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 13px 20px 14px; text-align: left; border: 0; border-right: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; }
         .pg-choice:last-child { border-right: 0; }
         .pg-choice:hover { background: var(--highlight-bg); }
         .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 19px; line-height: 1.24; letter-spacing: -0.2px; color: var(--text-primary); }
-        .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); }
+        .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.45; color: var(--text-secondary); }
         .pg-choice:hover .pg-choice-title { color: var(--accent-deep); }
         .pg-choice[aria-pressed="true"], .pg-choice[aria-pressed="true"]:hover { background: #14110e; }
         .pg-choice[aria-pressed="true"] .pg-choice-title { color: #f6f1e7; }
@@ -737,7 +737,7 @@
 
         .pg-atelier { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 52px; padding-top: 36px; align-items: start; }
         .pg-step { display: block; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); margin-bottom: 9px; }
-        .pg-legend { margin: 0 0 6px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.3; color: var(--text-primary); }
+        .pg-legend { margin: 0 0 6px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 19.5px; line-height: 1.3; color: var(--text-primary); }
         .pg-note { font-size: 12.5px; line-height: 1.8; color: var(--text-secondary); margin: 0 0 22px; max-width: 46ch; }
 
         .st-line { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--border-color); }
@@ -777,7 +777,7 @@
 
         @media (max-width: 768px) {
             .pg-choices { margin-bottom: 24px; }
-            .pg-choice { padding: 16px 15px; }
+            .pg-choice { padding: 11px 14px 12px; }
             .pg-choice-title { font-size: 16px; }
             .pg-choice-note { font-size: 10.5px; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
