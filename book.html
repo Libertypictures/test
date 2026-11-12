@@ -666,10 +666,13 @@
            session keeps its own photograph, because on this page the work
            is the argument for the price.
            ============================================================ */
-        .pg-head { text-align: center; margin-bottom: 46px; }
-        .pg-eyebrow { font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-        .pg-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 42px; line-height: 1.08; letter-spacing: -0.7px; margin: 18px 0 20px; color: var(--text-primary); }
-        .pg-lede { font-size: 14px; line-height: 1.85; color: var(--text-secondary); max-width: 45ch; margin: 0 auto; }
+        /* Left-aligned, so the head, the two buttons and the sessions below all
+           start on the same margin. Centred above a left-aligned list read as
+           an accident rather than a choice. */
+        .pg-head { text-align: left; max-width: 660px; margin: 0 0 34px; }
+        .pg-eyebrow { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin: 0; }
+        .pg-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(36px, 5.4vw, 60px); line-height: 1.02; letter-spacing: -1.2px; margin: 14px 0 0; color: var(--text-primary); }
+        .pg-lede { font-size: 14.5px; line-height: 1.75; color: var(--text-secondary); max-width: 48ch; margin: 18px 0 0; }
         .pg-item { padding: 30px 0 26px; border-bottom: 1px solid var(--border-color); }
         .pg-item:first-child { border-top: 1px solid var(--border-color); }
         .pg-session { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 26px; align-items: start; }
@@ -697,8 +700,8 @@
         .pg-line.is-empty { display: block; font-size: 12.5px; font-style: italic; color: var(--text-secondary); line-height: 1.75; }
         .addon-note { display: block; font-style: normal; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 2px; }
         @media (max-width: 600px) {
-            .pg-title { font-size: 30px; }
-            .pg-lede { font-size: 13px; }
+            .pg-title { font-size: 34px; letter-spacing: -0.6px; }
+            .pg-lede { font-size: 13.5px; }
             .pg-session { grid-template-columns: 68px minmax(0, 1fr); gap: 16px; }
             .pg-plate { width: 68px; }
             .pg-row { gap: 4px 10px; }
@@ -721,18 +724,28 @@
         /* The first decision on the page, so it is made of two solid pieces
            rather than two labels: the chosen one goes dark, like a card that
            has been put down on the table. */
-        .pg-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 4px 0 34px; }
-        .pg-choice { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 24px 22px; text-align: left; border: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; transition: background-color 0.28s ease, border-color 0.28s ease, color 0.28s ease; }
+        .pg-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 700px; margin: 0 0 36px; padding-top: 30px; border-top: 1px solid var(--border-color); }
+        .pg-choice { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 26px 24px; text-align: left; border: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; transition: background-color 0.28s ease, border-color 0.28s ease, color 0.28s ease; }
         .pg-choice:hover { border-color: var(--text-primary); }
         .pg-choice[aria-pressed="true"] { background: #14110e; border-color: #14110e; }
-        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; line-height: 1.2; color: var(--text-primary); }
-        .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); margin-top: 8px; }
+        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1.15; letter-spacing: -0.2px; color: var(--text-primary); }
+        .pg-choice-note { display: block; font-size: 12.5px; line-height: 1.55; color: var(--text-secondary); margin-top: 9px; }
         .pg-choice-go { flex-shrink: 0; font-size: 15px; line-height: 1; color: var(--text-secondary); transition: transform 0.28s ease, color 0.28s ease; }
         .pg-choice:hover .pg-choice-go { transform: translateX(3px); color: var(--accent); }
         .pg-choice[aria-pressed="true"] .pg-choice-title { color: #f6f1e7; }
-        .pg-choice[aria-pressed="true"] .pg-choice-note { color: rgba(246, 241, 231, 0.7); }
+        .pg-choice[aria-pressed="true"] .pg-choice-note { color: rgba(246, 241, 231, 0.82); }
         .pg-choice[aria-pressed="true"] .pg-choice-go { color: #f6f1e7; transform: translateX(4px); }
         .pg-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+        /* On a wide screen the sessions sit in a centred column, so the head and
+           the two buttons centre on it rather than hanging off the left margin.
+           On a phone everything is edge to edge and the left margin is the
+           alignment. */
+        @media (min-width: 901px) {
+            .pg-head { max-width: 660px; margin-left: auto; margin-right: auto; text-align: center; }
+            .pg-lede { margin-left: auto; margin-right: auto; }
+            .pg-choices { margin-left: auto; margin-right: auto; }
+        }
         .pg-panel[hidden] { display: none; }
 
         .pg-atelier { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 52px; padding-top: 36px; align-items: start; }
@@ -776,10 +789,10 @@
         .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
-            .pg-choices { gap: 10px; margin-bottom: 26px; }
-            .pg-choice { padding: 17px 15px; gap: 8px; }
-            .pg-choice-title { font-size: 16px; }
-            .pg-choice-note { font-size: 10.5px; margin-top: 6px; }
+            .pg-choices { gap: 10px; margin-bottom: 24px; }
+            .pg-choice { padding: 18px 16px; gap: 8px; }
+            .pg-choice-title { font-size: 16.5px; }
+            .pg-choice-note { font-size: 11px; margin-top: 7px; }
             .pg-choice-go { display: none; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
             .pg-slip { position: static; }
@@ -845,14 +858,14 @@
         <!-- PACKAGES SECTION — THE SESSION GUIDE -->
         <section class="section-block" id="packages">
             <header class="pg-head">
-                <p class="pg-eyebrow" data-copy="eyebrow">Studio sessions</p>
+                <p class="pg-eyebrow" data-copy="eyebrow">Portraits, couples and families</p>
                 <h2 class="pg-title serif" data-copy="title">Price guide</h2>
-                <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package.</p>
+                <p class="pg-lede" data-copy="intro" hidden></p>
             </header>
             <div class="pg-choices" role="group" aria-label="How would you like to choose?">
                 <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
                     <span class="pg-choice-body">
-                        <span class="pg-choice-title" data-copy="sessions tab">Sessions</span>
+                        <span class="pg-choice-title" data-copy="sessions tab">Choose a session</span>
                         <span class="pg-choice-note" id="pg-choice-sessions-note">Loading the sittings&hellip;</span>
                     </span>
                     <span class="pg-choice-go" aria-hidden="true">&rarr;</span>
