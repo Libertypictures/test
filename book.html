@@ -716,42 +716,23 @@
            direction if they want it thought through. Each line is a row in
            the dashboard, so no rate on this page is written in code.
            ============================================================ */
-        /* The guide is one object, not two modes: a docket of prices with the
-           photograph it describes beside it, and the builder as the last line
-           of the same docket rather than a tab you have to notice. */
-        .pg-guide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: 26px 52px; align-items: start; grid-template-areas: "docket stage" "build stage"; }
-        .pg-docket-col { grid-area: docket; }
-        .pg-stage { grid-area: stage; position: sticky; top: 128px; }
-        .pg-stage .tier-card { max-width: 380px; margin: 0 auto; }
-
-        .pg-docket { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-color); }
-        .pg-docket-item { border-bottom: 1px solid var(--border-color); }
-        .pg-docket-btn { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: baseline; gap: 4px 12px; width: 100%; padding: 16px 2px; background: none; border: 0; font: inherit; text-align: left; color: var(--text-secondary); cursor: pointer; transition: color 0.2s ease, padding-left 0.25s ease; }
-        .pg-docket-btn:hover { color: var(--text-primary); padding-left: 7px; }
-        .pg-docket-btn[aria-pressed="true"] { color: var(--text-primary); }
-        .pg-docket-btn[aria-pressed="true"] .pg-docket-num { color: var(--accent); }
-        .pg-docket-btn[aria-pressed="true"] .pg-docket-name { font-family: 'Fraunces', serif; font-size: 16.5px; }
-        .pg-docket-num { font-size: 9.5px; letter-spacing: 0.16em; color: var(--text-secondary); }
-        .pg-docket-name { font-size: 15px; line-height: 1.4; }
-        .pg-docket-badge { display: inline-block; margin-left: 9px; font-size: 8px; font-style: normal; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); vertical-align: 1px; }
-        .pg-docket-price { font-family: 'Fraunces', serif; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--text-primary); white-space: nowrap; }
-        .pg-docket-btn.is-chosen .pg-docket-price::after { content: " \2713"; color: var(--accent); }
-        .pg-docket-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-        .pg-build-open { grid-area: build; display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 19px 22px; border: 1px solid var(--accent); background: transparent; font: inherit; text-align: left; cursor: pointer; transition: background-color 0.25s ease; }
-        .pg-build-open:hover, .pg-build-open.is-open { background: var(--highlight-bg); }
-        .pg-build-open-name { display: block; font-family: 'Fraunces', serif; font-size: 18px; color: var(--text-primary); }
-        .pg-build-open-note { display: block; font-size: 11.5px; color: var(--text-secondary); margin-top: 5px; }
-        .pg-build-open-arrow { font-size: 17px; line-height: 1; color: var(--accent); transition: transform 0.25s ease; }
-        .pg-build-open.is-open .pg-build-open-arrow { transform: rotate(90deg); }
-        .pg-build-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-        @media (max-width: 900px) {
-            .pg-guide { grid-template-columns: 1fr; grid-template-areas: "docket" "stage" "build"; gap: 24px; }
-            .pg-stage { position: static; }
-            .pg-stage .tier-card { max-width: 100%; }
-            .pg-build-open { margin-top: 0; padding: 17px 18px; }
-        }
+        /* Two ways to buy, side by side and impossible to miss: a tab row
+           let half the clients walk straight past the builder. */
+        /* The first decision on the page, so it is made of two solid pieces
+           rather than two labels: the chosen one goes dark, like a card that
+           has been put down on the table. */
+        .pg-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 4px 0 34px; }
+        .pg-choice { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 24px 22px; text-align: left; border: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; transition: background-color 0.28s ease, border-color 0.28s ease, color 0.28s ease; }
+        .pg-choice:hover { border-color: var(--text-primary); }
+        .pg-choice[aria-pressed="true"] { background: #14110e; border-color: #14110e; }
+        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; line-height: 1.2; color: var(--text-primary); }
+        .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.55; color: var(--text-secondary); margin-top: 8px; }
+        .pg-choice-go { flex-shrink: 0; font-size: 15px; line-height: 1; color: var(--text-secondary); transition: transform 0.28s ease, color 0.28s ease; }
+        .pg-choice:hover .pg-choice-go { transform: translateX(3px); color: var(--accent); }
+        .pg-choice[aria-pressed="true"] .pg-choice-title { color: #f6f1e7; }
+        .pg-choice[aria-pressed="true"] .pg-choice-note { color: rgba(246, 241, 231, 0.7); }
+        .pg-choice[aria-pressed="true"] .pg-choice-go { color: #f6f1e7; transform: translateX(4px); }
+        .pg-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
         .pg-panel[hidden] { display: none; }
 
         .pg-atelier { display: grid; grid-template-columns: 1.5fr 0.9fr; gap: 52px; padding-top: 36px; align-items: start; }
@@ -795,6 +776,11 @@
         .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
+            .pg-choices { gap: 10px; margin-bottom: 26px; }
+            .pg-choice { padding: 17px 15px; gap: 8px; }
+            .pg-choice-title { font-size: 16px; }
+            .pg-choice-note { font-size: 10.5px; margin-top: 6px; }
+            .pg-choice-go { display: none; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
             .pg-slip { position: static; }
             .st-line { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main qty" "total qty"; gap: 6px 14px; padding: 16px 0; align-items: start; }
@@ -863,23 +849,28 @@
                 <h2 class="pg-title serif" data-copy="title">Price guide</h2>
                 <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package.</p>
             </header>
-            <div class="pg-guide">
-                <div class="pg-docket-col">
-                    <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
-                    <ol class="pg-docket" id="pg-docket">
-                        <li class="pg-line is-empty" style="padding:22px 2px;">Loading the sittings&hellip;</li>
-                    </ol>
-                </div>
-                <div class="pg-stage" id="packages-grid">
+            <div class="pg-choices" role="group" aria-label="How would you like to choose?">
+                <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
+                    <span class="pg-choice-body">
+                        <span class="pg-choice-title" data-copy="sessions tab">Sessions</span>
+                        <span class="pg-choice-note" id="pg-choice-sessions-note">Loading the sittings&hellip;</span>
+                    </span>
+                    <span class="pg-choice-go" aria-hidden="true">&rarr;</span>
+                </button>
+                <button type="button" class="pg-mode pg-choice" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">
+                    <span class="pg-choice-body">
+                        <span class="pg-choice-title" data-copy="build tab">Build your own</span>
+                        <span class="pg-choice-note" id="pg-choice-build-note">Loading the rates&hellip;</span>
+                    </span>
+                    <span class="pg-choice-go" aria-hidden="true">&rarr;</span>
+                </button>
+            </div>
+
+            <div class="pg-panel" id="pg-collections">
+                <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
+                <div id="packages-grid" class="tier-stack">
                     <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
                 </div>
-                <button type="button" class="pg-build-open" id="pg-build-open" aria-controls="pg-compose" aria-expanded="false">
-                    <span class="pg-build-open-body">
-                        <span class="pg-build-open-name" data-copy="build tab">Build your own</span>
-                        <span class="pg-build-open-note" id="pg-choice-build-note">Loading the rates&hellip;</span>
-                    </span>
-                    <span class="pg-build-open-arrow" aria-hidden="true">&rarr;</span>
-                </button>
             </div>
 
             <div class="pg-panel" id="pg-compose" hidden>
@@ -1320,88 +1311,41 @@
             /* The sessions stay cards: this page is a studio shopfront, and the
                photograph is most of what the client is buying. One card per
                session, the owner's own badge, her inclusions, the full figure. */
-            var SESSION_ROWS = [];
-            var ACTIVE_SESSION = 0;
-
-            function sessionCardHtml(p, chosen) {
-                var photo = p.imageUrl
-                    ? '<img src="' + API_BASE + p.imageUrl + '" alt="' + escapeHtmlLocal(p.name) + '" decoding="async">'
-                    : '';
-                var bullets = (p.description || '').split('\n').filter(function (line) { return line.trim(); });
-                var bulletsHtml = bullets.length
-                    ? '<ul class="tier-details">' + bullets.map(function (b) { return '<li>' + escapeHtmlLocal(b) + '</li>'; }).join('') + '</ul>'
-                    : '';
-                var badgeHtml = p.badge ? '<span class="tier-badge">' + escapeHtmlLocal(p.badge) + '</span>' : '';
-                return '<div class="tier-card' + (photo ? '' : ' no-photo') + (chosen ? ' selected' : '') + '" data-price="' + p.price + '" data-name="' + escapeHtmlLocal(p.name) + '">' +
-                    '<div class="tier-photo-full">' + photo + '</div>' +
-                    '<div class="tier-scrim">' + badgeHtml +
-                        '<h3>' + escapeHtmlLocal(p.name) + '</h3>' + bulletsHtml +
-                        '<div class="tier-price-box">' +
-                            '<span class="tier-price">' + money(p.price) + '</span>' +
-                            '<button class="select-btn" onclick="chooseSession(this)">' + (chosen ? 'Chosen' : 'Select Session') + '</button>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>';
-            }
-
-            function markDocket() {
-                var chosen = window.lpChosenSessionName || '';
-                document.querySelectorAll('.pg-docket-btn').forEach(function (b) {
-                    b.setAttribute('aria-pressed', String(parseInt(b.getAttribute('data-index'), 10) === ACTIVE_SESSION));
-                    b.classList.toggle('is-chosen', !!chosen && b.getAttribute('data-name') === chosen);
-                });
-            }
-
-            function showSession(i, scrollToStage) {
-                var p = SESSION_ROWS[i];
-                if (!p) return;
-                ACTIVE_SESSION = i;
-                grid.innerHTML = sessionCardHtml(p, (window.lpChosenSessionName || '') === p.name);
-                markDocket();
-                /* On a phone the plate sits under the docket, so choosing a row
-                   has to take the client to the photograph she just asked for. */
-                if (scrollToStage && window.innerWidth <= 900) {
-                    var stage = document.getElementById('packages-grid');
-                    var box = stage.getBoundingClientRect();
-                    if (box.top < 90 || box.top > window.innerHeight - 340) {
-                        lpSmoothScrollTo(stage, { duration: 520, offset: -(lpStickyBarHeight() + 12) });
-                    }
-                }
-            }
-
-            /* A docket of prices with one photograph on the plate beside it: a
-               client reads five prices in a glance and sees the sitting she is
-               looking at, instead of scrolling five tall cards. */
             function renderSessions(sessions) {
-                var docket = document.getElementById('pg-docket');
-                SESSION_ROWS = sessions || [];
-                if (!SESSION_ROWS.length) {
-                    grid.innerHTML = '<p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Sessions are being updated, check back shortly.</p>';
-                    if (docket) docket.innerHTML = '';
+                if (!sessions.length) {
+                    grid.innerHTML = '<p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Sessions are being updated \u2014 check back shortly.</p>';
                     return;
                 }
-                if (!docket) return;
-                docket.innerHTML = SESSION_ROWS.map(function (p, i) {
-                    return '<li class="pg-docket-item">' +
-                        '<button type="button" class="pg-docket-btn" data-index="' + i + '" data-name="' + escapeHtmlLocal(p.name) + '" aria-pressed="' + (i === 0) + '">' +
-                            '<span class="pg-docket-num">' + (i < 9 ? '0' + (i + 1) : (i + 1)) + '</span>' +
-                            '<span class="pg-docket-name">' + escapeHtmlLocal(p.name) +
-                                (p.badge ? '<em class="pg-docket-badge">' + escapeHtmlLocal(p.badge) + '</em>' : '') +
-                            '</span>' +
-                            '<span class="pg-docket-price">' + money(p.price) + '</span>' +
-                        '</button></li>';
+                grid.innerHTML = sessions.map(function (p, i) {
+                    // The first photograph is the page's LCP candidate once the
+                    // section is reached, so it is the one loaded eagerly.
+                    var photo = p.imageUrl
+                        ? '<img src="' + API_BASE + p.imageUrl + '" alt="' + escapeHtmlLocal(p.name) + '" ' +
+                            (i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ' decoding="async">'
+                        : '';
+                    var bullets = (p.description || '').split('\n').filter(function (line) { return line.trim(); });
+                    var bulletsHtml = bullets.length
+                        ? '<ul class="tier-details">' + bullets.map(function (b) { return '<li>' + escapeHtmlLocal(b) + '</li>'; }).join('') + '</ul>'
+                        : '';
+                    var badgeHtml = p.badge ? '<span class="tier-badge">' + escapeHtmlLocal(p.badge) + '</span>' : '';
+                    return '<div class="tier-card' + (photo ? '' : ' no-photo') + '" data-price="' + p.price + '" data-name="' + escapeHtmlLocal(p.name) + '">' +
+                        '<div class="tier-photo-full">' + photo + '</div>' +
+                        '<div class="tier-scrim">' + badgeHtml +
+                            '<h3>' + escapeHtmlLocal(p.name) + '</h3>' + bulletsHtml +
+                            '<div class="tier-price-box">' +
+                                '<span class="tier-price">' + studioMoney(p.price) + '</span>' +
+                                '<button class="select-btn" onclick="chooseSession(this)">Select Session</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
                 }).join('');
-                docket.onclick = function (e) {
-                    var btn = e.target && e.target.closest ? e.target.closest('.pg-docket-btn') : null;
-                    if (!btn) return;
-                    showSession(parseInt(btn.getAttribute('data-index'), 10), true);
-                };
-                showSession(0);
-            }
 
-            /* chooseSession lives outside this closure; it asks for a redraw
-               rather than reaching into the docket itself. */
-            window.lpRefreshGuide = function () { showSession(ACTIVE_SESSION); };
+                var cheapest = sessions.reduce(function (min, p) { return Math.min(min, p.price); }, Infinity);
+                var hint = document.getElementById('pg-choice-sessions-note');
+                if (hint && isFinite(cheapest)) {
+                    hint.textContent = sessions.length + (sessions.length === 1 ? ' sitting, from ' : ' sittings, from ') + money(cheapest);
+                }
+            }
 
             /* Extras: the studio's add-ons first (they are the real ones, and they
                need no setup), then any Studio <Group> rows the owner has written,
@@ -1698,8 +1642,6 @@
             /* One answer at a time: a built package clears any chosen session. */
             document.querySelectorAll('.tier-card').forEach(function (el) { el.classList.remove('selected'); });
             document.querySelectorAll('.select-btn').forEach(function (b) { b.innerText = 'Select Session'; });
-            window.lpChosenSessionName = '';
-            if (typeof window.lpRefreshGuide === 'function') window.lpRefreshGuide();
             document.querySelectorAll('.pg-item').forEach(function (el) { el.classList.remove('is-chosen'); });
             document.querySelectorAll('.pg-choose').forEach(function (b) { b.innerText = 'Choose this session'; });
 
@@ -1742,21 +1684,19 @@
             renderStudioComposer();
         })();
 
-        /* The builder is the last line of the docket. One control, no mode to
-           discover, and it closes as easily as it opens. */
+        /* The two ways of choosing, mutually exclusive. */
         (function () {
-            var openBtn = document.getElementById('pg-build-open');
-            var panel = document.getElementById('pg-compose');
-            if (!openBtn || !panel) return;
-            openBtn.addEventListener('click', function () {
-                var opening = panel.hidden;
-                panel.hidden = !opening;
-                openBtn.classList.toggle('is-open', opening);
-                openBtn.setAttribute('aria-expanded', String(opening));
-                if (opening) {
-                    renderStudioComposer();
-                    lpSmoothScrollTo(panel, { duration: 620, offset: -(lpStickyBarHeight() + 16) });
-                }
+            var modes = document.querySelectorAll('.pg-mode');
+            var collectionsPanel = document.getElementById('pg-collections');
+            var composePanel = document.getElementById('pg-compose');
+            function setMode(mode) {
+                modes.forEach(function (m) { m.setAttribute('aria-pressed', String(m.getAttribute('data-mode') === mode)); });
+                if (collectionsPanel) collectionsPanel.hidden = (mode !== 'sessions');
+                if (composePanel) composePanel.hidden = (mode !== 'compose');
+                if (mode === 'compose') renderStudioComposer();
+            }
+            modes.forEach(function (m) {
+                m.addEventListener('click', function () { setMode(m.getAttribute('data-mode')); });
             });
         })();
 
@@ -1936,8 +1876,6 @@
 
             cart.basePrice = parseFloat(item.getAttribute('data-price'));
             cart.baseName = item.getAttribute('data-name');
-            window.lpChosenSessionName = cart.baseName;
-            if (typeof window.lpRefreshGuide === 'function') window.lpRefreshGuide();
 
             /* A built package leaves its lines in the cart; choosing a session
                replaces that whole answer, so the lines go with it. Anything
