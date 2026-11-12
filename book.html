@@ -718,19 +718,24 @@
            ============================================================ */
         /* Two ways to buy, side by side and impossible to miss: a tab row
            let half the clients walk straight past the builder. */
-        /* The two ways in, as two cells of a price table rather than two
-           buttons: hairlines, square corners, and the chosen cell reversed out
-           of the paper the way a printed guide reverses a selected row. */
-        .pg-choices { display: grid; grid-template-columns: 1fr 1fr; max-width: 660px; margin: 0 auto 36px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-        .pg-choice { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 13px 20px 14px; text-align: left; border: 0; border-right: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; }
+        /* The two ways in, as two cells of a price table: a closed hairline
+           frame, square corners, and the chosen cell reversed out of the paper
+           the way a printed guide reverses a selected row. The frame and the
+           warm paper are what say "pressable": a pair of rules alone read as
+           a divider in the page, which is why they looked like text. The arrow
+           is the same one the eye already follows in the stepper above. */
+        .pg-choices { display: grid; grid-template-columns: 1fr 1fr; max-width: 660px; margin: 0 auto 36px; border: 1px solid var(--border-color); background: var(--bg-booking); }
+        .pg-choice { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 13px 34px 14px 20px; text-align: left; border: 0; border-right: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; }
+        .pg-choice-go { position: absolute; top: 50%; right: 16px; transform: translateY(-50%); font-size: 15px; line-height: 1; color: var(--accent); transition: none; }
         .pg-choice:last-child { border-right: 0; }
         .pg-choice:hover { background: var(--highlight-bg); }
+        .pg-choice:hover .pg-choice-go { color: var(--accent-deep); }
         .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 19px; line-height: 1.24; letter-spacing: -0.2px; color: var(--text-primary); }
         .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.45; color: var(--text-secondary); }
         .pg-choice:hover .pg-choice-title { color: var(--accent-deep); }
         .pg-choice[aria-pressed="true"], .pg-choice[aria-pressed="true"]:hover { background: #14110e; }
         .pg-choice[aria-pressed="true"] .pg-choice-title { color: #f6f1e7; }
-        .pg-choice[aria-pressed="true"] .pg-choice-note { color: transparent; }
+        .pg-choice[aria-pressed="true"] .pg-choice-note, .pg-choice[aria-pressed="true"] .pg-choice-go { color: transparent; }
         .pg-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 
         .pg-panel[hidden] { display: none; }
@@ -777,7 +782,8 @@
 
         @media (max-width: 768px) {
             .pg-choices { margin-bottom: 24px; }
-            .pg-choice { padding: 11px 14px 12px; }
+            .pg-choice { padding: 11px 28px 12px 14px; }
+            .pg-choice-go { right: 12px; font-size: 14px; }
             .pg-choice-title { font-size: 16px; }
             .pg-choice-note { font-size: 10.5px; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
@@ -850,10 +856,12 @@
                 <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
                     <span class="pg-choice-title" data-copy="sessions tab">Our sessions</span>
                     <span class="pg-choice-note" id="pg-choice-sessions-note">Loading the sittings&hellip;</span>
+                    <span class="pg-choice-go" aria-hidden="true">&rarr;</span>
                 </button>
                 <button type="button" class="pg-mode pg-choice" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">
                     <span class="pg-choice-title" data-copy="build tab">Build your own</span>
                     <span class="pg-choice-note" id="pg-choice-build-note">Loading the rates&hellip;</span>
+                    <span class="pg-choice-go" aria-hidden="true">&rarr;</span>
                 </button>
             </div>
 
