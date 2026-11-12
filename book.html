@@ -666,13 +666,11 @@
            session keeps its own photograph, because on this page the work
            is the argument for the price.
            ============================================================ */
-        /* Left-aligned, so the head, the two buttons and the sessions below all
-           start on the same margin. Centred above a left-aligned list read as
-           an accident rather than a choice. */
-        .pg-head { text-align: center; max-width: 640px; margin: 0 auto 40px; }
-        .pg-eyebrow { font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin: 0; }
-        .pg-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(34px, 4.6vw, 50px); line-height: 1.08; letter-spacing: -0.9px; margin: 18px 0 0; color: var(--text-primary); }
-        .pg-lede { font-size: 14px; line-height: 1.8; color: var(--text-secondary); max-width: 46ch; margin: 18px auto 0; }
+        /* No title: the section opens on the sentence that says who these
+           sittings are for, set as the standfirst the title used to be. One
+           line of type, then straight to the table. */
+        .pg-head { text-align: center; max-width: 580px; margin: 0 auto 40px; }
+        .pg-standfirst { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(22px, 2.7vw, 31px); line-height: 1.38; letter-spacing: -0.4px; margin: 0; color: var(--text-primary); text-wrap: balance; }
         .pg-item { padding: 30px 0 26px; border-bottom: 1px solid var(--border-color); }
         .pg-item:first-child { border-top: 1px solid var(--border-color); }
         .pg-session { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 26px; align-items: start; }
@@ -700,8 +698,7 @@
         .pg-line.is-empty { display: block; font-size: 12.5px; font-style: italic; color: var(--text-secondary); line-height: 1.75; }
         .addon-note { display: block; font-style: normal; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 2px; }
         @media (max-width: 600px) {
-            .pg-title { font-size: 34px; letter-spacing: -0.6px; }
-            .pg-lede { font-size: 13.5px; }
+            .pg-standfirst { font-size: 21px; line-height: 1.42; }
             .pg-session { grid-template-columns: 68px minmax(0, 1fr); gap: 16px; }
             .pg-plate { width: 68px; }
             .pg-row { gap: 4px 10px; }
@@ -847,9 +844,7 @@
         <!-- PACKAGES SECTION — THE SESSION GUIDE -->
         <section class="section-block" id="packages">
             <header class="pg-head">
-                <p class="pg-eyebrow" data-copy="eyebrow">Portraits, couples and families</p>
-                <h2 class="pg-title serif" data-copy="title">Price guide</h2>
-                <p class="pg-lede" data-copy="intro">Pick a session below, or build your own package.</p>
+                <p class="pg-standfirst" data-copy="intro">Perfect for portraits, pre‑birthdays, maternity, corporate headshots, duo, and family sessions.</p>
             </header>
             <div class="pg-choices" role="group" aria-label="How would you like to choose?">
                 <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
