@@ -722,14 +722,25 @@
            only other pressable things are the underlined micro-labels on each
            sitting, so a small caps label with a rule under the live one is the
            page's own way of saying "press me". No fills, no panels, no ink
-           blocks — nothing that competes with the photographs for weight. */
-        .pg-switch { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 0 0 40px; }
-        .pg-switch-btn { appearance: none; background: none; border: 0; border-bottom: 1px solid transparent; padding: 0 0 7px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-secondary); cursor: pointer; }
+           blocks — nothing that competes with the photographs for weight.
+
+           It sits on a full-width hairline, the way an index tab sits on the
+           rule it belongs to: the page is already built from rules, so the
+           switch borrows one instead of drawing a box. The rule under the live
+           label is drawn as its own hairline landing exactly on that line,
+           trimmed of the letterspacing so it is the width of the words. */
+        .pg-switch { display: flex; align-items: flex-end; justify-content: center; gap: 22px; margin: 0 0 36px; border-bottom: 1px solid var(--border-color); }
+        .pg-switch-btn { position: relative; appearance: none; background: none; border: 0; margin-bottom: -1px; padding: 0 0 13px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); cursor: pointer; }
+        .pg-switch-btn::after { content: ""; position: absolute; left: 0; right: 0.24em; bottom: 0; height: 1px; background: var(--accent); opacity: 0; }
         .pg-switch-btn:hover { color: var(--text-primary); }
-        .pg-switch-btn[aria-pressed="true"] { color: var(--text-primary); border-bottom-color: var(--accent); }
+        .pg-switch-btn[aria-pressed="true"] { color: var(--text-primary); }
+        .pg-switch-btn[aria-pressed="true"]::after { opacity: 1; }
         .pg-switch-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-        .pg-switch-sep { width: 1px; height: 11px; background: var(--border-color); }
-        .pg-count { margin: 0 0 12px; font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+        .pg-switch-sep { width: 1px; height: 10px; margin-bottom: 13px; background: var(--border-color); }
+        /* One gap under the rule in both states, so switching does not change
+           how far the first line of the panel sits from the switch. */
+        #pg-compose .pg-atelier { padding-top: 0; }
+        .pg-count { margin: 0 0 14px; font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); font-variant-numeric: tabular-nums; }
 
         .pg-panel[hidden] { display: none; }
 
@@ -774,7 +785,9 @@
         .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
-            .pg-switch { gap: 16px; margin-bottom: 30px; }
+            .pg-switch { gap: 18px; margin-bottom: 28px; }
+            .pg-switch-btn { padding-bottom: 11px; }
+            .pg-switch-sep { margin-bottom: 11px; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
             .pg-slip { position: static; }
             .st-line { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main qty" "total qty"; gap: 6px 14px; padding: 16px 0; align-items: start; }
