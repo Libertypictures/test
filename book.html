@@ -718,24 +718,16 @@
            ============================================================ */
         /* Two ways to buy, side by side and impossible to miss: a tab row
            let half the clients walk straight past the builder. */
-        /* The two ways in, as two cells of a price table: a closed hairline
-           frame, square corners, and the chosen cell reversed out of the paper
-           the way a printed guide reverses a selected row. The frame and the
-           warm paper are what say "pressable": a pair of rules alone read as
-           a divider in the page, which is why they looked like text. No arrow
-           and no icon: the closed frame and the paper do that work, and a label
-           large enough to sit in the cell is the invitation. */
-        .pg-choices { display: grid; grid-template-columns: 1fr 1fr; max-width: 660px; margin: 0 auto 36px; border: 1px solid var(--border-color); background: var(--bg-booking); }
-        .pg-choice { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 13px 20px 14px; text-align: left; border: 0; border-right: 1px solid var(--border-color); background: transparent; font: inherit; color: inherit; cursor: pointer; }
-        .pg-choice:last-child { border-right: 0; }
-        .pg-choice:hover { background: var(--highlight-bg); }
-        .pg-choice-title { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 19px; line-height: 1.24; letter-spacing: -0.2px; color: var(--text-primary); }
-        .pg-choice-note { display: block; font-size: 11.5px; line-height: 1.45; color: var(--text-secondary); }
-        .pg-choice:hover .pg-choice-title { color: var(--accent-deep); }
-        .pg-choice[aria-pressed="true"], .pg-choice[aria-pressed="true"]:hover { background: #14110e; }
-        .pg-choice[aria-pressed="true"] .pg-choice-title { color: #f6f1e7; }
-        .pg-choice[aria-pressed="true"] .pg-choice-note { color: transparent; }
-        .pg-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+        /* No switch. The two ways of buying were never a choice the client has
+           to make before they have read anything: the sittings are the page,
+           and the builder is the next block down, under its own rule. What used
+           to be a button is now a heading, which is the one thing on this page
+           that has never needed explaining. */
+        .pg-count { margin: 0 0 12px; font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+        .pg-build { margin-top: 64px; border-top: 1px solid var(--border-color); padding-top: 42px; }
+        .pg-build-head .pg-legend { font-size: 25px; line-height: 1.2; letter-spacing: -0.3px; margin-bottom: 10px; }
+        .pg-build-head .pg-note { margin-bottom: 0; }
+        .pg-build .pg-atelier { padding-top: 28px; }
 
         .pg-panel[hidden] { display: none; }
 
@@ -780,10 +772,8 @@
         .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
-            .pg-choices { margin-bottom: 24px; }
-            .pg-choice { padding: 11px 14px 12px; }
-            .pg-choice-title { font-size: 16px; }
-            .pg-choice-note { font-size: 10.5px; }
+            .pg-build { margin-top: 44px; padding-top: 30px; }
+            .pg-build-head .pg-legend { font-size: 21px; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
             .pg-slip { position: static; }
             .st-line { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main qty" "total qty"; gap: 6px 14px; padding: 16px 0; align-items: start; }
@@ -850,25 +840,19 @@
             <header class="pg-head">
                 <p class="pg-standfirst" data-copy="intro">Perfect for portraits, pre‑birthdays, maternity, corporate headshots, duo, and family sessions.</p>
             </header>
-            <div class="pg-choices" role="group" aria-label="How would you like to choose?">
-                <button type="button" class="pg-mode pg-choice" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
-                    <span class="pg-choice-title" data-copy="sessions tab">Our sessions</span>
-                    <span class="pg-choice-note" id="pg-choice-sessions-note">Loading the sittings&hellip;</span>
-                </button>
-                <button type="button" class="pg-mode pg-choice" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">
-                    <span class="pg-choice-title" data-copy="build tab">Build your own</span>
-                    <span class="pg-choice-note" id="pg-choice-build-note">Loading the rates&hellip;</span>
-                </button>
-            </div>
-
             <div class="pg-panel" id="pg-collections">
+                <p class="pg-count" id="pg-sessions-count">Loading the sittings&hellip;</p>
                 <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
                 <div id="packages-grid" class="tier-stack">
                     <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
                 </div>
             </div>
 
-            <div class="pg-panel" id="pg-compose" hidden>
+            <div class="pg-panel pg-build" id="pg-compose">
+                <div class="pg-build-head">
+                    <h3 class="pg-legend" data-copy="build tab">Build your own</h3>
+                    <p class="pg-note">Pick the hours, the images and the retouching. The total changes as you go.</p>
+                </div>
                 <div class="pg-atelier">
                     <div>
                         <h3 class="pg-legend" data-copy="build heading">What you need</h3>
@@ -1336,7 +1320,7 @@
                 }).join('');
 
                 var cheapest = sessions.reduce(function (min, p) { return Math.min(min, p.price); }, Infinity);
-                var hint = document.getElementById('pg-choice-sessions-note');
+                var hint = document.getElementById('pg-sessions-count');
                 if (hint && isFinite(cheapest)) {
                     hint.textContent = sessions.length + (sessions.length === 1 ? ' sitting, from ' : ' sittings, from ') + money(cheapest);
                 }
@@ -1562,11 +1546,6 @@
                 });
             }
 
-            var firstLine = studioLines[0];
-            var buildHint = document.getElementById('pg-choice-build-note');
-            if (buildHint && firstLine) {
-                buildHint.textContent = 'From ' + studioMoney(firstLine.price) + (firstLine.note ? ' ' + firstLine.note : '');
-            }
             studioSlip();
         }
 
@@ -1677,22 +1656,6 @@
             var cta = document.getElementById('st-slip-cta');
             if (cta) cta.addEventListener('click', commitStudioCommission);
             renderStudioComposer();
-        })();
-
-        /* The two ways of choosing, mutually exclusive. */
-        (function () {
-            var modes = document.querySelectorAll('.pg-mode');
-            var collectionsPanel = document.getElementById('pg-collections');
-            var composePanel = document.getElementById('pg-compose');
-            function setMode(mode) {
-                modes.forEach(function (m) { m.setAttribute('aria-pressed', String(m.getAttribute('data-mode') === mode)); });
-                if (collectionsPanel) collectionsPanel.hidden = (mode !== 'sessions');
-                if (composePanel) composePanel.hidden = (mode !== 'compose');
-                if (mode === 'compose') renderStudioComposer();
-            }
-            modes.forEach(function (m) {
-                m.addEventListener('click', function () { setMode(m.getAttribute('data-mode')); });
-            });
         })();
 
 
