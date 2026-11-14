@@ -1326,7 +1326,17 @@
                session, the owner's own badge, her inclusions, the full figure. */
             function renderSessions(sessions) {
                 if (!sessions.length) {
+                    /* Nothing on sale is a real state, not a failure: every
+                       Studio package is switched off or the list is empty, so
+                       the page says so and the count stops advertising a
+                       number that is not there. */
                     grid.innerHTML = '<p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Sessions are being updated \u2014 check back shortly.</p>';
+                    var emptyHint = document.getElementById('pg-switch-sessions-note');
+                    if (emptyHint) {
+                        emptyHint.setAttribute('data-short', 'Being updated');
+                        emptyHint.setAttribute('data-full', 'Being updated shortly');
+                        switchNoteText(emptyHint);
+                    }
                     return;
                 }
                 grid.innerHTML = sessions.map(function (p, i) {
@@ -1427,7 +1437,11 @@
                     }) });
                 }
                 allGroups = allGroups.concat(groups);
-                renderSessions(sessions.length ? sessions : DEFAULT_SESSIONS);
+                /* The built-in five are an offline fallback, not a substitute
+                   for an empty shelf: if the API answered and has nothing
+                   active, the page shows that instead of inventing stock. */
+                var packagesAnswered = parts[0] !== null;
+                renderSessions(packagesAnswered ? sessions : DEFAULT_SESSIONS);
                 renderExtras(allGroups.length ? allGroups : [{ title: '', items: DEFAULT_ADDONS }]);
                 if (typeof applyGuideCopy === 'function') applyGuideCopy(guideRows);
                 if (typeof lpSetStudioCoverage === 'function') lpSetStudioCoverage(rows);
