@@ -366,6 +366,44 @@
     </style>
 </head>
 <body>
+
+    <!-- Opening this page starts at the top. Browsers hand back the last
+         scroll position when a page is reopened — a reload, a back
+         navigation, a tab woken up in the background — and that drops the
+         client into the middle of a page they have not read yet, with the
+         stepper already past step one. A link that carries a #section still
+         goes straight to that section. Pages served from the browser's
+         back-forward cache keep their own position, so going back still
+         lands where the client left off. -->
+    <script>
+        (function () {
+            if (location.hash) return;
+            if ('scrollRestoration' in history) {
+                try { history.scrollRestoration = 'manual'; } catch (e) { }
+            }
+            var leftAlone = false;
+            ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (name) {
+                window.addEventListener(name, function () { leftAlone = true; }, { passive: true, once: true });
+            });
+            var attempts = 0;
+            function startAtTop() {
+                if (leftAlone || location.hash) return;
+                // scrollTop rather than scrollTo, so no smooth-scrolling rule
+                // turns the reset into a visible glide down the page.
+                if (document.scrollingElement && document.scrollingElement.scrollTop) {
+                    document.scrollingElement.scrollTop = 0;
+                }
+                if (window.pageYOffset) window.scrollTo(0, 0);
+                // Fonts and photographs arrive late and can move the layout
+                // under a restored position; a few short retries settle it.
+                if (++attempts < 8) setTimeout(startAtTop, attempts * 80);
+            }
+            startAtTop();
+            document.addEventListener('DOMContentLoaded', startAtTop);
+            window.addEventListener('load', startAtTop);
+        })();
+    </script>
+
     <header class="site-header" id="site-header">
         <a href="./" class="site-logo-link"><img src="" alt="Libertypictures" class="site-logo" id="site-logo-img" style="display:none;"></a>
     </header>
