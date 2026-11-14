@@ -724,10 +724,10 @@
            the only large serif type in this band, so the eye goes to them
            without a box being drawn around them.
 
-           Each option keeps its description in both states — the chosen one's
-           simply turns to accent — so nothing moves and nothing has to be
-           guessed at. Both columns sit on the hairline the page is already
-           built from, with a second hairline under the live one. */
+           The price line belongs to the option you have not opened, so the
+           chosen one hides it while keeping its space. Both columns sit on the
+           hairline the page is already built from, with a second hairline under
+           the live one. */
         .pg-switch { display: flex; align-items: flex-end; justify-content: center; gap: 34px; margin: 0 0 34px; border-bottom: 1px solid var(--border-color); }
         .pg-switch-btn { position: relative; appearance: none; background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: -1px; padding: 0 0 14px; font: inherit; color: inherit; cursor: pointer; }
         .pg-switch-label { font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; line-height: 1.2; letter-spacing: -0.2px; color: var(--text-secondary); }
@@ -735,7 +735,10 @@
         .pg-switch-btn::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--accent); opacity: 0; }
         .pg-switch-btn:hover .pg-switch-label { color: var(--text-primary); }
         .pg-switch-btn[aria-pressed="true"] .pg-switch-label { color: var(--text-primary); }
-        .pg-switch-btn[aria-pressed="true"] .pg-switch-note { color: var(--accent); }
+        /* The chosen option keeps its line in the flow, just not in the reader:
+           the price is only useful on the road you have not taken, and holding
+           the space means the switch cannot change height. */
+        .pg-switch-btn[aria-pressed="true"] .pg-switch-note { visibility: hidden; }
         .pg-switch-btn[aria-pressed="true"]::after { opacity: 1; }
         .pg-switch-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
         .pg-switch-sep { width: 1px; height: 34px; margin-bottom: 14px; background: var(--border-color); }
