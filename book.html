@@ -735,10 +735,10 @@
         .pg-switch-btn::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--accent); opacity: 0; }
         .pg-switch-btn:hover .pg-switch-label { color: var(--text-primary); }
         .pg-switch-btn[aria-pressed="true"] .pg-switch-label { color: var(--text-primary); }
-        /* The chosen option keeps its line in the flow, just not in the reader:
-           the price is only useful on the road you have not taken, and holding
-           the space means the switch cannot change height. */
-        .pg-switch-btn[aria-pressed="true"] .pg-switch-note { visibility: hidden; }
+        /* Each option always carries a line, so neither column is left hollow.
+           The chosen one loses only the price — what is left under it is what
+           the thing is ("5 sessions", "By the hour"), not what it costs. */
+        .pg-switch-note { min-height: 15px; }
         .pg-switch-btn[aria-pressed="true"]::after { opacity: 1; }
         .pg-switch-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
         .pg-switch-sep { width: 1px; height: 34px; margin-bottom: 14px; background: var(--border-color); }
@@ -863,12 +863,12 @@
             <div class="pg-switch" role="group" aria-label="How would you like to choose?">
                 <button type="button" class="pg-switch-btn" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
                     <span class="pg-switch-label" data-copy="sessions tab">Our sessions</span>
-                    <span class="pg-switch-note" id="pg-switch-sessions-note">5 sessions, from &#8358;150,000</span>
+                    <span class="pg-switch-note" id="pg-switch-sessions-note" data-short="5 sessions" data-full="5 sessions, from &#8358;150,000">5 sessions, from &#8358;150,000</span>
                 </button>
                 <span class="pg-switch-sep" aria-hidden="true"></span>
                 <button type="button" class="pg-switch-btn" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">
                     <span class="pg-switch-label" data-copy="build tab">Build your own</span>
-                    <span class="pg-switch-note" id="pg-switch-build-note">From &#8358;80,000 per hour</span>
+                    <span class="pg-switch-note" id="pg-switch-build-note" data-short="By the hour" data-full="From &#8358;80,000 per hour">From &#8358;80,000 per hour</span>
                 </button>
             </div>
 
@@ -1349,7 +1349,10 @@
                 var cheapest = sessions.reduce(function (min, p) { return Math.min(min, p.price); }, Infinity);
                 var hint = document.getElementById('pg-switch-sessions-note');
                 if (hint && isFinite(cheapest)) {
-                    hint.textContent = sessions.length + (sessions.length === 1 ? ' session, from ' : ' sessions, from ') + money(cheapest);
+                    var countText = sessions.length + (sessions.length === 1 ? ' session' : ' sessions');
+                    hint.setAttribute('data-short', countText);
+                    hint.setAttribute('data-full', countText + ', from ' + money(cheapest));
+                    switchNoteText(hint);
                 }
             }
 
@@ -1576,13 +1579,23 @@
             var firstLine = studioLines[0];
             var buildHint = document.getElementById('pg-switch-build-note');
             if (buildHint && firstLine) {
-                buildHint.textContent = 'From ' + studioMoney(firstLine.price) + (firstLine.note ? ' ' + firstLine.note : '');
+                buildHint.setAttribute('data-full', 'From ' + studioMoney(firstLine.price) + (firstLine.note ? ' ' + firstLine.note : ''));
+                switchNoteText(buildHint);
             }
             studioSlip();
         }
 
         /* Two ways of choosing, one of them on screen at a time. The switch is
            only a label with a rule under it, so it needs nothing else to work. */
+        function switchNoteText(note) {
+            if (!note) return;
+            var button = note.closest('.pg-switch-btn');
+            var active = button && button.getAttribute('aria-pressed') === 'true';
+            var full = note.getAttribute('data-full') || '';
+            var short = note.getAttribute('data-short') || full;
+            note.textContent = active ? short : full;
+        }
+
         (function () {
             var buttons = document.querySelectorAll('.pg-switch-btn');
             var collectionsPanel = document.getElementById('pg-collections');
@@ -1591,11 +1604,14 @@
                 buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-mode') === mode)); });
                 if (collectionsPanel) collectionsPanel.hidden = (mode !== 'sessions');
                 if (composePanel) composePanel.hidden = (mode !== 'compose');
+                document.querySelectorAll('.pg-switch-note').forEach(switchNoteText);
                 if (mode === 'compose') renderStudioComposer();
             }
             buttons.forEach(function (b) {
                 b.addEventListener('click', function () { setMode(b.getAttribute('data-mode')); });
             });
+            var open = document.querySelector('.pg-switch-btn[aria-pressed="true"]');
+            setMode(open ? open.getAttribute('data-mode') : 'sessions');
         })();
 
         /* The running slip. It reads the composer's own state rather than the
