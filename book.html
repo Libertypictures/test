@@ -29,8 +29,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link rel="preconnect" href="https://liberty-booking-api.visualsliberty.workers.dev" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..500&display=swap" rel="stylesheet"></noscript>
     
     <!-- Paystack Inline API + receipt image export — deferred: neither
          is needed to render this page (Paystack only matters at checkout
@@ -666,11 +666,12 @@
            session keeps its own photograph, because on this page the work
            is the argument for the price.
            ============================================================ */
-        /* No title: the section opens on the sentence that says who these
-           sittings are for, set as the standfirst the title used to be. One
-           line of type, then straight to the table. */
-        .pg-head { text-align: center; max-width: 580px; margin: 0 auto 40px; }
-        .pg-standfirst { font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(18px, 2.1vw, 25px); line-height: 1.42; letter-spacing: -0.4px; margin: 0; color: var(--text-primary); text-wrap: balance; }
+        /* The section opens on its description, in the same face, size and
+           measure the live page uses under a section title: Poppins 14px,
+           440px wide, secondary ink. The serif is left to the two headings
+           below it, which is how the rest of the site is set. */
+        .pg-head { text-align: center; max-width: 440px; margin: 0 auto 38px; }
+        .pg-standfirst { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 14px; line-height: 1.7; letter-spacing: 0; margin: 0; color: var(--text-secondary); }
         .pg-item { padding: 30px 0 26px; border-bottom: 1px solid var(--border-color); }
         .pg-item:first-child { border-top: 1px solid var(--border-color); }
         .pg-session { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 26px; align-items: start; }
@@ -698,7 +699,7 @@
         .pg-line.is-empty { display: block; font-size: 12.5px; font-style: italic; color: var(--text-secondary); line-height: 1.75; }
         .addon-note { display: block; font-style: normal; font-size: 11.5px; line-height: 1.6; color: var(--text-secondary); margin-top: 2px; }
         @media (max-width: 600px) {
-            .pg-standfirst { font-size: 17.5px; line-height: 1.45; }
+            .pg-standfirst { font-size: 13.5px; line-height: 1.7; }
             .pg-session { grid-template-columns: 68px minmax(0, 1fr); gap: 16px; }
             .pg-plate { width: 68px; }
             .pg-row { gap: 4px 10px; }
@@ -718,29 +719,29 @@
            ============================================================ */
         /* Two ways to buy, side by side and impossible to miss: a tab row
            let half the clients walk straight past the builder. */
-        /* The switch, kept as two words rather than two buttons: this page's
-           only other pressable things are the underlined micro-labels on each
-           sitting, so a small caps label with a rule under the live one is the
-           page's own way of saying "press me". No fills, no panels, no ink
-           blocks — nothing that competes with the photographs for weight.
+        /* The switch, set the way the live page sets a section: a Fraunces
+           heading over a Poppins line of description. Those two headings are
+           the only large serif type in this band, so the eye goes to them
+           without a box being drawn around them.
 
-           It sits on a full-width hairline, the way an index tab sits on the
-           rule it belongs to: the page is already built from rules, so the
-           switch borrows one instead of drawing a box. The rule under the live
-           label is drawn as its own hairline landing exactly on that line,
-           trimmed of the letterspacing so it is the width of the words. */
-        .pg-switch { display: flex; align-items: flex-end; justify-content: center; gap: 22px; margin: 0 0 36px; border-bottom: 1px solid var(--border-color); }
-        .pg-switch-btn { position: relative; appearance: none; background: none; border: 0; margin-bottom: -1px; padding: 0 0 13px; font: inherit; font-size: 9.5px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-secondary); cursor: pointer; }
-        .pg-switch-btn::after { content: ""; position: absolute; left: 0; right: 0.24em; bottom: 0; height: 1px; background: var(--accent); opacity: 0; }
-        .pg-switch-btn:hover { color: var(--text-primary); }
-        .pg-switch-btn[aria-pressed="true"] { color: var(--text-primary); }
+           Each option keeps its description in both states — the chosen one's
+           simply turns to accent — so nothing moves and nothing has to be
+           guessed at. Both columns sit on the hairline the page is already
+           built from, with a second hairline under the live one. */
+        .pg-switch { display: flex; align-items: flex-end; justify-content: center; gap: 34px; margin: 0 0 34px; border-bottom: 1px solid var(--border-color); }
+        .pg-switch-btn { position: relative; appearance: none; background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: -1px; padding: 0 0 14px; font: inherit; color: inherit; cursor: pointer; }
+        .pg-switch-label { font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; line-height: 1.2; letter-spacing: -0.2px; color: var(--text-secondary); }
+        .pg-switch-note { font-size: 11px; line-height: 1.4; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+        .pg-switch-btn::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--accent); opacity: 0; }
+        .pg-switch-btn:hover .pg-switch-label { color: var(--text-primary); }
+        .pg-switch-btn[aria-pressed="true"] .pg-switch-label { color: var(--text-primary); }
+        .pg-switch-btn[aria-pressed="true"] .pg-switch-note { color: var(--accent); }
         .pg-switch-btn[aria-pressed="true"]::after { opacity: 1; }
         .pg-switch-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-        .pg-switch-sep { width: 1px; height: 10px; margin-bottom: 13px; background: var(--border-color); }
+        .pg-switch-sep { width: 1px; height: 34px; margin-bottom: 14px; background: var(--border-color); }
         /* One gap under the rule in both states, so switching does not change
            how far the first line of the panel sits from the switch. */
         #pg-compose .pg-atelier { padding-top: 0; }
-        .pg-count { margin: 0 0 14px; font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); font-variant-numeric: tabular-nums; }
 
         .pg-panel[hidden] { display: none; }
 
@@ -785,9 +786,11 @@
         .st-slip-empty { color: var(--till-mute); font-size: 11px; padding: 4px 0; }
 
         @media (max-width: 768px) {
-            .pg-switch { gap: 18px; margin-bottom: 28px; }
-            .pg-switch-btn { padding-bottom: 11px; }
-            .pg-switch-sep { margin-bottom: 11px; }
+            .pg-switch { gap: 22px; margin-bottom: 26px; }
+            .pg-switch-btn { padding-bottom: 12px; }
+            .pg-switch-label { font-size: 18px; }
+            .pg-switch-note { font-size: 10px; }
+            .pg-switch-sep { height: 28px; margin-bottom: 12px; }
             .pg-atelier { grid-template-columns: 1fr; gap: 32px; padding-top: 30px; }
             .pg-slip { position: static; }
             .st-line { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main qty" "total qty"; gap: 6px 14px; padding: 16px 0; align-items: start; }
@@ -855,14 +858,19 @@
                 <p class="pg-standfirst" data-copy="intro">Perfect for portraits, pre‑birthdays, maternity, corporate headshots, duo, and family sessions.</p>
             </header>
             <div class="pg-switch" role="group" aria-label="How would you like to choose?">
-                <button type="button" class="pg-switch-btn" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions" data-copy="sessions tab">Our sessions</button>
+                <button type="button" class="pg-switch-btn" id="pg-tab-sessions" aria-pressed="true" aria-controls="pg-collections" data-mode="sessions">
+                    <span class="pg-switch-label" data-copy="sessions tab">Our sessions</span>
+                    <span class="pg-switch-note" id="pg-switch-sessions-note">5 sessions, from &#8358;150,000</span>
+                </button>
                 <span class="pg-switch-sep" aria-hidden="true"></span>
-                <button type="button" class="pg-switch-btn" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose" data-copy="build tab">Build your own</button>
+                <button type="button" class="pg-switch-btn" id="pg-tab-compose" aria-pressed="false" aria-controls="pg-compose" data-mode="compose">
+                    <span class="pg-switch-label" data-copy="build tab">Build your own</span>
+                    <span class="pg-switch-note" id="pg-switch-build-note">From &#8358;80,000 per hour</span>
+                </button>
             </div>
 
             <div class="pg-panel" id="pg-collections">
-                <p class="pg-count" id="pg-sessions-count">Loading the sittings&hellip;</p>
-                <p class="pg-note" data-copy="sessions intro">Every session includes the sitting, your edited images and a private online gallery.</p>
+                <p class="pg-note" data-copy="sessions intro">Every session includes your studio time, your edited images and a private online gallery.</p>
                 <div id="packages-grid" class="tier-stack">
                     <p class="pg-line is-empty" style="text-align:center; padding:32px 0;">Loading the sessions&hellip;</p>
                 </div>
@@ -1336,9 +1344,9 @@
                 }).join('');
 
                 var cheapest = sessions.reduce(function (min, p) { return Math.min(min, p.price); }, Infinity);
-                var hint = document.getElementById('pg-sessions-count');
+                var hint = document.getElementById('pg-switch-sessions-note');
                 if (hint && isFinite(cheapest)) {
-                    hint.textContent = sessions.length + (sessions.length === 1 ? ' sitting, from ' : ' sittings, from ') + money(cheapest);
+                    hint.textContent = sessions.length + (sessions.length === 1 ? ' session, from ' : ' sessions, from ') + money(cheapest);
                 }
             }
 
@@ -1562,6 +1570,11 @@
                 });
             }
 
+            var firstLine = studioLines[0];
+            var buildHint = document.getElementById('pg-switch-build-note');
+            if (buildHint && firstLine) {
+                buildHint.textContent = 'From ' + studioMoney(firstLine.price) + (firstLine.note ? ' ' + firstLine.note : '');
+            }
             studioSlip();
         }
 
